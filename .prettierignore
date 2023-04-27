@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env*
+
+# Logs
+*.log
+
+# Next.js
+.next/
+.swc/
+
+# Operating System
+.DS_Store
+
+# Vercel
+.vercel/
