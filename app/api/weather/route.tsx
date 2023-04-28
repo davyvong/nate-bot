@@ -12,6 +12,16 @@ const fonts = [
   fetch(new URL('../../../assets/fonts/inter-regular.woff', import.meta.url)).then(response => response.arrayBuffer()),
 ];
 
+const renderUnits = (units = Units.Celsius): string => {
+  if (units === Units.Celsius) {
+    return '°C';
+  }
+  if (units === Units.Fahrenheit) {
+    return '°F';
+  }
+  return '';
+};
+
 const renderPrediction = (prediction: OpenWeatherPrediction): JSX.Element => (
   <div
     key={prediction.dayOfWeek + prediction.timeOfDay}
@@ -30,9 +40,11 @@ const renderPrediction = (prediction: OpenWeatherPrediction): JSX.Element => (
     <div style={{ fontSize: 16, fontWeight: 500 }}>{prediction.dayOfWeek + ' ' + prediction.timeOfDay}</div>
     <div style={{ color: '#99aab5', fontSize: 14, marginTop: 8 }}>{prediction.weather}</div>
     <img alt="" height="100" src={prediction.icon} width="100" />
-    <div style={{ fontSize: 24, fontWeight: 500 }}>{prediction.temperature.actual + '°C'}</div>
+    <div style={{ fontSize: 24, fontWeight: 500 }}>
+      {prediction.temperature.actual + renderUnits(prediction.temperature.units)}
+    </div>
     <div style={{ color: '#99aab5', fontSize: 14, marginTop: 8 }}>
-      {'Feels like ' + prediction.temperature.feelsLike + '°C'}
+      {'Feels like ' + prediction.temperature.feelsLike + renderUnits(prediction.temperature.units)}
     </div>
   </div>
 );
@@ -104,7 +116,7 @@ export async function GET(request: Request) {
             <div style={{ fontSize: 24, fontWeight: 500, marginTop: 8 }}>
               {forecast.predictions[0].dayOfWeek + ' ' + forecast.predictions[0].timeOfDay}
             </div>
-            <div style={{ color: '#99aab5', fontSize: 16, marginTop: 8 }}>Sunny</div>
+            <div style={{ color: '#99aab5', fontSize: 16, marginTop: 8 }}>{forecast.predictions[0].weather}</div>
           </div>
           <div
             style={{
@@ -116,8 +128,14 @@ export async function GET(request: Request) {
               marginRight: 16,
             }}
           >
-            <div style={{ fontSize: 52, lineHeight: 1 }}>12°C</div>
-            <div style={{ color: '#99aab5', fontSize: 16, marginTop: 8 }}>Feels like 10°C</div>
+            <div style={{ fontSize: 52, lineHeight: 1 }}>
+              {forecast.predictions[0].temperature.actual + renderUnits(forecast.predictions[0].temperature.units)}
+            </div>
+            <div style={{ color: '#99aab5', fontSize: 16, marginTop: 8 }}>
+              {'Feels like ' +
+                forecast.predictions[0].temperature.feelsLike +
+                renderUnits(forecast.predictions[0].temperature.units)}
+            </div>
           </div>
         </div>
         <div
