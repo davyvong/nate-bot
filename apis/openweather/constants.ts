@@ -5,7 +5,7 @@ export const dayOfWeek = [Day.Sunday, Day.Monday, Day.Tuesday, Day.Wednesday, Da
 export const timeOfDay = new Map([
   ['00:00:00', TimeOfDay.Midnight],
   ['03:00:00', TimeOfDay.Overnight],
-  ['06:00:00', TimeOfDay.Overnight],
+  ['06:00:00', TimeOfDay.Dawn],
   ['09:00:00', TimeOfDay.Morning],
   ['12:00:00', TimeOfDay.Noon],
   ['15:00:00', TimeOfDay.Afternoon],
