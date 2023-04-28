@@ -11,6 +11,7 @@ export enum Day {
 export enum TimeOfDay {
   Midnight = 'Midnight',
   Overnight = 'Overnight',
+  Dawn = 'Dawn',
   Morning = 'Morning',
   Noon = 'Noon',
   Afternoon = 'Afternoon',
