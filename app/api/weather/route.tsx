@@ -112,7 +112,7 @@ export async function GET(request: Request) {
               justifyContent: 'center',
             }}
           >
-            <div style={{ color: '#99aab5', fontSize: 16 }}>{forecast.city + ', ' + forecast.country}</div>
+            <div style={{ color: '#99aab5', fontSize: 16 }}>{location.city + ', ' + location.country}</div>
             <div style={{ fontSize: 24, fontWeight: 500, marginTop: 8 }}>
               {forecast.predictions[0].dayOfWeek + ' ' + forecast.predictions[0].timeOfDay}
             </div>
