@@ -12,7 +12,7 @@ class DiscordClient {
     return DiscordClient.api;
   }
 
-  public static async verifyInteraction(request: Request): Promise<boolean> {
+  public static async verifyRequest(request: Request): Promise<boolean> {
     const signature = request.headers.get('X-Signature-Ed25519') as string;
     const timestamp = request.headers.get('X-Signature-Timestamp') as string;
     const body = await request.text();
