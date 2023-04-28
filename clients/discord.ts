@@ -15,9 +15,9 @@ class DiscordClient {
   public static async verifyInteraction(request: Request): Promise<boolean> {
     const signature = request.headers.get('X-Signature-Ed25519') as string;
     const timestamp = request.headers.get('X-Signature-Timestamp') as string;
-    const bodyText = await request.text();
+    const body = await request.text();
     return nacl.sign.detached.verify(
-      Buffer.from(timestamp + bodyText),
+      Buffer.from(timestamp + body),
       Buffer.from(signature, 'hex'),
       Buffer.from(process.env.DISCORD_PUBLIC_KEY, 'hex'),
     );
