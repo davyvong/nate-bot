@@ -1,5 +1,5 @@
 {
-  "name": "next-boilerplate",
+  "name": "nate-bot",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,9 +11,11 @@
     "start": "next start"
   },
   "dependencies": {
+    "@discordjs/core": "^0.5.2",
     "next": "13.3.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@types/node": "18.16.1",
@@ -25,7 +27,14 @@
     "eslint-config-next": "13.3.1",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "node-loader": "^2.0.0",
     "prettier": "^2.8.8",
     "typescript": "5.0.4"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.7",
+    "erlpack": "^0.1.4",
+    "utf-8-validate": "^6.0.3",
+    "zlib-sync": "^0.1.8"
   }
 }
