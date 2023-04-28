@@ -8,8 +8,8 @@ import { object, string } from 'yup';
 export const runtime = 'experimental-edge';
 
 const fonts = [
-  fetch(new URL('../../../assets/fonts/inter-medium.ttf', import.meta.url)).then(response => response.arrayBuffer()),
-  fetch(new URL('../../../assets/fonts/inter-regular.ttf', import.meta.url)).then(response => response.arrayBuffer()),
+  fetch(new URL('../../../assets/fonts/inter-medium.woff', import.meta.url)).then(response => response.arrayBuffer()),
+  fetch(new URL('../../../assets/fonts/inter-regular.woff', import.meta.url)).then(response => response.arrayBuffer()),
 ];
 
 const renderPrediction = (prediction: OpenWeatherPrediction): JSX.Element => (
