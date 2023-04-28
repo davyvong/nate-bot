@@ -15,7 +15,7 @@ class OpenWeatherAPI {
     const responseJSON: OpenWeatherDirectGeocodingResponse[] = await response.json();
     for (const location of responseJSON) {
       return {
-        city: location.local_names.en || location.name,
+        city: location.local_names?.en || location.name,
         country: location.country,
         latitude: location.lat,
         longitude: location.lon,
