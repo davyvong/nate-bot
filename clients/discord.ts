@@ -1,5 +1,6 @@
 import { API } from '@discordjs/core';
 import { REST } from '@discordjs/rest';
+import nacl from 'tweetnacl';
 
 class DiscordClient {
   private static readonly rest: REST = new REST({
@@ -9,6 +10,17 @@ class DiscordClient {
 
   public static getAPI(): API {
     return DiscordClient.api;
+  }
+
+  public static async verifyInteraction(request: Request): Promise<boolean> {
+    const signature = request.headers.get('X-Signature-Ed25519') as string;
+    const timestamp = request.headers.get('X-Signature-Timestamp') as string;
+    const bodyText = await request.text();
+    return nacl.sign.detached.verify(
+      Buffer.from(timestamp + bodyText),
+      Buffer.from(signature, 'hex'),
+      Buffer.from(process.env.DISCORD_PUBLIC_KEY, 'hex'),
+    );
   }
 }
 
