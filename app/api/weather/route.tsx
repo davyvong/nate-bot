@@ -165,6 +165,9 @@ export async function GET(request: Request) {
           weight: 500,
         },
       ],
+      headers: {
+        'cache-control': 'public, s-maxage=1200, stale-while-revalidate=600',
+      },
       height: 390,
       width: 600,
     },
