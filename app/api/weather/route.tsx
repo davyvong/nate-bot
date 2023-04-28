@@ -81,7 +81,7 @@ export async function GET(request: Request) {
       <div
         style={{
           alignItems: 'center',
-          backgroundColor: '#2c2f33',
+          backgroundColor: '#2e3035',
           color: '#ffffff',
           display: 'flex',
           flexDirection: 'column',
