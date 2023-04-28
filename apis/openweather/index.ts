@@ -36,7 +36,7 @@ class OpenWeatherAPI {
       city: responseJSON.city.name,
       country: responseJSON.city.country,
       predictions: responseJSON.list
-        .filter((value, index: number) => index % 2 === 0 && index < 8)
+        .filter((value, index: number) => index < 4)
         .map((prediction): OpenWeatherPrediction => {
           const [dateString, timeString] = prediction.dt_txt.split(' ');
           return {
