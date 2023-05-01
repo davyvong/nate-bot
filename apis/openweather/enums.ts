@@ -19,7 +19,7 @@ export enum TimeOfDay {
   Night = 'Night',
 }
 
-export enum Units {
+export enum TemperatureUnits {
   Celsius = 'metric',
   Fahrenheit = 'imperial',
   Kelvin = 'standard',

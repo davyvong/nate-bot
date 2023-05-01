@@ -1,6 +1,8 @@
-import { API } from '@discordjs/core';
+import { API, InteractionResponseType } from '@discordjs/core';
 import { REST } from '@discordjs/rest';
 import nacl from 'tweetnacl';
+
+import { DiscordSlashCommands } from './enums';
 
 class DiscordClient {
   private static readonly rest: REST = new REST({
@@ -21,6 +23,26 @@ class DiscordClient {
       Buffer.from(signature, 'hex'),
       Buffer.from(process.env.DISCORD_PUBLIC_KEY, 'hex'),
     );
+  }
+
+  public static async handleInteraction(interaction: any): Promise<unknown> {
+    console.log({
+      interaction,
+      options: interaction.data.options,
+    });
+    switch (interaction.data.name) {
+      case DiscordSlashCommands.GoodMorning: {
+        return {
+          data: {
+            content: 'Good morning!',
+          },
+          type: InteractionResponseType.ChannelMessageWithSource,
+        };
+      }
+      default: {
+        break;
+      }
+    }
   }
 }
 

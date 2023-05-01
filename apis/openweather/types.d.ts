@@ -18,7 +18,7 @@ interface OpenWeatherPrediction {
   temperature: {
     actual: number;
     feelsLike: number;
-    units: Units;
+    units: TemperatureUnits;
   };
   timeOfDay: string;
   weather: string;

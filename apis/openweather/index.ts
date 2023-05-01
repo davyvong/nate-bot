@@ -1,16 +1,12 @@
 import { dayOfWeek, timeOfDay } from './constants';
-import { Units } from './enums';
+import { TemperatureUnits } from './enums';
 
 class OpenWeatherAPI {
-  public static async getLocation(
-    city: string,
-    state: string,
-    country: string,
-  ): Promise<OpenWeatherLocation | undefined> {
+  public static async getLocation(query: string): Promise<OpenWeatherLocation | undefined> {
     const url = new URL('https://api.openweathermap.org/geo/1.0/direct');
     url.searchParams.set('appid', process.env.OPENWEATHER_API_KEY);
     url.searchParams.set('limit', '5');
-    url.searchParams.set('q', city + ',' + state + ',' + country);
+    url.searchParams.set('q', query);
     const response = await fetch(url, { cache: 'no-cache' });
     const responseJSON: OpenWeatherDirectGeocodingResponse[] = await response.json();
     for (const location of responseJSON) {
@@ -24,11 +20,15 @@ class OpenWeatherAPI {
     }
   }
 
-  public static async getForecast(lat: number, lon: number, units = Units.Celsius): Promise<OpenWeatherForecast> {
+  public static async getForecast(
+    latitude: number,
+    longitude: number,
+    units = TemperatureUnits.Celsius,
+  ): Promise<OpenWeatherForecast> {
     const url = new URL('https://api.openweathermap.org/data/2.5/forecast');
     url.searchParams.set('appid', process.env.OPENWEATHER_API_KEY);
-    url.searchParams.set('lat', lat.toString());
-    url.searchParams.set('lon', lon.toString());
+    url.searchParams.set('lat', latitude.toString());
+    url.searchParams.set('lon', longitude.toString());
     url.searchParams.set('units', units);
     const response = await fetch(url, { cache: 'no-cache' });
     const responseJSON: OpenWeatherForecastResponse = await response.json();
