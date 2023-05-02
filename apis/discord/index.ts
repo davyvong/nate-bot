@@ -1,5 +1,7 @@
 import { API, InteractionResponseType } from '@discordjs/core';
+import type { APIChatInputApplicationCommandInteraction } from '@discordjs/core';
 import { REST } from '@discordjs/rest';
+import Environment from 'environment';
 import nacl from 'tweetnacl';
 
 import { DiscordSlashCommands } from './enums';
@@ -25,16 +27,25 @@ class DiscordClient {
     );
   }
 
-  public static async handleInteraction(interaction: any): Promise<unknown> {
+  public static async handleInteraction(interaction: APIChatInputApplicationCommandInteraction): Promise<unknown> {
     console.log({
       interaction,
       options: interaction.data.options,
     });
     switch (interaction.data.name) {
       case DiscordSlashCommands.GoodMorning: {
+        if (!Array.isArray(interaction.data.options)) {
+          return;
+        }
+        const locationOption: any = interaction.data.options.find((option): boolean => option.name === 'location');
+        if (!locationOption) {
+          return;
+        }
+        const imageURL = new URL(Environment.getBaseURL() + '/api/weather');
+        imageURL.searchParams.set('query', locationOption.value);
         return {
           data: {
-            content: 'Good morning!',
+            content: imageURL,
           },
           type: InteractionResponseType.ChannelMessageWithSource,
         };
