@@ -17,7 +17,7 @@ class WeatherImage {
     }
   }
 
-  public static renderCurrentPrediction(location: OpenWeatherLocation, prediction: OpenWeatherPrediction): JSX.Element {
+  public static renderCurrentPrediction(location: OpenWeatherLocation, prediction: OpenWeatherSnapshot): JSX.Element {
     return (
       <div
         style={{
@@ -66,7 +66,7 @@ class WeatherImage {
     );
   }
 
-  public static renderFuturePrediction(prediction: OpenWeatherPrediction): JSX.Element {
+  public static renderFuturePrediction(prediction: OpenWeatherSnapshot): JSX.Element {
     return (
       <div
         key={prediction.dayOfWeek + prediction.timeOfDay}
@@ -95,7 +95,11 @@ class WeatherImage {
     );
   }
 
-  public static render(location: OpenWeatherLocation, forecast: OpenWeatherForecast): JSX.Element {
+  public static render(
+    location: OpenWeatherLocation,
+    currentWeather: OpenWeatherSnapshot,
+    forecast: OpenWeatherForecast,
+  ): JSX.Element {
     return (
       <div
         style={{
@@ -111,7 +115,7 @@ class WeatherImage {
           width: '100%',
         }}
       >
-        {WeatherImage.renderCurrentPrediction(location, forecast.predictions[0])}
+        {WeatherImage.renderCurrentPrediction(location, currentWeather)}
         <div
           style={{
             display: 'flex',
@@ -120,7 +124,7 @@ class WeatherImage {
             width: '100%',
           }}
         >
-          {forecast.predictions.slice(1, 4).map(WeatherImage.renderFuturePrediction)}
+          {forecast.predictions.map(WeatherImage.renderFuturePrediction)}
         </div>
       </div>
     );

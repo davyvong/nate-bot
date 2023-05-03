@@ -31,11 +31,14 @@ export async function GET(request: Request) {
   if (['LR', 'MM', 'US'].includes(location.country)) {
     units = TemperatureUnits.Fahrenheit;
   }
-  const forecast = await OpenWeatherAPI.getForecast(location.latitude, location.longitude, units);
 
-  const [interMedium, interRegular] = await Promise.all(fonts);
+  const [currentWeather, forecast, interMedium, interRegular] = await Promise.all([
+    OpenWeatherAPI.getCurrentWeather(location.latitude, location.longitude, units),
+    OpenWeatherAPI.getForecast(location.latitude, location.longitude, units),
+    ...fonts,
+  ]);
 
-  return new ImageResponse(WeatherImage.render(location, forecast), {
+  return new ImageResponse(WeatherImage.render(location, currentWeather, forecast), {
     fonts: [
       {
         data: interRegular,

@@ -35,25 +35,66 @@ class OpenWeatherAPI {
     return {
       city: responseJSON.city.name,
       country: responseJSON.city.country,
-      predictions: responseJSON.list
-        .filter((value, index: number) => index < 4)
-        .map((prediction): OpenWeatherPrediction => {
-          const [dateString, timeString] = prediction.dt_txt.split(' ');
-          return {
-            dayOfWeek: dayOfWeek[new Date(dateString).getDay()],
-            icon: 'https://openweathermap.org/img/wn/' + prediction.weather[0].icon + '@2x.png',
-            temperature: {
-              actual: Math.round(prediction.main.temp),
-              feelsLike: Math.round(prediction.main.feels_like),
-              units,
-            },
-            timeOfDay: timeOfDay.get(timeString) as string,
-            weather: prediction.weather[0].description.replace(/(^\w|\s\w)/g, (char: string): string =>
-              char.toUpperCase(),
-            ),
-          };
-        }),
+      predictions: responseJSON.list.slice(0, 3).map((prediction): OpenWeatherSnapshot => {
+        const [dateString, timeString] = prediction.dt_txt.split(' ');
+        return {
+          dayOfWeek: dayOfWeek[new Date(dateString).getDay()],
+          icon: 'https://openweathermap.org/img/wn/' + prediction.weather[0].icon + '@2x.png',
+          temperature: {
+            actual: Math.round(prediction.main.temp),
+            feelsLike: Math.round(prediction.main.feels_like),
+            units,
+          },
+          timeOfDay: timeOfDay.get(timeString) as string,
+          weather: OpenWeatherAPI.toCapitalize(prediction.weather[0].description),
+        };
+      }),
     };
+  }
+
+  public static async getCurrentWeather(
+    latitude: number,
+    longitude: number,
+    units = TemperatureUnits.Celsius,
+  ): Promise<OpenWeatherSnapshot> {
+    const url = new URL('https://api.openweathermap.org/data/2.5/weather');
+    url.searchParams.set('appid', process.env.OPENWEATHER_API_KEY);
+    url.searchParams.set('lat', latitude.toString());
+    url.searchParams.set('lon', longitude.toString());
+    url.searchParams.set('units', units);
+    const response = await fetch(url, { cache: 'no-cache' });
+    const responseJSON: OpenWeatherCurrentWeatherResponse = await response.json();
+    return {
+      dayOfWeek: dayOfWeek[new Date(responseJSON.dt).getDay()],
+      icon: 'https://openweathermap.org/img/wn/' + responseJSON.weather[0].icon + '@2x.png',
+      temperature: {
+        actual: Math.round(responseJSON.main.temp),
+        feelsLike: Math.round(responseJSON.main.feels_like),
+        units,
+      },
+      timeOfDay: timeOfDay.get(OpenWeatherAPI.nearestTimeOfDay(responseJSON.dt, responseJSON.timezone)) as string,
+      weather: OpenWeatherAPI.toCapitalize(responseJSON.weather[0].description),
+    };
+  }
+
+  private static toCapitalize(str: string): string {
+    return str.replace(/(^\w|\s\w)/g, (char: string): string => char.toUpperCase());
+  }
+
+  private static nearestTimeOfDay(datetime: number, timezone = 0): string {
+    const date = new Date((datetime + timezone) * 1000);
+    const hours = date.getHours();
+    const remainder = hours % 3;
+    const nearestHours = hours - remainder + (remainder >= 1.5 ? 3 : 0);
+    const nearestTime = new Date(date.getTime());
+    nearestTime.setHours(nearestHours, 0, 0, 0);
+    const formattedTime = nearestTime.toLocaleTimeString([], {
+      hour: '2-digit',
+      hour12: false,
+      minute: '2-digit',
+      second: '2-digit',
+    });
+    return formattedTime;
   }
 }
 
