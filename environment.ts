@@ -1,6 +1,6 @@
 class Environment {
   public static getBaseURL(): string {
-    const url = process.env.VERCEL_URL;
+    const url = process.env.VERCEL_URL_OVERRIDE || process.env.VERCEL_URL;
     if (process.env.VERCEL_ENV === 'development') {
       return 'http://' + url;
     }
