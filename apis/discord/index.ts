@@ -72,13 +72,17 @@ class DiscordClient {
     );
     formData.set('files[0]', imageBlob, interaction.id + '.png');
     const encoder = new FormDataEncoder(formData);
-    const readable = new ReadableStream({
-      start(controller) {
-        controller.enqueue(encoder.encode());
-        controller.close();
+    const iterator = encoder.encode();
+    const stream = new ReadableStream({
+      async pull(controller) {
+        const { value, done } = await iterator.next();
+        if (done) {
+          return controller.close();
+        }
+        controller.enqueue(value);
       },
     });
-    return new Response(readable, {
+    return new Response(stream, {
       headers: encoder.headers,
       status: 200,
     });
