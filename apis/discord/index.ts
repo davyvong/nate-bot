@@ -60,7 +60,6 @@ class DiscordClient {
         data: {
           attachments: [
             {
-              description: locationOption.value,
               filename: interaction.id + '.png',
               id: 0,
             },
