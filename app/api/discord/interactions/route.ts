@@ -12,8 +12,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ type: InteractionResponseType.Pong }, { status: 200 });
     }
     case InteractionType.ApplicationCommand: {
-      const response = await DiscordAPI.handleInteraction(interaction);
-      return NextResponse.json(response, { status: 200 });
+      return DiscordAPI.handleInteraction(interaction);
     }
     default:
       return new Response(undefined, { status: 200 });

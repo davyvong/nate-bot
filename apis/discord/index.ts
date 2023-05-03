@@ -2,6 +2,7 @@ import { API, InteractionResponseType } from '@discordjs/core';
 import type { APIChatInputApplicationCommandInteraction } from '@discordjs/core';
 import { REST } from '@discordjs/rest';
 import Environment from 'environment';
+import { NextResponse } from 'next/server';
 import nacl from 'tweetnacl';
 
 import { DiscordSlashCommands } from './enums';
@@ -27,33 +28,45 @@ class DiscordClient {
     );
   }
 
-  public static async handleInteraction(interaction: APIChatInputApplicationCommandInteraction): Promise<unknown> {
-    console.log({
-      interaction,
-      options: interaction.data.options,
-    });
+  public static async handleInteraction(interaction: APIChatInputApplicationCommandInteraction): Promise<Response> {
+    console.log({ interaction });
     switch (interaction.data.name) {
       case DiscordSlashCommands.GoodMorning: {
-        if (!Array.isArray(interaction.data.options)) {
-          return;
-        }
-        const locationOption: any = interaction.data.options.find((option): boolean => option.name === 'location');
-        if (!locationOption) {
-          return;
-        }
-        const imageURL = new URL(Environment.getBaseURL() + '/api/weather');
-        imageURL.searchParams.set('query', locationOption.value);
-        return {
-          data: {
-            content: imageURL,
-          },
-          type: InteractionResponseType.ChannelMessageWithSource,
-        };
+        return DiscordClient.handleGoodMorning(interaction);
       }
       default: {
-        break;
+        return new Response(undefined, { status: 200 });
       }
     }
+  }
+
+  private static async handleGoodMorning(interaction: APIChatInputApplicationCommandInteraction): Promise<Response> {
+    if (!Array.isArray(interaction.data.options)) {
+      return new Response(undefined, { status: 200 });
+    }
+    const locationOption: any = interaction.data.options.find((option): boolean => option.name === 'location');
+    if (!locationOption) {
+      return new Response(undefined, { status: 200 });
+    }
+    const url = new URL(Environment.getBaseURL() + '/api/weather');
+    url.searchParams.set('query', locationOption.value);
+    return NextResponse.json(
+      {
+        data: {
+          attachments: [
+            {
+              filename: new Date().getTime().toString(),
+              url: url.href,
+            },
+          ],
+          content: 'Good morning!',
+        },
+        type: InteractionResponseType.ChannelMessageWithSource,
+      },
+      {
+        status: 200,
+      },
+    );
   }
 }
 
