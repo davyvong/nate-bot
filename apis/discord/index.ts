@@ -52,30 +52,32 @@ class DiscordClient {
     const url = new URL(Environment.getBaseURL() + '/api/weather');
     url.searchParams.set('query', locationOption.value);
     const response = await fetch(url);
-    const imageBuffer = await response.arrayBuffer();
-    const payload = {
-      data: {
-        attachments: [
-          {
-            description: locationOption.value,
-            filename: interaction.id + '.png',
-            id: 0,
-          },
-        ],
-        content: 'Good morning!',
-      },
-      type: InteractionResponseType.ChannelMessageWithSource,
-    };
+    const imageBlob = await response.blob();
     const formData = new FormData();
-    formData.set('payload_json', JSON.stringify(payload));
-    formData.set('files[0]', new Blob([imageBuffer]), interaction.id + '.png');
+    formData.set(
+      'payload_json',
+      JSON.stringify({
+        data: {
+          attachments: [
+            {
+              description: locationOption.value,
+              filename: interaction.id + '.png',
+              id: 0,
+            },
+          ],
+          content: 'Good morning!',
+        },
+        type: InteractionResponseType.ChannelMessageWithSource,
+      }),
+    );
+    formData.set('files[0]', imageBlob, interaction.id + '.png');
     const encoder = new FormDataEncoder(formData);
     const readable = new ReadableStream({
       start(controller) {
         controller.enqueue(encoder.encode());
         controller.close();
-      }
-    })
+      },
+    });
     return new Response(readable, {
       headers: encoder.headers,
       status: 200,
