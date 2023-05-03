@@ -2,6 +2,8 @@ import { API, InteractionResponseType } from '@discordjs/core';
 import type { APIChatInputApplicationCommandInteraction } from '@discordjs/core';
 import { REST } from '@discordjs/rest';
 import Environment from 'environment';
+import { FormData } from 'formdata-node';
+import { FormDataEncoder } from 'form-data-encoder';
 import nacl from 'tweetnacl';
 
 import { DiscordSlashCommands } from './enums';
@@ -50,8 +52,7 @@ class DiscordClient {
     const url = new URL(Environment.getBaseURL() + '/api/weather');
     url.searchParams.set('query', locationOption.value);
     const response = await fetch(url);
-    const image = await response.arrayBuffer();
-    // https://www.reddit.com/r/Discord_Bots/comments/u4p6ic/file_upload_from_serverless_aws_lambda_bot/
+    const imageBuffer = await response.arrayBuffer();
     const payload = {
       data: {
         attachments: [
@@ -65,22 +66,18 @@ class DiscordClient {
       },
       type: InteractionResponseType.ChannelMessageWithSource,
     };
-    const body = `--boundary
-Content-Disposition: form-data; name="payload_json"
-Content-Type: application/json
-
-${JSON.stringify(payload)}
---boundary
-Content-Disposition: form-data; name="files[0]"; filename="${interaction.id}.png"
-Content-Type: image/png
-
-${image}
---boundary--`;
-    console.log({ body });
-    return new Response(body, {
-      headers: {
-        'Content-Type': 'multipart/form-data; boundary=boundary',
-      },
+    const formData = new FormData();
+    formData.set('payload_json', JSON.stringify(payload));
+    formData.set('files[0]', new Blob([imageBuffer]), interaction.id + '.png');
+    const encoder = new FormDataEncoder(formData);
+    const readable = new ReadableStream({
+      start(controller) {
+        controller.enqueue(encoder.encode());
+        controller.close();
+      }
+    })
+    return new Response(readable, {
+      headers: encoder.headers,
       status: 200,
     });
   }
