@@ -139,7 +139,7 @@ interface OpenWeatherCurrentWeatherResponse {
     sunrise?: number;
     sunset?: number;
   };
-  timezone?: number;
+  timezone: number;
   id: number;
   name: string;
   cod: number;
