@@ -11,4 +11,5 @@ export const timeOfDay = new Map([
   ['15:00:00', TimeOfDay.Afternoon],
   ['18:00:00', TimeOfDay.Evening],
   ['21:00:00', TimeOfDay.Night],
+  ['24:00:00', TimeOfDay.Midnight],
 ]);
