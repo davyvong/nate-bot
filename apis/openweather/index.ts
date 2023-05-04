@@ -36,16 +36,16 @@ class OpenWeatherAPI {
       city: responseJSON.city.name,
       country: responseJSON.city.country,
       predictions: responseJSON.list.slice(0, 3).map((prediction): OpenWeatherSnapshot => {
-        const [dateString, timeString] = prediction.dt_txt.split(' ');
+        const date = new Date(new Date(prediction.dt_txt + ' UTC').getTime() + responseJSON.city.timezone * 1000);
         return {
-          dayOfWeek: dayOfWeek[new Date(dateString).getDay()],
+          dayOfWeek: dayOfWeek[date.getDay()],
           icon: 'https://openweathermap.org/img/wn/' + prediction.weather[0].icon + '@2x.png',
           temperature: {
             actual: Math.round(prediction.main.temp),
             feelsLike: Math.round(prediction.main.feels_like),
             units,
           },
-          timeOfDay: timeOfDay.get(timeString) as string,
+          timeOfDay: timeOfDay.get(OpenWeatherAPI.nearestTimeOfDay(date)) as string,
           weather: OpenWeatherAPI.toCapitalize(prediction.weather[0].description),
         };
       }),
@@ -64,15 +64,16 @@ class OpenWeatherAPI {
     url.searchParams.set('units', units);
     const response = await fetch(url, { cache: 'no-cache' });
     const responseJSON: OpenWeatherCurrentWeatherResponse = await response.json();
+    const date = new Date((responseJSON.dt + responseJSON.timezone) * 1000);
     return {
-      dayOfWeek: dayOfWeek[new Date(responseJSON.dt).getDay()],
+      dayOfWeek: dayOfWeek[date.getDay()],
       icon: 'https://openweathermap.org/img/wn/' + responseJSON.weather[0].icon + '@2x.png',
       temperature: {
         actual: Math.round(responseJSON.main.temp),
         feelsLike: Math.round(responseJSON.main.feels_like),
         units,
       },
-      timeOfDay: timeOfDay.get(OpenWeatherAPI.nearestTimeOfDay(responseJSON.dt, responseJSON.timezone)) as string,
+      timeOfDay: timeOfDay.get(OpenWeatherAPI.nearestTimeOfDay(date)) as string,
       weather: OpenWeatherAPI.toCapitalize(responseJSON.weather[0].description),
     };
   }
@@ -81,20 +82,18 @@ class OpenWeatherAPI {
     return str.replace(/(^\w|\s\w)/g, (char: string): string => char.toUpperCase());
   }
 
-  private static nearestTimeOfDay(datetime: number, timezone = 0): string {
-    const date = new Date((datetime + timezone) * 1000);
+  private static nearestTimeOfDay(date: Date): string {
     const hours = date.getHours();
     const remainder = hours % 3;
     const nearestHours = hours - remainder + (remainder >= 1.5 ? 3 : 0);
     const nearestTime = new Date(date.getTime());
     nearestTime.setHours(nearestHours, 0, 0, 0);
-    const formattedTime = nearestTime.toLocaleTimeString([], {
+    return nearestTime.toLocaleTimeString([], {
       hour: '2-digit',
       hour12: false,
       minute: '2-digit',
       second: '2-digit',
     });
-    return formattedTime;
   }
 }
 
