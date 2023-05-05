@@ -6,6 +6,7 @@ import { FormDataEncoder } from 'form-data-encoder';
 import { FormData } from 'formdata-node';
 import { NextResponse } from 'next/server';
 import nacl from 'tweetnacl';
+import TokenUtility from 'utils/token';
 
 import { DiscordSlashCommands } from './enums';
 
@@ -86,6 +87,7 @@ class DiscordClient {
   ): Promise<Response> {
     const url = new URL(Environment.getBaseURL() + '/api/weather');
     url.searchParams.set('query', locationOption.value);
+    url.searchParams.set('token', await TokenUtility.sign({ query: locationOption.value }));
     const imageResponse = await fetch(url);
     const imageBlob = await imageResponse.blob();
     const formData = new FormData();

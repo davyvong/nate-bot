@@ -1,6 +1,7 @@
 import { ImageResponse } from '@vercel/og';
 import OpenWeatherAPI from 'apis/openweather';
 import { TemperatureUnits } from 'apis/openweather/enums';
+import TokenUtility from 'utils/token';
 import { object, string } from 'yup';
 
 import WeatherImage from './image';
@@ -16,7 +17,11 @@ export async function GET(request: Request) {
   const requestURL = new URL(request.url);
   const params = {
     query: requestURL.searchParams.get('query'),
+    token: requestURL.searchParams.get('token'),
   };
+  if (!params.token || (await TokenUtility.verify(params.token, { query: params.query }))) {
+    return new Response(undefined, { status: 401 });
+  }
   const paramsSchema = object({
     query: string().required().min(1).max(100),
   });
