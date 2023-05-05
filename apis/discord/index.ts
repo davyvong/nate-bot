@@ -48,22 +48,22 @@ class DiscordClient {
     if (!Array.isArray(interaction.data.options)) {
       return NextResponse.json({ data: { content: 'The command is missing options.' } }, { status: 200 });
     }
-    const locationOption = interaction.data.options.find((option): boolean => option.name === 'location');
+    const locationOption: any = interaction.data.options.find((option): boolean => option.name === 'location');
     if (!locationOption) {
       return NextResponse.json({ data: { content: 'The location could not be found.' } }, { status: 200 });
     }
-    setTimeout(DiscordClient.handleGoodMorningFollowup, 100);
+    setTimeout(() => DiscordClient.handleGoodMorningFollowup(interaction, locationOption.value), 100);
     return NextResponse.json({ type: InteractionResponseType.DeferredChannelMessageWithSource }, { status: 200 });
   }
 
   private static async handleGoodMorningFollowup(
     interaction: APIChatInputApplicationCommandInteraction,
-    locationOption: any,
+    location: string,
   ): Promise<Response> {
-    console.log('handleGoodMorningFollowup:start');
+    console.log({ location });
     const url = new URL(Environment.getBaseURL() + '/api/weather');
-    url.searchParams.set('query', locationOption.value);
-    url.searchParams.set('token', await TokenUtility.sign({ query: locationOption.value }));
+    url.searchParams.set('query', location);
+    url.searchParams.set('token', await TokenUtility.sign({ query: location }));
     const response = await fetch(url);
     const formData = new FormData();
     formData.set(
@@ -87,10 +87,10 @@ class DiscordClient {
         controller.enqueue(value);
       },
     });
-    console.log('handleGoodMorningFollowup:end');
     return fetch('/webhooks/' + interaction.application_id + '/' + interaction.token, {
       body: stream,
       headers: encoder.headers,
+      method: 'POST',
     });
   }
 }
