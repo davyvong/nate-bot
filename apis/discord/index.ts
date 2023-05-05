@@ -2,8 +2,9 @@ import { API, InteractionResponseType } from '@discordjs/core';
 import type { APIChatInputApplicationCommandInteraction } from '@discordjs/core';
 import { REST } from '@discordjs/rest';
 import Environment from 'environment';
-import { FormData } from 'formdata-node';
 import { FormDataEncoder } from 'form-data-encoder';
+import { FormData } from 'formdata-node';
+import { NextResponse } from 'next/server';
 import nacl from 'tweetnacl';
 
 import { DiscordSlashCommands } from './enums';
@@ -36,23 +37,57 @@ class DiscordClient {
         return DiscordClient.handleGoodMorning(interaction);
       }
       default: {
-        return new Response(undefined, { status: 200 });
+        return NextResponse.json(
+          {
+            data: {
+              content: 'The command is not valid.',
+            },
+          },
+          { status: 200 },
+        );
       }
     }
   }
 
   private static async handleGoodMorning(interaction: APIChatInputApplicationCommandInteraction): Promise<Response> {
     if (!Array.isArray(interaction.data.options)) {
-      return new Response(undefined, { status: 200 });
+      return NextResponse.json(
+        {
+          data: {
+            content: 'The command is missing options.',
+          },
+        },
+        { status: 200 },
+      );
     }
-    const locationOption: any = interaction.data.options.find((option): boolean => option.name === 'location');
+    const locationOption = interaction.data.options.find((option): boolean => option.name === 'location');
     if (!locationOption) {
-      return new Response(undefined, { status: 200 });
+      return NextResponse.json(
+        {
+          data: {
+            content: 'The location could not be found.',
+          },
+        },
+        { status: 200 },
+      );
     }
+    DiscordClient.handleGoodMorningFollowup(interaction, locationOption);
+    return NextResponse.json(
+      {
+        type: InteractionResponseType.DeferredChannelMessageWithSource,
+      },
+      { status: 200 },
+    );
+  }
+
+  private static async handleGoodMorningFollowup(
+    interaction: APIChatInputApplicationCommandInteraction,
+    locationOption: any,
+  ): Promise<Response> {
     const url = new URL(Environment.getBaseURL() + '/api/weather');
     url.searchParams.set('query', locationOption.value);
-    const response = await fetch(url);
-    const imageBlob = await response.blob();
+    const imageResponse = await fetch(url);
+    const imageBlob = await imageResponse.blob();
     const formData = new FormData();
     formData.set(
       'payload_json',
@@ -81,9 +116,9 @@ class DiscordClient {
         controller.enqueue(value);
       },
     });
-    return new Response(stream, {
+    return fetch(`/webhooks/${interaction.application_id}/${interaction.token}`, {
+      body: stream,
       headers: encoder.headers,
-      status: 200,
     });
   }
 }
