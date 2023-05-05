@@ -95,7 +95,7 @@ class DiscordClient {
         controller.enqueue(value);
       },
     });
-    return fetch('/webhooks/' + applicationId + '/' + token, {
+    return fetch('https://discord.com/api/v10/webhooks/' + applicationId + '/' + token, {
       body: stream,
       headers: encoder.headers,
       method: 'POST',
