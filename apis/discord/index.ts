@@ -1,6 +1,8 @@
-import { API, InteractionResponseType } from '@discordjs/core';
 import type { APIChatInputApplicationCommandInteraction } from '@discordjs/core';
+import { API, InteractionResponseType } from '@discordjs/core';
 import { REST } from '@discordjs/rest';
+import InngestAPI from 'apis/inngest';
+import { InngestEvents } from 'apis/inngest/enums';
 import Environment from 'environment';
 import { FormDataEncoder } from 'form-data-encoder';
 import { FormData } from 'formdata-node';
@@ -52,12 +54,15 @@ class DiscordClient {
     if (!locationOption) {
       return NextResponse.json({ data: { content: 'The location could not be found.' } }, { status: 200 });
     }
-    const queueFollowupURL = new URL('https://vercel.com/');
-    queueFollowupURL.searchParams.set('applicationId', interaction.application_id);
-    queueFollowupURL.searchParams.set('interactionId', interaction.id);
-    queueFollowupURL.searchParams.set('location', locationOption.value);
-    queueFollowupURL.searchParams.set('token', interaction.token);
-    console.log(queueFollowupURL);
+    await InngestAPI.sendEvent({
+      data: {
+        applicationId: interaction.application_id,
+        interactionId: interaction.id,
+        location: locationOption.value,
+        token: interaction.token,
+      },
+      name: InngestEvents.DiscordGoodMorning,
+    });
     return NextResponse.json({ type: InteractionResponseType.DeferredChannelMessageWithSource }, { status: 200 });
   }
 
