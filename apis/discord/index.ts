@@ -52,15 +52,18 @@ class DiscordClient {
     if (!locationOption) {
       return NextResponse.json({ data: { content: 'The location could not be found.' } }, { status: 200 });
     }
-    setTimeout(() => DiscordClient.handleGoodMorningFollowup(interaction, locationOption.value), 100);
+    const queueFollowupURL = new URL('https://vercel.com/');
+    queueFollowupURL.searchParams.set('applicationId', interaction.application_id);
+    queueFollowupURL.searchParams.set('interactionId', interaction.id);
+    queueFollowupURL.searchParams.set('location', locationOption.value);
+    queueFollowupURL.searchParams.set('token', interaction.token);
+    console.log(queueFollowupURL);
     return NextResponse.json({ type: InteractionResponseType.DeferredChannelMessageWithSource }, { status: 200 });
   }
 
-  private static async handleGoodMorningFollowup(
-    interaction: APIChatInputApplicationCommandInteraction,
-    location: string,
-  ): Promise<Response> {
-    console.log({ location });
+  public static async handleGoodMorningFollowup(params: GoodMorningFollowupParams): Promise<Response> {
+    console.log({ params });
+    const { applicationId, interactionId, location, token } = params;
     const url = new URL(Environment.getBaseURL() + '/api/weather');
     url.searchParams.set('query', location);
     url.searchParams.set('token', await TokenUtility.sign({ query: location }));
@@ -70,12 +73,12 @@ class DiscordClient {
       'payload_json',
       JSON.stringify({
         data: {
-          attachments: [{ filename: interaction.id + '.png', id: 0 }],
+          attachments: [{ filename: interactionId + '.png', id: 0 }],
           content: 'Good morning!',
         },
       }),
     );
-    formData.set('files[0]', await response.blob(), interaction.id + '.png');
+    formData.set('files[0]', await response.blob(), interactionId + '.png');
     const encoder = new FormDataEncoder(formData);
     const iterator = encoder.encode();
     const stream = new ReadableStream({
@@ -87,7 +90,7 @@ class DiscordClient {
         controller.enqueue(value);
       },
     });
-    return fetch('/webhooks/' + interaction.application_id + '/' + interaction.token, {
+    return fetch('/webhooks/' + applicationId + '/' + token, {
       body: stream,
       headers: encoder.headers,
       method: 'POST',

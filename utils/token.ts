@@ -22,7 +22,7 @@ class TokenUtility {
 
   public static async verify(token: string, payload: any): Promise<boolean> {
     const signedToken = await TokenUtility.sign(payload);
-    return token !== signedToken;
+    return token === signedToken;
   }
 }
 

@@ -19,14 +19,15 @@ export async function GET(request: Request) {
     query: requestURL.searchParams.get('query'),
     token: requestURL.searchParams.get('token'),
   };
-  if (!params.token || (await TokenUtility.verify(params.token, { query: params.query }))) {
-    return new Response(undefined, { status: 401 });
-  }
   const paramsSchema = object({
     query: string().required().min(1).max(100),
+    token: string().required().length(64),
   });
   if (!paramsSchema.isValidSync(params)) {
     return new Response(undefined, { status: 400 });
+  }
+  if (!(await TokenUtility.verify(params.token, { query: params.query }))) {
+    return new Response(undefined, { status: 401 });
   }
   const location = await OpenWeatherAPI.getLocation(params.query);
   if (!location) {
