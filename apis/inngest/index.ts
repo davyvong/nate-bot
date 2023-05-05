@@ -16,7 +16,7 @@ class InngestAPI {
       InngestAPI.getInstance().createFunction(
         { name: pkg.name + '/goodmorning' },
         { event: InngestEvents.DiscordGoodMorning },
-        ({ event }) => DiscordClient.handleGoodMorningFollowup(event.data),
+        ({ event }) => DiscordClient.handleGoodMorningFollowup(event.data.interaction, event.data.location),
       ),
     ];
   }
