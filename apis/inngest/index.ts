@@ -20,8 +20,6 @@ class InngestAPI {
       ),
     ];
   }
-
-  public static sendEvent = InngestAPI.getInstance().send;
 }
 
 export default InngestAPI;

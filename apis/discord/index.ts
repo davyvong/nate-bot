@@ -54,7 +54,7 @@ class DiscordClient {
     if (!locationOption) {
       return NextResponse.json({ data: { content: 'The location could not be found.' } }, { status: 200 });
     }
-    await InngestAPI.sendEvent({
+    await InngestAPI.getInstance().send({
       data: {
         applicationId: interaction.application_id,
         interactionId: interaction.id,
