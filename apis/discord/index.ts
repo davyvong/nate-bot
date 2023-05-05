@@ -60,6 +60,7 @@ class DiscordClient {
     interaction: APIChatInputApplicationCommandInteraction,
     locationOption: any,
   ): Promise<Response> {
+    console.log('handleGoodMorningFollowup:start');
     const url = new URL(Environment.getBaseURL() + '/api/weather');
     url.searchParams.set('query', locationOption.value);
     url.searchParams.set('token', await TokenUtility.sign({ query: locationOption.value }));
@@ -86,6 +87,7 @@ class DiscordClient {
         controller.enqueue(value);
       },
     });
+    console.log('handleGoodMorningFollowup:end');
     return fetch('/webhooks/' + interaction.application_id + '/' + interaction.token, {
       body: stream,
       headers: encoder.headers,
