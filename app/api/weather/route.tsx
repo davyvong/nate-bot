@@ -6,7 +6,7 @@ import { object, string } from 'yup';
 
 import WeatherImage from './image';
 
-export const runtime = 'experimental-edge';
+export const runtime = 'edge';
 
 const fonts = [
   fetch(new URL('../../../assets/fonts/inter-medium.woff', import.meta.url)).then(response => response.arrayBuffer()),
