@@ -52,7 +52,7 @@ class DiscordClient {
     if (!locationOption) {
       return NextResponse.json({ data: { content: 'The location could not be found.' } }, { status: 200 });
     }
-    DiscordClient.handleGoodMorningFollowup(interaction, locationOption);
+    setTimeout(DiscordClient.handleGoodMorningFollowup, 100);
     return NextResponse.json({ type: InteractionResponseType.DeferredChannelMessageWithSource }, { status: 200 });
   }
 
@@ -63,8 +63,7 @@ class DiscordClient {
     const url = new URL(Environment.getBaseURL() + '/api/weather');
     url.searchParams.set('query', locationOption.value);
     url.searchParams.set('token', await TokenUtility.sign({ query: locationOption.value }));
-    const imageResponse = await fetch(url);
-    const imageBlob = await imageResponse.blob();
+    const response = await fetch(url);
     const formData = new FormData();
     formData.set(
       'payload_json',
@@ -73,10 +72,9 @@ class DiscordClient {
           attachments: [{ filename: interaction.id + '.png', id: 0 }],
           content: 'Good morning!',
         },
-        type: InteractionResponseType.ChannelMessageWithSource,
       }),
     );
-    formData.set('files[0]', imageBlob, interaction.id + '.png');
+    formData.set('files[0]', await response.blob(), interaction.id + '.png');
     const encoder = new FormDataEncoder(formData);
     const iterator = encoder.encode();
     const stream = new ReadableStream({
