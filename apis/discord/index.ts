@@ -29,8 +29,11 @@ class DiscordClient {
   }
 
   public static async verifyRequest(request: Request): Promise<boolean> {
-    const signature = request.headers.get('X-Signature-Ed25519') as string;
-    const timestamp = request.headers.get('X-Signature-Timestamp') as string;
+    const signature = request.headers.get('X-Signature-Ed25519');
+    const timestamp = request.headers.get('X-Signature-Timestamp');
+    if (!signature || !timestamp) {
+      return false;
+    }
     const body = await request.text();
     return nacl.sign.detached.verify(
       Buffer.from(timestamp + body),
@@ -73,7 +76,7 @@ class DiscordClient {
   }
 
   public static async handleGoodMorningFollowup(params: GoodMorningFollowupParams): Promise<Response> {
-    console.log({ params });
+    console.log(params);
     const { applicationId, interactionId, location, token } = params;
     const url = new URL(Environment.getBaseURL() + '/api/weather');
     url.searchParams.set('query', location);
