@@ -65,19 +65,19 @@ class DiscordClient {
     }
     await InngestAPI.getInstance().send({
       data: {
-        applicationId: interaction.application_id,
-        interactionId: interaction.id,
+        interaction,
         location: locationOption.value,
-        token: interaction.token,
       },
       name: InngestEvents.DiscordGoodMorning,
     });
     return NextResponse.json({ type: InteractionResponseType.DeferredChannelMessageWithSource }, { status: 200 });
   }
 
-  public static async handleGoodMorningFollowup(params: GoodMorningFollowupParams): Promise<Response> {
-    console.log(params);
-    const { applicationId, interactionId, location, token } = params;
+  public static async handleGoodMorningFollowup(
+    interaction: APIChatInputApplicationCommandInteraction,
+    location: string,
+  ): Promise<Response> {
+    console.log({ interaction, location });
     const url = new URL(Environment.getBaseURL() + '/api/weather');
     url.searchParams.set('query', location);
     url.searchParams.set('token', await TokenUtility.sign({ query: location }));
@@ -87,12 +87,12 @@ class DiscordClient {
       'payload_json',
       JSON.stringify({
         data: {
-          attachments: [{ filename: interactionId + '.png', id: 0 }],
+          attachments: [{ filename: interaction.id + '.png', id: 0 }],
           content: 'Good morning!',
         },
       }),
     );
-    formData.set('files[0]', await response.blob(), interactionId + '.png');
+    formData.set('files[0]', await response.blob(), interaction.id + '.png');
     const encoder = new FormDataEncoder(formData);
     const iterator = encoder.encode();
     const stream = new ReadableStream({
@@ -104,7 +104,7 @@ class DiscordClient {
         controller.enqueue(value);
       },
     });
-    return fetch('https://discord.com/api/v10/webhooks/' + applicationId + '/' + token, {
+    return fetch('https://discord.com/api/v10/webhooks/' + interaction.application_id + '/' + interaction.token, {
       body: stream,
       duplex: 'half',
       headers: encoder.headers,

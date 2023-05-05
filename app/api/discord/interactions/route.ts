@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     return new Response(undefined, { status: 401 });
   }
   const interaction = await request.clone().json();
-  console.log(interaction);
+  console.log({ interaction });
   switch (interaction.type) {
     case InteractionType.Ping: {
       return NextResponse.json({ type: InteractionResponseType.Pong }, { status: 200 });
