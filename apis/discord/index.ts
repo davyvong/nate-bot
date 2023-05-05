@@ -31,54 +31,29 @@ class DiscordClient {
     );
   }
 
-  public static async handleInteraction(interaction: APIChatInputApplicationCommandInteraction): Promise<Response> {
-    console.log({ interaction });
+  public static async handleApplicationCommand(
+    interaction: APIChatInputApplicationCommandInteraction,
+  ): Promise<Response> {
     switch (interaction.data.name) {
       case DiscordSlashCommands.GoodMorning: {
         return DiscordClient.handleGoodMorning(interaction);
       }
       default: {
-        return NextResponse.json(
-          {
-            data: {
-              content: 'The command is not valid.',
-            },
-          },
-          { status: 200 },
-        );
+        return NextResponse.json({ data: { content: 'The command is not valid.' } }, { status: 200 });
       }
     }
   }
 
   private static async handleGoodMorning(interaction: APIChatInputApplicationCommandInteraction): Promise<Response> {
     if (!Array.isArray(interaction.data.options)) {
-      return NextResponse.json(
-        {
-          data: {
-            content: 'The command is missing options.',
-          },
-        },
-        { status: 200 },
-      );
+      return NextResponse.json({ data: { content: 'The command is missing options.' } }, { status: 200 });
     }
     const locationOption = interaction.data.options.find((option): boolean => option.name === 'location');
     if (!locationOption) {
-      return NextResponse.json(
-        {
-          data: {
-            content: 'The location could not be found.',
-          },
-        },
-        { status: 200 },
-      );
+      return NextResponse.json({ data: { content: 'The location could not be found.' } }, { status: 200 });
     }
     DiscordClient.handleGoodMorningFollowup(interaction, locationOption);
-    return NextResponse.json(
-      {
-        type: InteractionResponseType.DeferredChannelMessageWithSource,
-      },
-      { status: 200 },
-    );
+    return NextResponse.json({ type: InteractionResponseType.DeferredChannelMessageWithSource }, { status: 200 });
   }
 
   private static async handleGoodMorningFollowup(
@@ -95,12 +70,7 @@ class DiscordClient {
       'payload_json',
       JSON.stringify({
         data: {
-          attachments: [
-            {
-              filename: interaction.id + '.png',
-              id: 0,
-            },
-          ],
+          attachments: [{ filename: interaction.id + '.png', id: 0 }],
           content: 'Good morning!',
         },
         type: InteractionResponseType.ChannelMessageWithSource,
@@ -118,7 +88,7 @@ class DiscordClient {
         controller.enqueue(value);
       },
     });
-    return fetch(`/webhooks/${interaction.application_id}/${interaction.token}`, {
+    return fetch('/webhooks/' + interaction.application_id + '/' + interaction.token, {
       body: stream,
       headers: encoder.headers,
     });
