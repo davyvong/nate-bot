@@ -12,6 +12,12 @@ import TokenUtility from 'utils/token';
 
 import { DiscordSlashCommands } from './enums';
 
+declare global {
+  interface RequestInit {
+    duplex?: string;
+  }
+}
+
 class DiscordClient {
   private static readonly rest: REST = new REST({
     version: process.env.DISCORD_REST_VERSION,
@@ -97,6 +103,7 @@ class DiscordClient {
     });
     return fetch('https://discord.com/api/v10/webhooks/' + applicationId + '/' + token, {
       body: stream,
+      duplex: 'half',
       headers: encoder.headers,
       method: 'POST',
     });
