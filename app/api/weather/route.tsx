@@ -1,7 +1,7 @@
 import { ImageResponse } from '@vercel/og';
 import OpenWeatherAPI from 'server/apis/openweather';
 import { TemperatureUnits } from 'server/apis/openweather/enums';
-import Token from 'server/utils/token';
+import HashToken from 'server/utils/hash-token';
 import { object, string } from 'yup';
 
 import WeatherImage from './image';
@@ -13,7 +13,7 @@ const fonts = [
   fetch(new URL('../../../assets/fonts/inter-regular.woff', import.meta.url)).then(response => response.arrayBuffer()),
 ];
 
-export async function GET(request: Request) {
+export const GET = async (request: Request) => {
   const requestURL = new URL(request.url);
   const params = {
     query: requestURL.searchParams.get('query'),
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
   if (!paramsSchema.isValidSync(params)) {
     return new Response(undefined, { status: 400 });
   }
-  if (!(await Token.verify(params.token, { query: params.query }))) {
+  if (!(await HashToken.verify(params.token, { query: params.query }))) {
     return new Response(undefined, { status: 401 });
   }
   const location = await OpenWeatherAPI.getLocation(params.query);
@@ -65,4 +65,4 @@ export async function GET(request: Request) {
     height: 390,
     width: 600,
   });
-}
+};

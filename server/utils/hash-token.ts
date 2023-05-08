@@ -1,4 +1,4 @@
-class Token {
+class HashToken {
   private static readonly signingKey = crypto.subtle.importKey(
     'raw',
     new TextEncoder().encode(process.env.TOKEN_SIGNING_KEY),
@@ -14,16 +14,16 @@ class Token {
   public static async sign(payload: any): Promise<string> {
     const signature = await crypto.subtle.sign(
       'HMAC',
-      await Token.signingKey,
+      await HashToken.signingKey,
       new TextEncoder().encode(JSON.stringify(payload)),
     );
-    return Token.toHex(signature);
+    return HashToken.toHex(signature);
   }
 
   public static async verify(token: string, payload: any): Promise<boolean> {
-    const signedToken = await Token.sign(payload);
+    const signedToken = await HashToken.sign(payload);
     return token === signedToken;
   }
 }
 
-export default Token;
+export default HashToken;
