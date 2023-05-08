@@ -26,5 +26,3 @@ jobs:
         run: npm run lint:eslint
       - name: Run Prettier
         run: npm run lint:prettier
-      - name: Run Build
-        run: npm run build

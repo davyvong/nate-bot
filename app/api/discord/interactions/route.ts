@@ -1,9 +1,9 @@
 import { InteractionResponseType, InteractionType } from '@discordjs/core';
-import DiscordAPI from 'apis/discord';
+import DiscordClient from 'server/apis/discord';
 import { NextResponse } from 'next/server';
 
-export async function POST(request: Request) {
-  if (!(await DiscordAPI.verifyRequest(request.clone()))) {
+export const POST = async (request: Request) => {
+  if (!(await DiscordClient.verifyRequest(request.clone()))) {
     return new Response(undefined, { status: 401 });
   }
   const interaction = await request.clone().json();
@@ -13,10 +13,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ type: InteractionResponseType.Pong }, { status: 200 });
     }
     case InteractionType.ApplicationCommand: {
-      return DiscordAPI.handleApplicationCommand(interaction);
+      return DiscordClient.handleApplicationCommand(interaction);
     }
     default: {
       return new Response(undefined, { status: 200 });
     }
   }
-}
+};

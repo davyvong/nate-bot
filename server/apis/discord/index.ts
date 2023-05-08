@@ -1,14 +1,14 @@
 import type { APIChatInputApplicationCommandInteraction } from '@discordjs/core';
 import { API, InteractionResponseType } from '@discordjs/core';
 import { REST } from '@discordjs/rest';
-import InngestAPI from 'apis/inngest';
-import { InngestEvents } from 'apis/inngest/enums';
 import Environment from 'environment';
 import { FormDataEncoder } from 'form-data-encoder';
 import { FormData } from 'formdata-node';
 import { NextResponse } from 'next/server';
+import InngestAPI from 'server/apis/inngest';
+import { InngestEvents } from 'server/apis/inngest/enums';
+import HashToken from 'server/utils/hash-token';
 import nacl from 'tweetnacl';
-import TokenUtility from 'utils/token';
 
 import { DiscordSlashCommands } from './enums';
 
@@ -40,6 +40,44 @@ class DiscordClient {
       Buffer.from(signature, 'hex'),
       Buffer.from(process.env.DISCORD_PUBLIC_KEY, 'hex'),
     );
+  }
+
+  public static getOAuth2URL(): URL {
+    const url = new URL('https://discord.com/api/oauth2/authorize');
+    url.searchParams.set('client_id', process.env.DISCORD_CLIENT_ID);
+    url.searchParams.set('redirect_uri', Environment.getBaseURL() + '/api/discord/oauth2/callback');
+    url.searchParams.set('response_type', 'code');
+    url.searchParams.set('scope', 'identify');
+    return url;
+  }
+
+  public static async getOAuth2Token(code: string): Promise<DiscordOAuth2Token> {
+    const url = new URL('https://discord.com/api/oauth2/token');
+    const response = await fetch(url, {
+      body: new URLSearchParams({
+        client_id: process.env.DISCORD_CLIENT_ID,
+        client_secret: process.env.DISCORD_CLIENT_SECRET,
+        code,
+        grant_type: 'authorization_code',
+        redirect_uri: Environment.getBaseURL() + '/api/discord/oauth2/callback',
+        scope: 'identify',
+      }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    return response.json();
+  }
+
+  public static async getUser(oauth2Token: DiscordOAuth2Token): Promise<DiscordUser> {
+    const url = new URL('https://discord.com/api/users/@me');
+    const response = await fetch(url, {
+      headers: {
+        Authorization: oauth2Token.token_type + ' ' + oauth2Token.access_token,
+      },
+    });
+    return response.json();
   }
 
   public static async handleApplicationCommand(
@@ -80,7 +118,7 @@ class DiscordClient {
     console.log({ interaction, location });
     const url = new URL(Environment.getBaseURL() + '/api/weather');
     url.searchParams.set('query', location);
-    url.searchParams.set('token', await TokenUtility.sign({ query: location }));
+    url.searchParams.set('token', await HashToken.sign({ query: location }));
     const response = await fetch(url);
     const formData = new FormData();
     formData.set(
