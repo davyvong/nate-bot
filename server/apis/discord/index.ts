@@ -8,7 +8,7 @@ import { FormDataEncoder } from 'form-data-encoder';
 import { FormData } from 'formdata-node';
 import { NextResponse } from 'next/server';
 import nacl from 'tweetnacl';
-import TokenUtility from 'utils/token';
+import Token from 'utils/token';
 
 import { DiscordSlashCommands } from './enums';
 
@@ -80,7 +80,7 @@ class DiscordClient {
     console.log({ interaction, location });
     const url = new URL(Environment.getBaseURL() + '/api/weather');
     url.searchParams.set('query', location);
-    url.searchParams.set('token', await TokenUtility.sign({ query: location }));
+    url.searchParams.set('token', await Token.sign({ query: location }));
     const response = await fetch(url);
     const formData = new FormData();
     formData.set(
