@@ -1,16 +1,12 @@
 import jwt from 'jsonwebtoken';
 import type { JwtPayload, VerifyErrors } from 'jsonwebtoken';
 
-export interface Token extends DiscordUser, JwtPayload {
-  iat: number;
-}
-
 class JWT {
   public static sign(payload: Buffer | object | string): string {
     return jwt.sign(payload, process.env.JWT_SECRET);
   }
 
-  public static verify(token: string): Promise<Token | undefined> {
+  public static verify(token: string): Promise<string | JwtPayload | undefined> {
     return new Promise(resolve => {
       jwt.verify(
         token,
@@ -20,7 +16,7 @@ class JWT {
           if (error) {
             resolve(undefined);
           } else {
-            resolve(decodedToken as Token);
+            resolve(decodedToken);
           }
         },
       );

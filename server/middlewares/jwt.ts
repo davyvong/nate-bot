@@ -1,13 +1,13 @@
+import type { JwtPayload } from 'jsonwebtoken';
 import type { NextRequest } from 'next/server';
 import JWT from 'server/utils/jwt';
-import type { Token } from 'server/utils/jwt';
 
 export const config = {
   matcher: '/about/:path*',
 };
 
 export interface NextRequestWithToken extends NextRequest {
-  token?: Token;
+  token?: JwtPayload;
 }
 
 const applyToken =
@@ -19,7 +19,7 @@ const applyToken =
         return new Response(undefined, { status: 401 });
       }
       const decodedToken = await JWT.verify(tokenCookie.value);
-      if (!decodedToken) {
+      if (!decodedToken || typeof decodedToken === 'string') {
         return new Response(undefined, { status: 401 });
       }
       request.token = decodedToken;
