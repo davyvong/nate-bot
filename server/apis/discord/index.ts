@@ -1,14 +1,14 @@
 import type { APIChatInputApplicationCommandInteraction } from '@discordjs/core';
 import { API, InteractionResponseType } from '@discordjs/core';
 import { REST } from '@discordjs/rest';
-import InngestAPI from 'apis/inngest';
-import { InngestEvents } from 'apis/inngest/enums';
+import InngestAPI from 'server/apis/inngest';
+import { InngestEvents } from 'server/apis/inngest/enums';
 import Environment from 'environment';
 import { FormDataEncoder } from 'form-data-encoder';
 import { FormData } from 'formdata-node';
 import { NextResponse } from 'next/server';
 import nacl from 'tweetnacl';
-import Token from 'utils/token';
+import Token from 'server/utils/token';
 
 import { DiscordSlashCommands } from './enums';
 

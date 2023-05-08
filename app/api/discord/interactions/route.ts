@@ -1,5 +1,5 @@
 import { InteractionResponseType, InteractionType } from '@discordjs/core';
-import DiscordAPI from 'apis/discord';
+import DiscordAPI from 'server/apis/discord';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {

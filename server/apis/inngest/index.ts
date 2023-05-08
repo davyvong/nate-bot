@@ -1,4 +1,4 @@
-import DiscordClient from 'apis/discord';
+import DiscordClient from 'server/apis/discord';
 import { Inngest } from 'inngest';
 import pkg from 'package.json';
 
