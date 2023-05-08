@@ -16,8 +16,8 @@ export const GET = async (request: Request) => {
   if (!paramsSchema.isValidSync(params)) {
     return new Response(undefined, { status: 400 });
   }
-  const oauth2Token = await DiscordClient.getOAuth2Token(params.code);
-  const user = await DiscordClient.getUser(oauth2Token);
+  const oauth2Token = await DiscordClient.getOAuth2AccessToken(params.code);
+  const user = await DiscordClient.getCurrentUser(oauth2Token);
   console.log({ user });
   const token = JWT.sign(user);
   return NextResponse.redirect(Environment.getBaseURL(), {

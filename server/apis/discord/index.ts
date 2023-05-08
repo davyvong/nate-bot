@@ -1,6 +1,9 @@
-import type { APIChatInputApplicationCommandInteraction } from '@discordjs/core';
-import { API, InteractionResponseType } from '@discordjs/core';
-import { REST } from '@discordjs/rest';
+import { InteractionResponseType } from '@discordjs/core';
+import type {
+  APIChatInputApplicationCommandInteraction,
+  RESTGetAPICurrentUserResult,
+  RESTPostOAuth2AccessTokenResult,
+} from '@discordjs/core';
 import Environment from 'environment';
 import { FormDataEncoder } from 'form-data-encoder';
 import { FormData } from 'formdata-node';
@@ -19,15 +22,6 @@ declare global {
 }
 
 class DiscordClient {
-  private static readonly rest: REST = new REST({
-    version: process.env.DISCORD_REST_VERSION,
-  }).setToken(process.env.DISCORD_BOT_TOKEN);
-  private static readonly api: API = new API(DiscordClient.rest);
-
-  public static getAPI(): API {
-    return DiscordClient.api;
-  }
-
   public static async verifyRequest(request: Request): Promise<boolean> {
     const signature = request.headers.get('X-Signature-Ed25519');
     const timestamp = request.headers.get('X-Signature-Timestamp');
@@ -42,7 +36,7 @@ class DiscordClient {
     );
   }
 
-  public static getOAuth2URL(): URL {
+  public static getOAuth2AuthorizeURL(): URL {
     const url = new URL('https://discord.com/api/oauth2/authorize');
     url.searchParams.set('client_id', process.env.DISCORD_CLIENT_ID);
     url.searchParams.set('redirect_uri', Environment.getBaseURL() + '/api/discord/oauth2/callback');
@@ -51,9 +45,8 @@ class DiscordClient {
     return url;
   }
 
-  public static async getOAuth2Token(code: string): Promise<DiscordOAuth2Token> {
-    const url = new URL('https://discord.com/api/oauth2/token');
-    const response = await fetch(url, {
+  public static async getOAuth2AccessToken(code: string): Promise<RESTPostOAuth2AccessTokenResult> {
+    const response = await fetch('https://discord.com/api/oauth2/token', {
       body: new URLSearchParams({
         client_id: process.env.DISCORD_CLIENT_ID,
         client_secret: process.env.DISCORD_CLIENT_SECRET,
@@ -70,9 +63,10 @@ class DiscordClient {
     return response.json();
   }
 
-  public static async getUser(oauth2Token: DiscordOAuth2Token): Promise<DiscordUser> {
-    const url = new URL('https://discord.com/api/users/@me');
-    const response = await fetch(url, {
+  public static async getCurrentUser(
+    oauth2Token: RESTPostOAuth2AccessTokenResult,
+  ): Promise<RESTGetAPICurrentUserResult> {
+    const response = await fetch('https://discord.com/api/users/@me', {
       headers: {
         Authorization: oauth2Token.token_type + ' ' + oauth2Token.access_token,
       },

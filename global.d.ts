@@ -2,11 +2,9 @@
 
 namespace NodeJS {
   interface ProcessEnv {
-    DISCORD_BOT_TOKEN: string;
     DISCORD_CLIENT_ID: string;
     DISCORD_CLIENT_SECRET: string;
     DISCORD_PUBLIC_KEY: string;
-    DISCORD_REST_VERSION: string;
     INNGEST_EVENT_KEY: string;
     INNGEST_SIGNING_KEY: string;
     JWT_SECRET: string;

@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import DiscordClient from 'server/apis/discord';
 
 const Page: FC = () => {
-  const url = DiscordClient.getOAuth2URL();
+  const url = DiscordClient.getOAuth2AuthorizeURL();
 
   return (
     <div>

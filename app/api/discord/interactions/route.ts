@@ -1,6 +1,6 @@
 import { InteractionResponseType, InteractionType } from '@discordjs/core';
-import DiscordClient from 'server/apis/discord';
 import { NextResponse } from 'next/server';
+import DiscordClient from 'server/apis/discord';
 
 export const POST = async (request: Request) => {
   if (!(await DiscordClient.verifyRequest(request.clone()))) {
