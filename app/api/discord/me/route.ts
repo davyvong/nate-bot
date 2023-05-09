@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import applyToken from 'server/middlewares/jwt';
-import type { NextRequestWithToken } from 'server/middlewares/jwt';
+import applyJWT from 'middlewares/jwt';
+import type { NextRequestWithToken } from 'middlewares/jwt';
 
-export const GET = applyToken(async (request: NextRequestWithToken) => NextResponse.json(request.token));
+export const runtime = 'edge';
+
+export const GET = applyJWT(async (request: NextRequestWithToken) => NextResponse.json(request.token));

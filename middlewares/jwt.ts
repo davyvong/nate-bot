@@ -1,16 +1,12 @@
 import type { JwtPayload } from 'jsonwebtoken';
 import type { NextRequest } from 'next/server';
-import JWT from 'server/utils/jwt';
-
-export const config = {
-  matcher: '/about/:path*',
-};
+import JWT from 'utils/jwt';
 
 export interface NextRequestWithToken extends NextRequest {
   token?: JwtPayload;
 }
 
-const applyToken =
+const applyJWT =
   (next: any) =>
   async (request: NextRequestWithToken): Promise<Response | undefined> => {
     try {
@@ -29,4 +25,4 @@ const applyToken =
     }
   };
 
-export default applyToken;
+export default applyJWT;

@@ -1,22 +1,23 @@
-import { InteractionResponseType, InteractionType } from '@discordjs/core';
-import { NextResponse } from 'next/server';
-import DiscordClient from 'server/apis/discord';
+import { InteractionType } from 'discord-api-types/v10';
+import DiscordInteractions from 'interactions';
+
+export const runtime = 'edge';
 
 export const POST = async (request: Request) => {
-  if (!(await DiscordClient.verifyRequest(request.clone()))) {
+  if (!(await DiscordInteractions.verifyRequest(request.clone()))) {
     return new Response(undefined, { status: 401 });
   }
   const interaction = await request.clone().json();
   console.log({ interaction });
   switch (interaction.type) {
     case InteractionType.Ping: {
-      return NextResponse.json({ type: InteractionResponseType.Pong }, { status: 200 });
+      return DiscordInteractions.handlePing();
     }
     case InteractionType.ApplicationCommand: {
-      return DiscordClient.handleApplicationCommand(interaction);
+      return DiscordInteractions.handleApplicationCommand(interaction);
     }
     default: {
-      return new Response(undefined, { status: 200 });
+      return DiscordInteractions.handleUnknownInteraction();
     }
   }
 };

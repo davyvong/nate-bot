@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { TemperatureUnits } from 'server/apis/openweather/enums';
+import { TemperatureUnits } from 'apis/openweather/enums';
 
-class WeatherImage {
+class OpenWeatherImage {
   public static getUnits(units = TemperatureUnits.Celsius): string {
     switch (units) {
       case TemperatureUnits.Celsius: {
@@ -56,10 +56,10 @@ class WeatherImage {
           }}
         >
           <div style={{ fontSize: 52, lineHeight: 1 }}>
-            {prediction.temperature.actual + WeatherImage.getUnits(prediction.temperature.units)}
+            {prediction.temperature.actual + OpenWeatherImage.getUnits(prediction.temperature.units)}
           </div>
           <div style={{ color: '#99aab5', fontSize: 16, marginTop: 8 }}>
-            {'Feels like ' + prediction.temperature.feelsLike + WeatherImage.getUnits(prediction.temperature.units)}
+            {'Feels like ' + prediction.temperature.feelsLike + OpenWeatherImage.getUnits(prediction.temperature.units)}
           </div>
         </div>
       </div>
@@ -86,10 +86,10 @@ class WeatherImage {
         <div style={{ color: '#99aab5', fontSize: 14, marginTop: 8 }}>{prediction.weather}</div>
         <img alt="" height="100" src={prediction.icon} width="100" />
         <div style={{ fontSize: 24, fontWeight: 500 }}>
-          {prediction.temperature.actual + WeatherImage.getUnits(prediction.temperature.units)}
+          {prediction.temperature.actual + OpenWeatherImage.getUnits(prediction.temperature.units)}
         </div>
         <div style={{ color: '#99aab5', fontSize: 14, marginTop: 8 }}>
-          {'Feels like ' + prediction.temperature.feelsLike + WeatherImage.getUnits(prediction.temperature.units)}
+          {'Feels like ' + prediction.temperature.feelsLike + OpenWeatherImage.getUnits(prediction.temperature.units)}
         </div>
       </div>
     );
@@ -115,7 +115,7 @@ class WeatherImage {
           width: '100%',
         }}
       >
-        {WeatherImage.renderCurrentPrediction(location, currentWeather)}
+        {OpenWeatherImage.renderCurrentPrediction(location, currentWeather)}
         <div
           style={{
             display: 'flex',
@@ -124,11 +124,11 @@ class WeatherImage {
             width: '100%',
           }}
         >
-          {forecast.predictions.map(WeatherImage.renderFuturePrediction)}
+          {forecast.predictions.map(OpenWeatherImage.renderFuturePrediction)}
         </div>
       </div>
     );
   }
 }
 
-export default WeatherImage;
+export default OpenWeatherImage;
