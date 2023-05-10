@@ -1,7 +1,7 @@
-import { serialize } from 'cookie';
-import Environment from 'environment';
-import { NextResponse } from 'next/server';
 import DiscordAPI from 'apis/discord';
+import { serialize } from 'cookie';
+import { NextResponse } from 'next/server';
+import Environment from 'utils/environment';
 import JWT from 'utils/jwt';
 import { object, string } from 'yup';
 

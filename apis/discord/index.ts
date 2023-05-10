@@ -1,5 +1,5 @@
 import type { RESTGetAPICurrentUserResult, RESTPostOAuth2AccessTokenResult } from 'discord-api-types/v10';
-import Environment from 'environment';
+import Environment from 'utils/environment';
 
 class DiscordAPI {
   public static getOAuth2AuthorizeURL(): URL {

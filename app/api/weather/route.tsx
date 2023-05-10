@@ -1,7 +1,7 @@
 import { ImageResponse } from '@vercel/og';
 import OpenWeatherAPI from 'apis/openweather';
 import { TemperatureUnits } from 'apis/openweather/enums';
-import SimpleToken from 'utils/simple-token';
+import Token from 'utils/token';
 import { object, string } from 'yup';
 
 import OpenWeatherImage from './image';
@@ -26,7 +26,7 @@ export const GET = async (request: Request) => {
   if (!paramsSchema.isValidSync(params)) {
     return new Response(undefined, { status: 400 });
   }
-  if (!(await SimpleToken.verify(params.token, { query: params.query }))) {
+  if (!(await Token.verify(params.token, { query: params.query }))) {
     return new Response(undefined, { status: 401 });
   }
   const location = await OpenWeatherAPI.getLocation(params.query);

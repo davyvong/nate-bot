@@ -2,12 +2,12 @@ import InngestAPI from 'apis/inngest';
 import { InngestEvents } from 'apis/inngest/enums';
 import type { APIChatInputApplicationCommandInteraction } from 'discord-api-types/v10';
 import { InteractionResponseType } from 'discord-api-types/v10';
-import Environment from 'environment';
 import { FormDataEncoder } from 'form-data-encoder';
 import { FormData } from 'formdata-node';
 import { NextResponse } from 'next/server';
 import nacl from 'tweetnacl';
-import SimpleToken from 'utils/simple-token';
+import Environment from 'utils/environment';
+import Token from 'utils/token';
 
 import { DiscordSlashCommands } from './enums';
 
@@ -78,7 +78,7 @@ class DiscordInteractions {
     console.log({ interaction, location });
     const url = new URL(Environment.getBaseURL() + '/api/weather');
     url.searchParams.set('query', location);
-    url.searchParams.set('token', await SimpleToken.sign({ query: location }));
+    url.searchParams.set('token', await Token.sign({ query: location }));
     const response = await fetch(url);
     const formData = new FormData();
     formData.set(
