@@ -23,6 +23,7 @@ class InngestAPI {
         },
         { event: InngestEvents.DiscordGoodMorning },
         async ({ event }) => {
+          console.log({ event });
           await DiscordApplicationCommand.followup(event.data.interaction);
         },
       ),

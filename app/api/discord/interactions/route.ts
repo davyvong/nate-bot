@@ -8,5 +8,6 @@ export const POST = async (request: Request) => {
     return new Response(undefined, { status: 401 });
   }
   const interaction = await request.clone().json();
+  console.log({ interaction });
   return DiscordInteraction.respond(interaction);
 };
