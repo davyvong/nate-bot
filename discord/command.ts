@@ -11,7 +11,14 @@ import { NextResponse } from 'next/server';
 import Environment from 'utils/environment';
 import Token from 'utils/token';
 
+import DiscordAPI from 'apis/discord';
 import { DiscordApplicationCommandNames, DiscordResponses } from './enums';
+
+declare global {
+  interface RequestInit {
+    duplex?: string;
+  }
+}
 
 class DiscordApplicationCommand {
   public static async execute(interaction: APIApplicationCommandInteraction): Promise<Response> {
@@ -39,7 +46,9 @@ class DiscordApplicationCommand {
         return DiscordApplicationCommand.followupGoodMorning(interaction);
       }
       default: {
-        return NextResponse.json({ data: { content: DiscordResponses.IDontKnow } }, { status: 200 });
+        return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, {
+          body: JSON.stringify({ data: { content: DiscordResponses.IDontKnow } }),
+        });
       }
     }
   }
@@ -47,23 +56,31 @@ class DiscordApplicationCommand {
   private static async followupGoodMorning(interaction: APIApplicationCommandInteraction): Promise<Response> {
     const data = <APIChatInputApplicationCommandInteractionData>interaction.data;
     if (!Array.isArray(data.options)) {
-      return NextResponse.json({ data: { content: DiscordResponses.MissingOptions } }, { status: 200 });
+      return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, {
+        body: JSON.stringify({ data: { content: DiscordResponses.MissingOptions } }),
+      });
     }
     const locationOption: any = data.options.find((option): boolean => option.name === 'location');
     if (!locationOption) {
-      return NextResponse.json({ data: { content: DiscordResponses.LocationNotFound } }, { status: 200 });
+      return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, {
+        body: JSON.stringify({ data: { content: DiscordResponses.LocationNotFound } }),
+      });
     }
     let response;
     try {
       const url = new URL(Environment.getBaseURL() + '/api/weather');
       url.searchParams.set('query', locationOption.value);
-      url.searchParams.set('token', await Token.sign({ query: location }));
+      url.searchParams.set('token', await Token.sign({ query: locationOption.value }));
       response = await fetch(url);
     } catch {
-      return NextResponse.json({ data: { content: DiscordResponses.LocationNotFound } }, { status: 200 });
+      return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, {
+        body: JSON.stringify({ data: { content: DiscordResponses.LocationNotFound } }),
+      });
     }
     if (!response) {
-      return NextResponse.json({ data: { content: DiscordResponses.LocationNotFound } }, { status: 200 });
+      return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, {
+        body: JSON.stringify({ data: { content: DiscordResponses.LocationNotFound } }),
+      });
     }
     const formData = new FormData();
     formData.set(
@@ -87,11 +104,10 @@ class DiscordApplicationCommand {
         controller.enqueue(value);
       },
     });
-    return fetch('https://discord.com/api/v10/webhooks/' + interaction.application_id + '/' + interaction.token, {
+    return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, {
       body: stream,
       duplex: 'half',
       headers: { ...encoder.headers },
-      method: 'POST',
     });
   }
 }

@@ -3,14 +3,8 @@ import { InteractionResponseType, InteractionType } from 'discord-api-types/v10'
 import { NextResponse } from 'next/server';
 import nacl from 'tweetnacl';
 
-import DiscordApplicationCommand from './commands';
+import DiscordApplicationCommand from './command';
 import { DiscordResponses } from './enums';
-
-declare global {
-  interface RequestInit {
-    duplex?: string;
-  }
-}
 
 class DiscordInteraction {
   public static async verify(request: Request): Promise<boolean> {

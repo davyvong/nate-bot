@@ -41,6 +41,17 @@ class DiscordAPI {
     });
     return response.json();
   }
+
+  public static async createFollowupMessage(
+    applicationId: string,
+    token: string,
+    options: RequestInit = {},
+  ): Promise<Response> {
+    return fetch('https://discord.com/api/v10/webhooks/' + applicationId + '/' + token, {
+      ...options,
+      method: 'POST',
+    });
+  }
 }
 
 export default DiscordAPI;
