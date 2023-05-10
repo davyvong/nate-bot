@@ -1,9 +1,9 @@
-import type { JwtPayload } from 'jsonwebtoken';
+import type { JWTPayload } from 'jose';
 import type { NextRequest } from 'next/server';
 import JWT from 'utils/jwt';
 
 export interface NextRequestWithToken extends NextRequest {
-  token?: JwtPayload;
+  token?: JWTPayload;
 }
 
 const applyJWT =
