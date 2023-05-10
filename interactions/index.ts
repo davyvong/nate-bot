@@ -105,7 +105,7 @@ class DiscordInteractions {
     return fetch('https://discord.com/api/v10/webhooks/' + interaction.application_id + '/' + interaction.token, {
       body: stream,
       duplex: 'half',
-      headers: encoder.headers,
+      headers: { ...encoder.headers },
       method: 'POST',
     });
   }

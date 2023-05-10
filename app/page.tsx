@@ -1,5 +1,5 @@
-import type { FC } from 'react';
 import DiscordAPI from 'apis/discord';
+import type { FC } from 'react';
 
 const Page: FC = () => {
   const url = DiscordAPI.getOAuth2AuthorizeURL();

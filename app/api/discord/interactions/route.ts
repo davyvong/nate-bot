@@ -1,7 +1,8 @@
 import { InteractionType } from 'discord-api-types/v10';
 import DiscordInteractions from 'interactions';
 
-export const runtime = 'edge';
+// https://github.com/vercel/next.js/issues/46337
+// export const runtime = 'edge';
 
 export const POST = async (request: Request) => {
   if (!(await DiscordInteractions.verifyRequest(request.clone()))) {

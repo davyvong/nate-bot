@@ -1,5 +1,5 @@
-import DiscordInteractions from 'interactions';
 import { Inngest } from 'inngest';
+import DiscordInteractions from 'interactions';
 import pkg from 'package.json';
 
 import { InngestEvents } from './enums';
@@ -17,9 +17,14 @@ class InngestAPI {
   public static createFunctions() {
     return [
       InngestAPI.getInstance().createFunction(
-        { name: pkg.name + '/' + InngestEvents.DiscordGoodMorning },
+        {
+          name: pkg.name + '/' + InngestEvents.DiscordGoodMorning,
+          retries: 1,
+        },
         { event: InngestEvents.DiscordGoodMorning },
-        ({ event }) => DiscordInteractions.handleGoodMorningFollowup(event.data.interaction, event.data.location),
+        async ({ event }) => {
+          await DiscordInteractions.handleGoodMorningFollowup(event.data.interaction, event.data.location);
+        },
       ),
     ];
   }
