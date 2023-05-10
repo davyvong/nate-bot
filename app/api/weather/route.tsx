@@ -1,10 +1,10 @@
 import { ImageResponse } from '@vercel/og';
-import OpenWeatherAPI from 'server/apis/openweather';
-import { TemperatureUnits } from 'server/apis/openweather/enums';
-import HashToken from 'server/utils/hash-token';
+import OpenWeatherAPI from 'apis/openweather';
+import { TemperatureUnits } from 'apis/openweather/enums';
+import Token from 'utils/token';
 import { object, string } from 'yup';
 
-import WeatherImage from './image';
+import OpenWeatherImage from './image';
 
 export const runtime = 'edge';
 
@@ -26,7 +26,7 @@ export const GET = async (request: Request) => {
   if (!paramsSchema.isValidSync(params)) {
     return new Response(undefined, { status: 400 });
   }
-  if (!(await HashToken.verify(params.token, { query: params.query }))) {
+  if (!(await Token.verify(params.token, { query: params.query }))) {
     return new Response(undefined, { status: 401 });
   }
   const location = await OpenWeatherAPI.getLocation(params.query);
@@ -44,7 +44,7 @@ export const GET = async (request: Request) => {
     ...fonts,
   ]);
 
-  return new ImageResponse(WeatherImage.render(location, currentWeather, forecast), {
+  return new ImageResponse(OpenWeatherImage.render(location, currentWeather, forecast), {
     fonts: [
       {
         data: interRegular,
