@@ -20,7 +20,6 @@ export const GET = async (request: Request) => {
   }
   const oauth2Token = await DiscordAPI.getOAuth2AccessToken(params.code);
   const user = await DiscordAPI.getCurrentUser(oauth2Token);
-  console.log({ user });
   const token = await JWT.sign(user);
   return NextResponse.redirect(Environment.getBaseURL(), {
     headers: {

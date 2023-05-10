@@ -2,10 +2,14 @@ import type { RESTGetAPICurrentUserResult, RESTPostOAuth2AccessTokenResult } fro
 import Environment from 'utils/environment';
 
 class DiscordAPI {
+  private static getRedirectURI(): string {
+    return Environment.getBaseURL() + '/api/discord/oauth2/callback';
+  }
+
   public static getOAuth2AuthorizeURL(): URL {
     const url = new URL('https://discord.com/api/oauth2/authorize');
     url.searchParams.set('client_id', process.env.DISCORD_CLIENT_ID);
-    url.searchParams.set('redirect_uri', Environment.getBaseURL() + '/api/discord/oauth2/callback');
+    url.searchParams.set('redirect_uri', DiscordAPI.getRedirectURI());
     url.searchParams.set('response_type', 'code');
     url.searchParams.set('scope', 'identify');
     return url;
@@ -18,7 +22,7 @@ class DiscordAPI {
         client_secret: process.env.DISCORD_CLIENT_SECRET,
         code,
         grant_type: 'authorization_code',
-        redirect_uri: Environment.getBaseURL() + '/api/discord/oauth2/callback',
+        redirect_uri: DiscordAPI.getRedirectURI(),
         scope: 'identify',
       }),
       method: 'POST',
@@ -29,15 +33,24 @@ class DiscordAPI {
     return response.json();
   }
 
-  public static async getCurrentUser(
-    oauth2Token: RESTPostOAuth2AccessTokenResult,
-  ): Promise<RESTGetAPICurrentUserResult> {
+  public static async getCurrentUser(token: RESTPostOAuth2AccessTokenResult): Promise<RESTGetAPICurrentUserResult> {
     const response = await fetch('https://discord.com/api/users/@me', {
       headers: {
-        Authorization: oauth2Token.token_type + ' ' + oauth2Token.access_token,
+        Authorization: token.token_type + ' ' + token.access_token,
       },
     });
     return response.json();
+  }
+
+  public static async createFollowupMessage(
+    applicationId: string,
+    token: string,
+    options: RequestInit = {},
+  ): Promise<Response> {
+    return fetch('https://discord.com/api/v10/webhooks/' + applicationId + '/' + token, {
+      ...options,
+      method: 'POST',
+    });
   }
 }
 

@@ -1,5 +1,5 @@
+import DiscordApplicationCommand from 'discord/command';
 import { Inngest } from 'inngest';
-import DiscordInteractions from 'interactions';
 import pkg from 'package.json';
 
 import { InngestEvents } from './enums';
@@ -23,7 +23,7 @@ class InngestAPI {
         },
         { event: InngestEvents.DiscordGoodMorning },
         async ({ event }) => {
-          await DiscordInteractions.handleGoodMorningFollowup(event.data.interaction, event.data.location);
+          await DiscordApplicationCommand.followup(event.data.interaction);
         },
       ),
     ];
