@@ -36,7 +36,7 @@ class DiscordApplicationCommand {
   public static async followup(interaction: APIApplicationCommandInteraction): Promise<Response> {
     switch (interaction.data.name) {
       case DiscordApplicationCommandNames.GoodMorning: {
-        return this.followupGoodMorning(interaction);
+        return DiscordApplicationCommand.followupGoodMorning(interaction);
       }
       default: {
         return NextResponse.json({ data: { content: DiscordResponses.IDontKnow } }, { status: 200 });
