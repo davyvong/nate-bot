@@ -25,9 +25,3 @@ body {
   height: 100%;
   width: 100%;
 }
-
-pre {
-  background-color: var(--code-background);
-  border-radius: 0.5rem;
-  padding: 1rem;
-}

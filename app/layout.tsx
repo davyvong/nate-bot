@@ -30,6 +30,7 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="en">
       <head>
+        {/* <link rel="icon" href="/favicon.ico" /> */}
         <meta content="width=device-width, initial-scale=1" name="viewport" />
       </head>
       <body className={inter.className}>

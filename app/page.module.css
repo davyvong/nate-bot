@@ -1,0 +1,5 @@
+.code {
+  background-color: var(--code-background);
+  border-radius: 0.5rem;
+  padding: 2rem;
+}

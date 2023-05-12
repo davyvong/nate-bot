@@ -4,6 +4,8 @@ import UserMenuButton from 'components/user-menu-button';
 import { Fragment } from 'react';
 import type { FC } from 'react';
 
+import styles from './page.module.css';
+
 /* @ts-expect-error Async Server Component */
 const Page: FC = async () => {
   const token = await DiscordAuthentication.verifyToken();
@@ -11,7 +13,7 @@ const Page: FC = async () => {
   return (
     <Fragment>
       <PageHeading secondary={<UserMenuButton token={token} />}>Discord Token</PageHeading>
-      <pre>{JSON.stringify(token, null, 2)}</pre>
+      <pre className={styles.code}>{JSON.stringify(token, null, 2)}</pre>
     </Fragment>
   );
 };
