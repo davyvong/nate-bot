@@ -42,6 +42,13 @@ class DiscordAPI {
     return response.json();
   }
 
+  public static getUserAvatarURL(id: string, avatar: string | null): URL {
+    if (!avatar) {
+      return new URL('https://discord.com/assets/3c6ccb83716d1e4fb91d3082f6b21d77.png');
+    }
+    return new URL('https://cdn.discordapp.com/avatars/' + id + '/' + avatar + '.png');
+  }
+
   public static async createFollowupMessage(
     applicationId: string,
     token: string,

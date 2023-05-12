@@ -1,0 +1,33 @@
+:root {
+  --blurple: #5865F2;
+  --green: #57F287;
+  --yellow: #FEE75C;
+  --fuchsia: #EB459E;
+  --red: #ED4245;
+  --white: #FFFFFF;
+  --black: #000000;
+
+  --code-background: #111214;
+  --main-background: #313338;
+  --sidebar-background: #2B2D31;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: var(--black);
+  color: var(--white);
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
+
+pre {
+  background-color: var(--code-background);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}

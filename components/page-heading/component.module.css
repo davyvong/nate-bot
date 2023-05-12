@@ -1,0 +1,12 @@
+.heading {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+}
+
+.primary {
+  flex: 1;
+  font-size: 24px;
+  font-weight: 600;
+}
