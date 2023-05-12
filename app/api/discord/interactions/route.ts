@@ -1,4 +1,4 @@
-import DiscordInteraction from 'apis/discord/interaction';
+import DiscordInteraction from 'server/discord/interaction';
 
 // https://github.com/vercel/next.js/issues/46337
 // export const runtime = 'edge';

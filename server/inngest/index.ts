@@ -1,4 +1,4 @@
-import DiscordApplicationCommand from 'apis/discord/command';
+import DiscordApplicationCommand from 'server/discord/command';
 import { Inngest } from 'inngest';
 import pkg from 'package.json';
 

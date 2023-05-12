@@ -1,4 +1,4 @@
-import DiscordAuthentication from 'apis/discord/authentication';
+import DiscordAuthentication from 'server/discord/authentication';
 import PageHeading from 'components/page-heading';
 import UserMenuButton from 'components/user-menu-button';
 import { Fragment } from 'react';
