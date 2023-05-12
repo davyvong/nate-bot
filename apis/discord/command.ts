@@ -8,8 +8,8 @@ import { InteractionResponseType } from 'discord-api-types/v10';
 import { FormDataEncoder } from 'form-data-encoder';
 import { FormData } from 'formdata-node';
 import { NextResponse } from 'next/server';
-import Environment from 'utils/environment';
-import Token from 'utils/token';
+import ServerEnvironment from 'server/environment';
+import Token from 'server/token';
 
 import DiscordAPI from 'apis/discord';
 import { DiscordApplicationCommandNames, DiscordResponses } from './enums';
@@ -68,7 +68,7 @@ class DiscordApplicationCommand {
     }
     let response;
     try {
-      const url = new URL(Environment.getBaseURL() + '/api/weather');
+      const url = new URL(ServerEnvironment.getBaseURL() + '/api/weather');
       url.searchParams.set('query', locationOption.value);
       url.searchParams.set('token', await Token.sign({ query: locationOption.value }));
       response = await fetch(url);

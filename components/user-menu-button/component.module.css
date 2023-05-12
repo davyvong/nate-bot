@@ -1,0 +1,48 @@
+.avatar {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar:hover {
+  cursor: pointer;
+}
+
+.popover {
+  align-items: center;
+  background-color: var(--popover-background);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  min-width: 250px;
+  padding: 1rem;
+}
+
+.userInfo {
+  flex: 1;
+  margin-right: 2rem;
+}
+
+.loggedInAs {
+  color: var(--gray);
+  font-size: 12px;
+  font-weight: 300;
+  margin-bottom: 0.25rem;
+}
+
+.username {
+  font-size: 16px;
+}
+
+.discriminator {
+  color: var(--gray);
+}
+
+.logoutButton {
+  color: var(--red);
+  font-size: 16px;
+  height: 100%;
+}
+
+.logoutButton:hover {
+  cursor: pointer;
+}

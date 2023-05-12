@@ -1,13 +1,20 @@
-import DiscordAPI from 'apis/discord';
+import DiscordAuthentication from 'apis/discord/authentication';
+import PageHeading from 'components/page-heading';
+import UserMenuButton from 'components/user-menu-button';
+import { Fragment } from 'react';
 import type { FC } from 'react';
 
-const Page: FC = () => {
-  const url = DiscordAPI.getOAuth2AuthorizeURL();
+import styles from './page.module.css';
+
+/* @ts-expect-error Async Server Component */
+const Page: FC = async () => {
+  const token = await DiscordAuthentication.verifyToken();
 
   return (
-    <div>
-      <a href={url.href}>Discord 0Auth Redirect</a>
-    </div>
+    <Fragment>
+      <PageHeading secondary={<UserMenuButton token={token} />}>Discord Token</PageHeading>
+      <pre className={styles.code}>{JSON.stringify(token, null, 2)}</pre>
+    </Fragment>
   );
 };
 

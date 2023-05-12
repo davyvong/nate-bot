@@ -1,0 +1,6 @@
+.code {
+  background-color: var(--sidebar-background);
+  border: 1px solid var(--black);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}

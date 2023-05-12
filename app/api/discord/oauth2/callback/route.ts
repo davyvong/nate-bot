@@ -1,8 +1,8 @@
 import DiscordAPI from 'apis/discord';
 import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
-import Environment from 'utils/environment';
-import JWT from 'utils/jwt';
+import ServerEnvironment from 'server/environment';
+import JWT from 'server/jwt';
 import { object, string } from 'yup';
 
 export const runtime = 'edge';
@@ -21,7 +21,7 @@ export const GET = async (request: Request) => {
   const oauth2Token = await DiscordAPI.getOAuth2AccessToken(params.code);
   const user = await DiscordAPI.getCurrentUser(oauth2Token);
   const token = await JWT.sign(user);
-  return NextResponse.redirect(Environment.getBaseURL(), {
+  return NextResponse.redirect(ServerEnvironment.getBaseURL(), {
     headers: {
       'Set-Cookie': serialize('token', token, { maxAge: 2592000, path: '/' }),
     },

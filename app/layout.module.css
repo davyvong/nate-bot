@@ -1,0 +1,29 @@
+.main {
+  background-color: var(--main-background);
+  color: var(--white);
+  flex: 1;
+  padding: 2rem;
+}
+
+.sidebar {
+  background-color: var(--sidebar-background);
+  flex-basis: 350px;
+  padding: 2rem;
+}
+
+.sidebarHeading {
+  align-items: center;
+  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.sidebarHeadingLogo {
+  margin-right: 1rem;
+}
+
+.sidebarHeadingCommit {
+  color: var(--gray);
+}

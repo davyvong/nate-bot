@@ -1,5 +1,5 @@
 import type { NextRequest } from 'next/server';
-import JWT from 'utils/jwt';
+import JWT from 'server/jwt';
 
 export const runtime = 'edge';
 
