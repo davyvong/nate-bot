@@ -1,15 +1,15 @@
 :root {
-  --blurple: #5865F2;
-  --green: #57F287;
-  --yellow: #FEE75C;
-  --fuchsia: #EB459E;
-  --red: #ED4245;
-  --white: #FFFFFF;
+  --blurple: #5865f2;
+  --green: #57f287;
+  --yellow: #fee75c;
+  --fuchsia: #eb459e;
+  --red: #ed4245;
+  --white: #ffffff;
   --black: #000000;
 
   --code-background: #111214;
   --main-background: #313338;
-  --sidebar-background: #2B2D31;
+  --sidebar-background: #2b2d31;
 }
 
 html {
