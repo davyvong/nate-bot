@@ -10,6 +10,7 @@
 
   --code-background: #111214;
   --main-background: #313338;
+  --popover-background: #111214;
   --sidebar-background: #2b2d31;
 }
 
@@ -25,4 +26,10 @@ body {
   flex-direction: row;
   height: 100%;
   width: 100%;
+}
+
+button {
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
 }

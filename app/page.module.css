@@ -1,5 +1,5 @@
 .code {
-  background-color: var(--code-background);
+  background-color: var(--sidebar-background);
   border-radius: 0.5rem;
   padding: 2rem;
 }
