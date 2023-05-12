@@ -1,4 +1,4 @@
-import DiscordAPI from 'apis/discord';
+import DiscordAPI from 'server/discord';
 import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
 import ServerEnvironment from 'server/environment';

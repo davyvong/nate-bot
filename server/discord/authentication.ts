@@ -1,4 +1,4 @@
-import DiscordAPI from 'apis/discord';
+import DiscordAPI from 'server/discord';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import JWT from 'server/jwt';

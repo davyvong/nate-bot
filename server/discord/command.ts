@@ -1,5 +1,5 @@
-import InngestAPI from 'apis/inngest';
-import { InngestEvents } from 'apis/inngest/enums';
+import InngestAPI from 'server/inngest';
+import { InngestEvents } from 'server/inngest/enums';
 import type {
   APIApplicationCommandInteraction,
   APIChatInputApplicationCommandInteractionData,
@@ -11,7 +11,7 @@ import { NextResponse } from 'next/server';
 import ServerEnvironment from 'server/environment';
 import Token from 'server/token';
 
-import DiscordAPI from 'apis/discord';
+import DiscordAPI from 'server/discord';
 import { DiscordApplicationCommandNames, DiscordResponses } from './enums';
 
 declare global {

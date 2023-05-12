@@ -9,8 +9,8 @@ import {
   useInteractions,
   useTransitionStyles,
 } from '@floating-ui/react';
-import DiscordAPI from 'apis/discord';
-import type { DiscordToken } from 'apis/discord/types';
+import DiscordAPI from 'server/discord';
+import type { DiscordToken } from 'server/discord/types';
 import Image from 'next/image';
 import { Fragment, useState } from 'react';
 import type { FC } from 'react';
