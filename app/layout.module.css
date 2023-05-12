@@ -20,6 +20,10 @@
   text-transform: uppercase;
 }
 
-.sidebarHeading svg {
+.sidebarHeadingLogo {
   margin-right: 1rem;
+}
+
+.sidebarHeadingCommit {
+  color: var(--gray);
 }

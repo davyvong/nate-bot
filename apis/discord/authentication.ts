@@ -1,7 +1,7 @@
 import DiscordAPI from 'apis/discord';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import JWT from 'utils/jwt';
+import JWT from 'server/jwt';
 
 import type { DiscordToken } from './types';
 

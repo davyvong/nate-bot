@@ -1,9 +1,9 @@
 import type { RESTGetAPICurrentUserResult, RESTPostOAuth2AccessTokenResult } from 'discord-api-types/v10';
-import Environment from 'utils/environment';
+import ServerEnvironment from 'server/environment';
 
 class DiscordAPI {
   private static getRedirectURI(): string {
-    return Environment.getBaseURL() + '/api/discord/oauth2/callback';
+    return ServerEnvironment.getBaseURL() + '/api/discord/oauth2/callback';
   }
 
   public static getOAuth2AuthorizeURL(): URL {

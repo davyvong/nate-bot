@@ -8,6 +8,7 @@ namespace NodeJS {
     INNGEST_EVENT_KEY: string;
     INNGEST_SIGNING_KEY: string;
     JWT_SECRET: string;
+    NEXT_PUBLIC_VERCEL_ENV: string;
     NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA: string;
     OPENWEATHER_API_KEY: string;
     TOKEN_SIGNING_KEY: string;
