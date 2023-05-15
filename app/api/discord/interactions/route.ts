@@ -1,13 +1,25 @@
 import DiscordInteraction from 'server/discord/interaction';
+import { object, string } from 'yup';
 
-// https://github.com/vercel/next.js/issues/46337
-// export const runtime = 'edge';
+export const runtime = 'edge';
 
 export const POST = async (request: Request) => {
-  if (!(await DiscordInteraction.verify(request.clone()))) {
+  const body = await request.text();
+  const headers = {
+    signature: request.headers.get('X-Signature-Ed25519'),
+    timestamp: request.headers.get('X-Signature-Timestamp'),
+  };
+  const headersSchema = object({
+    signature: string().required().min(1),
+    timestamp: string().required().min(1),
+  });
+  if (!headersSchema.isValidSync(headers)) {
     return new Response(undefined, { status: 401 });
   }
-  const interaction = await request.clone().json();
+  if (!(await DiscordInteraction.verify(headers.signature, headers.timestamp, body))) {
+    return new Response(undefined, { status: 401 });
+  }
+  const interaction = JSON.parse(body);
   console.log({ interaction });
   return DiscordInteraction.respond(interaction);
 };

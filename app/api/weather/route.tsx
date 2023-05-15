@@ -60,7 +60,7 @@ export const GET = async (request: Request) => {
       },
     ],
     headers: {
-      'cache-control': 'public, s-maxage=1200, stale-while-revalidate=600',
+      'Cache-Control': 'public, s-maxage=1200, stale-while-revalidate=600',
     },
     height: 390,
     width: 600,
