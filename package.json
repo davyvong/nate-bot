@@ -5,6 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "inngest": "inngest-cli dev -u http://localhost:3000/api/inngest",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "next lint",
     "lint:prettier": "prettier --list-different .",
@@ -16,8 +17,6 @@
     "@vercel/og": "^0.5.4",
     "cookie": "^0.5.0",
     "discord-api-types": "^0.37.42",
-    "form-data-encoder": "^2.1.4",
-    "formdata-node": "^5.0.0",
     "inngest": "^1.8.0",
     "jose": "^4.14.4",
     "minireset.css": "^0.0.7",
@@ -39,6 +38,7 @@
     "eslint-config-next": "13.4.1",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "inngest-cli": "^0.13.1",
     "node-loader": "^2.0.0",
     "prettier": "^2.8.8",
     "typescript": "5.0.4"

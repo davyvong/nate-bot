@@ -1,17 +1,15 @@
-import InngestAPI from 'server/inngest';
-import { InngestEvents } from 'server/inngest/enums';
 import type {
   APIApplicationCommandInteraction,
   APIChatInputApplicationCommandInteractionData,
 } from 'discord-api-types/v10';
 import { InteractionResponseType } from 'discord-api-types/v10';
-import { FormDataEncoder } from 'form-data-encoder';
-import { FormData } from 'formdata-node';
 import { NextResponse } from 'next/server';
 import ServerEnvironment from 'server/environment';
+import InngestAPI from 'server/inngest/api';
+import { InngestEvents } from 'server/inngest/enums';
 import Token from 'server/token';
 
-import DiscordAPI from 'server/discord';
+import DiscordAPI from 'server/discord/api';
 import { DiscordApplicationCommandNames, DiscordResponses } from './enums';
 
 declare global {
@@ -83,32 +81,15 @@ class DiscordApplicationCommand {
       });
     }
     const formData = new FormData();
-    formData.set(
-      'payload_json',
-      JSON.stringify({
-        data: {
-          attachments: [{ filename: interaction.id + '.png', id: 0 }],
-          content: DiscordResponses.GoodMorning,
-        },
-      }),
-    );
-    formData.set('files[0]', await response.blob(), interaction.id + '.png');
-    const encoder = new FormDataEncoder(formData);
-    const iterator = encoder.encode();
-    const stream = new ReadableStream({
-      async pull(controller) {
-        const { value, done } = await iterator.next();
-        if (done) {
-          return controller.close();
-        }
-        controller.enqueue(value);
+    const payload = {
+      data: {
+        attachments: [{ filename: interaction.id + '.png', id: 0 }],
+        content: DiscordResponses.GoodMorning,
       },
-    });
-    return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, {
-      body: stream,
-      duplex: 'half',
-      headers: { ...encoder.headers },
-    });
+    };
+    formData.set('payload_json', JSON.stringify(payload));
+    formData.set('files[0]', await response.blob(), interaction.id + '.png');
+    return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, { body: formData });
   }
 }
 

@@ -1,6 +1,6 @@
-import DiscordAPI from 'server/discord';
 import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
+import DiscordAPI from 'server/discord/api';
 import ServerEnvironment from 'server/environment';
 import JWT from 'server/jwt';
 import { object, string } from 'yup';
