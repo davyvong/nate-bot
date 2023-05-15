@@ -7,13 +7,7 @@ import DiscordApplicationCommand from './command';
 import { DiscordResponses } from './enums';
 
 class DiscordInteraction {
-  public static async verify(request: Request): Promise<boolean> {
-    const signature = request.headers.get('X-Signature-Ed25519');
-    const timestamp = request.headers.get('X-Signature-Timestamp');
-    if (!signature || !timestamp) {
-      return false;
-    }
-    const body = await request.text();
+  public static async verify(signature: string, timestamp: string, body: string): Promise<boolean> {
     return nacl.sign.detached.verify(
       Buffer.from(timestamp + body),
       Buffer.from(signature, 'hex'),
