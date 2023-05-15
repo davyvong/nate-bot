@@ -1,42 +1,36 @@
-import { FormDataEncoder } from 'form-data-encoder';
-import { FormData } from 'formdata-node';
-import { NextResponse } from 'next/server';
 import DiscordAPI from 'server/discord/api';
 import { DiscordResponses } from 'server/discord/enums';
 import ServerEnvironment from 'server/environment';
 import Token from 'server/token';
+import { object, string } from 'yup';
 
-export const GET = async () => {
-  const location = 'toronto';
+export const GET = async (request: Request) => {
+  const requestURL = new URL(request.url);
+  const params = {
+    query: requestURL.searchParams.get('query'),
+    token: requestURL.searchParams.get('token'),
+  };
+  const paramsSchema = object({
+    query: string().required().min(1).max(100),
+    token: string().required().length(64),
+  });
+  if (!paramsSchema.isValidSync(params)) {
+    return new Response(undefined, { status: 400 });
+  }
+  if (!(await Token.verify(params.token, { query: params.query }))) {
+    return new Response(undefined, { status: 401 });
+  }
   const url = new URL(ServerEnvironment.getBaseURL() + '/api/weather');
-  url.searchParams.set('query', location);
-  url.searchParams.set('token', await Token.sign({ query: location }));
+  url.searchParams.set('query', params.query);
+  url.searchParams.set('token', await Token.sign({ query: params.query }));
   const response = await fetch(url);
   const formData = new FormData();
   const filename = new Date().getTime().toString() + '.png';
-  formData.set(
-    'payload_json',
-    JSON.stringify({
-      attachments: [{ filename, id: 0 }],
-      content: DiscordResponses.GoodMorning,
-    }),
-  );
+  const payload = {
+    attachments: [{ filename, id: 0 }],
+    content: DiscordResponses.GoodMorning,
+  };
+  formData.set('payload_json', JSON.stringify(payload));
   formData.set('files[0]', await response.blob(), filename);
-  const encoder = new FormDataEncoder(formData);
-  const iterator = encoder.encode();
-  await fetch('https://discord.com/api/v10/channels/921103284528377876/messages', {
-    body: new ReadableStream({
-      async pull(controller) {
-        const { value, done } = await iterator.next();
-        if (done) {
-          return controller.close();
-        }
-        controller.enqueue(value);
-      },
-    }),
-    duplex: 'half',
-    headers: Object.assign({ Authorization: 'Bot ' + process.env.DISCORD_BOT_TOKEN }, encoder.headers),
-    method: 'POST',
-  });
-  return NextResponse.json({ url });
+  return DiscordAPI.createChannelMessage('921103284528377876', { body: formData });
 };

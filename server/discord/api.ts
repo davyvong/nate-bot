@@ -63,7 +63,9 @@ class DiscordAPI {
   public static async createChannelMessage(channelId: string, options: RequestInit = {}): Promise<Response> {
     return fetch('https://discord.com/api/v10/channels/' + channelId + '/messages', {
       ...options,
-      headers: Object.assign({ Authorization: 'Bot ' + process.env.DISCORD_BOT_TOKEN }, options.headers),
+      headers: {
+        Authorization: 'Bot ' + process.env.DISCORD_BOT_TOKEN,
+      },
       method: 'POST',
     });
   }
