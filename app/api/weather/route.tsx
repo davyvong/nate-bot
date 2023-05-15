@@ -1,5 +1,5 @@
 import { ImageResponse } from '@vercel/og';
-import OpenWeatherAPI from 'server/openweather';
+import OpenWeatherAPI from 'server/openweather/api';
 import { TemperatureUnits } from 'server/openweather/enums';
 import Token from 'server/token';
 import { object, string } from 'yup';

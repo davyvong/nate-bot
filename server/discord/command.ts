@@ -1,5 +1,3 @@
-import InngestAPI from 'server/inngest';
-import { InngestEvents } from 'server/inngest/enums';
 import type {
   APIApplicationCommandInteraction,
   APIChatInputApplicationCommandInteractionData,
@@ -9,9 +7,11 @@ import { FormDataEncoder } from 'form-data-encoder';
 import { FormData } from 'formdata-node';
 import { NextResponse } from 'next/server';
 import ServerEnvironment from 'server/environment';
+import InngestAPI from 'server/inngest/api';
+import { InngestEvents } from 'server/inngest/enums';
 import Token from 'server/token';
 
-import DiscordAPI from 'server/discord';
+import DiscordAPI from 'server/discord/api';
 import { DiscordApplicationCommandNames, DiscordResponses } from './enums';
 
 declare global {
