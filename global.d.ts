@@ -2,7 +2,6 @@
 
 namespace NodeJS {
   interface ProcessEnv {
-    CRON_JOB_API_KEY: string;
     DISCORD_BOT_TOKEN: string;
     DISCORD_CLIENT_ID: string;
     DISCORD_CLIENT_SECRET: string;
