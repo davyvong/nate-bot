@@ -2,6 +2,7 @@
 
 namespace NodeJS {
   interface ProcessEnv {
+    DATABASE_URL: string;
     DISCORD_BOT_TOKEN: string;
     DISCORD_CLIENT_ID: string;
     DISCORD_CLIENT_SECRET: string;
