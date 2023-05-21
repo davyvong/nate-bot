@@ -1,5 +1,9 @@
-import type { APIApplicationCommandInteraction, APIInteraction } from 'discord-api-types/v10';
-import { InteractionResponseType, InteractionType } from 'discord-api-types/v10';
+import {
+  APIApplicationCommandInteraction,
+  APIInteraction,
+  InteractionResponseType,
+  InteractionType,
+} from 'discord-api-types/v10';
 import { NextResponse } from 'next/server';
 import nacl from 'tweetnacl';
 

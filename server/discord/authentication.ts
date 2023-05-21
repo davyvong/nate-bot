@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import DiscordAPI from 'server/discord/api';
 import JWT from 'server/jwt';
 
-import type { DiscordToken } from './types';
+import { DiscordToken } from './types';
 
 class DiscordAuthentication {
   public static async verifyToken(cookies: RequestCookies): Promise<DiscordToken | undefined> {

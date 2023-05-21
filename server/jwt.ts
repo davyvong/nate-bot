@@ -1,5 +1,4 @@
-import { SignJWT, jwtVerify } from 'jose';
-import type { JWTPayload } from 'jose';
+import { JWTPayload, SignJWT, jwtVerify } from 'jose';
 
 class JWT {
   public static async sign(payload: object): Promise<string> {

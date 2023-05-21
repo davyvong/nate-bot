@@ -1,5 +1,4 @@
-import { connect } from '@planetscale/database';
-import type { Connection } from '@planetscale/database';
+import { Connection, connect } from '@planetscale/database';
 
 class PlanetScaleAPI {
   private static readonly instance: Connection = connect({

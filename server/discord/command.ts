@@ -1,8 +1,8 @@
-import type {
+import {
   APIApplicationCommandInteraction,
   APIChatInputApplicationCommandInteractionData,
+  InteractionResponseType,
 } from 'discord-api-types/v10';
-import { InteractionResponseType } from 'discord-api-types/v10';
 import { NextResponse } from 'next/server';
 import ServerEnvironment from 'server/environment';
 import InngestAPI from 'server/inngest/api';

@@ -8,7 +8,7 @@ import ClientEnvironment from 'client/environment';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import pkg from 'package.json';
-import type { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 import styles from './layout.module.css';
 
