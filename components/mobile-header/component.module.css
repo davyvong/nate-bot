@@ -1,0 +1,31 @@
+.mobileHeader {
+  display: none;
+  background-color: var(--navbar-background);
+  height: 4.5rem;
+}
+
+.heading {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toggleButton {
+  color: var(--white);
+}
+
+.spacer {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .mobileHeader {
+    align-items: center;
+    display: flex;
+    padding: 0 2rem;
+  }
+}

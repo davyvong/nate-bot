@@ -3,12 +3,15 @@ import 'minireset.css';
 import './global.css';
 
 import { Analytics } from '@vercel/analytics/react';
-import DiscordLogoSVG from 'assets/images/discord-logo.svg';
 import ClientEnvironment from 'client/environment';
+import MobileHeader from 'components/mobile-header';
+import Sidebar from 'components/sidebar';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { cookies } from 'next/headers';
 import pkg from 'package.json';
 import { FC, ReactNode } from 'react';
+import DiscordAuthentication from 'server/discord/authentication';
 
 import styles from './layout.module.css';
 
@@ -25,24 +28,25 @@ interface RootLayoutProps {
   children: ReactNode;
 }
 
-const RootLayout: FC<RootLayoutProps> = ({ children }) => (
-  <html lang="en">
-    <head>
-      {/* <link rel="icon" href="/favicon.ico" /> */}
-      <meta content="width=device-width, initial-scale=1" name="viewport" />
-    </head>
-    <body className={inter.className}>
-      <div className={styles.sidebar}>
-        <div className={styles.sidebarHeading}>
-          <DiscordLogoSVG className={styles.sidebarHeadingLogo} height={24} width={28} />
-          <span>{pkg.name}</span>
-          <span className={styles.sidebarHeadingCommit}>@{ClientEnvironment.getCommitId()}</span>
+/* @ts-expect-error Async Server Component */
+const RootLayout: FC<RootLayoutProps> = async ({ children }) => {
+  const token = await DiscordAuthentication.verifyTokenOrRedirect(cookies());
+
+  return (
+    <html lang="en">
+      <head>
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+      </head>
+      <body className={inter.className}>
+        <MobileHeader token={token} />
+        <div className={styles.main}>
+          <Sidebar />
+          <div className={styles.content}>{children}</div>
         </div>
-      </div>
-      <div className={styles.main}>{children}</div>
-      <Analytics />
-    </body>
-  </html>
-);
+        <Analytics />
+      </body>
+    </html>
+  );
+};
 
 export default RootLayout;

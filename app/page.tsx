@@ -12,8 +12,7 @@ const Page: FC = async () => {
 
   return (
     <Fragment>
-      <PageHeading secondary={<UserMenuButton token={token} />}>Discord Token</PageHeading>
-      <pre className={styles.code}>{JSON.stringify(token, null, 2)}</pre>
+      <PageHeading secondary={<UserMenuButton className={styles.userButton} token={token} />}>Hello World</PageHeading>
     </Fragment>
   );
 };

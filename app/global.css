@@ -9,9 +9,10 @@
   --gray: #b5bac1;
 
   --code-background: #111214;
-  --main-background: #313338;
+  --main-background: #212327;
+  --navbar-background: #282a2f;
   --popover-background: #111214;
-  --sidebar-background: #2b2d31;
+  --sidebar-background: #282a2f;
 }
 
 html {
@@ -23,7 +24,7 @@ body {
   background-color: var(--black);
   color: var(--white);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: 100%;
   width: 100%;
 }
@@ -32,4 +33,5 @@ button {
   background-color: transparent;
   border: 0;
   border-radius: 0;
+  padding: 0;
 }
