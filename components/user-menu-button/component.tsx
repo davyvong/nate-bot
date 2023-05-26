@@ -10,6 +10,7 @@ import {
   useTransitionStyles,
 } from '@floating-ui/react';
 import classNames from 'classnames';
+import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { FC, Fragment, useState } from 'react';
 import DiscordAPI from 'server/discord/api';
@@ -38,6 +39,11 @@ const UserMenuButton: FC<UserMenuButtonProps> = ({ className, height = 42, token
 
   const avatarURL = DiscordAPI.getUserAvatarURL(token.id, token.avatar);
 
+  const logoutUser = () => {
+    Cookies.set('token', '');
+    window.location.reload();
+  };
+
   return (
     <Fragment>
       <Image
@@ -63,7 +69,9 @@ const UserMenuButton: FC<UserMenuButtonProps> = ({ className, height = 42, token
               <span className={styles.discriminator}>#{token.discriminator}</span>
             </div>
           </div>
-          <button className={styles.logoutButton}>Logout</button>
+          <button className={styles.logoutButton} onClick={logoutUser}>
+            Logout
+          </button>
         </div>
       )}
     </Fragment>
