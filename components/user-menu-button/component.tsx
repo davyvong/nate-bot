@@ -9,6 +9,7 @@ import {
   useInteractions,
   useTransitionStyles,
 } from '@floating-ui/react';
+import classNames from 'classnames';
 import Image from 'next/image';
 import { FC, Fragment, useState } from 'react';
 import DiscordAPI from 'server/discord/api';
@@ -17,10 +18,13 @@ import { DiscordToken } from 'server/discord/types';
 import styles from './component.module.css';
 
 interface UserMenuButtonProps {
+  className?: string;
+  height?: number;
   token: DiscordToken;
+  width?: number;
 }
 
-const UserMenuButton: FC<UserMenuButtonProps> = ({ token }) => {
+const UserMenuButton: FC<UserMenuButtonProps> = ({ className, height = 42, token, width = 42 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { context, floatingStyles, refs } = useFloating({
     middleware: [offset(8), shift({ padding: 32 })],
@@ -39,11 +43,11 @@ const UserMenuButton: FC<UserMenuButtonProps> = ({ token }) => {
       <Image
         {...getReferenceProps()}
         alt={token.username}
-        className={styles.avatar}
-        height={42}
+        className={classNames(styles.avatar, className)}
+        height={height}
         ref={refs.setReference}
         src={avatarURL.href}
-        width={42}
+        width={width}
       />
       {isMounted && (
         <div

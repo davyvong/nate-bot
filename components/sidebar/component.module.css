@@ -1,0 +1,39 @@
+.sidebar {
+  animation-fill-mode: both;
+  background-color: var(--sidebar-background);
+  flex-basis: 22rem;
+  padding: 2rem;
+}
+
+.heading {
+  align-items: center;
+  display: flex;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.logo {
+  margin-right: 1rem;
+}
+
+.commit {
+  color: var(--gray);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    top: 4.5rem;
+    transform: translateX(-100%);
+    transition: transform 500ms ease-in-out;
+    width: 22rem;
+  }
+
+  .sidebarOpened {
+    transform: translateX(0%);
+  }
+}

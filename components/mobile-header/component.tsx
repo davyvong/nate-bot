@@ -1,25 +1,32 @@
 'use client';
 
-import layoutStyles from 'app/layout.module.css';
-import { MouseEventHandler } from 'react';
+import MenuSVG from 'assets/images/icons/menu.svg';
+import sidebarStyles from 'components/sidebar/component.module.css';
+import UserMenuButton from 'components/user-menu-button';
+import { FC, MouseEventHandler } from 'react';
+import { DiscordToken } from 'server/discord/types';
 
 import styles from './component.module.css';
 
-const MobileHeader = () => {
+interface MobileHeaderProps {
+  token: DiscordToken;
+}
+
+const MobileHeader: FC<MobileHeaderProps> = ({ token }) => {
   const toggleSidebar: MouseEventHandler<HTMLButtonElement> = (): void => {
-    const sidebar = document.querySelector('.' + layoutStyles.sidebar);
+    const sidebar = document.querySelector('.' + sidebarStyles.sidebar);
     if (sidebar) {
-      const keyframes = [{ transform: 'translateX(-100%)' }, { transform: 'translateX(0)' }];
-      const options = {
-        duration: 500,
-      };
-      sidebar.animate(keyframes, options);
+      sidebar.classList.toggle(sidebarStyles.sidebarOpened);
     }
   };
 
   return (
     <div className={styles.mobileHeader}>
-      <button onClick={toggleSidebar}>toggle</button>
+      <button className={styles.toggleButton} onClick={toggleSidebar}>
+        <MenuSVG height={24} width={24} />
+      </button>
+      <div className={styles.spacer} />
+      <UserMenuButton height={36} token={token} width={36} />
     </div>
   );
 };
