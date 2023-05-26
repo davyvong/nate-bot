@@ -1,0 +1,11 @@
+.mobileHeader {
+  display: none;
+  background-color: var(--navbar-background);
+  height: 4.5rem;
+}
+
+@media (max-width: 768px) {
+  .mobileHeader {
+    display: block;
+  }
+}

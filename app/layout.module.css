@@ -1,20 +1,20 @@
 .main {
-  background-color: var(--main-background);
-  color: var(--white);
+  display: flex;
   flex: 1;
-  padding: 2rem;
+  flex-direction: row;
 }
 
 .sidebar {
+  animation-fill-mode: both;
   background-color: var(--sidebar-background);
-  flex-basis: 350px;
+  flex-basis: 22rem;
   padding: 2rem;
 }
 
 .sidebarHeading {
   align-items: center;
   display: flex;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0;
   text-transform: uppercase;
@@ -26,4 +26,28 @@
 
 .sidebarHeadingCommit {
   color: var(--gray);
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    flex-basis: 20rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    top: 4.5rem;
+    transform: translateX(-100%);
+    width: 18rem;
+  }
+}
+
+.content {
+  background-color: var(--main-background);
+  color: var(--white);
+  flex: 1;
+  padding: 2rem;
 }

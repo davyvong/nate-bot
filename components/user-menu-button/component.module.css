@@ -13,7 +13,7 @@
   border-radius: 0.5rem;
   display: flex;
   flex-direction: row;
-  min-width: 250px;
+  min-width: 15rem;
   padding: 1rem;
 }
 
@@ -24,13 +24,13 @@
 
 .loggedInAs {
   color: var(--gray);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 300;
   margin-bottom: 0.25rem;
 }
 
 .username {
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .discriminator {
@@ -39,7 +39,7 @@
 
 .logoutButton {
   color: var(--red);
-  font-size: 16px;
+  font-size: 1rem;
   height: 100%;
 }
 
