@@ -4,7 +4,7 @@ import DiscordLogoSVG from 'assets/images/discord-logo.svg';
 import ClientEnvironment from 'client/environment';
 import mobileHeaderStyles from 'components/mobile-header/component.module.css';
 import pkg from 'package.json';
-import { MouseEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import styles from './component.module.css';
 
@@ -13,7 +13,8 @@ const Sidebar = () => {
     const closeSidebar = (event: MouseEvent): void => {
       const sidebar = document.querySelector('.' + styles.sidebarOpened);
       const mobileHeader = document.querySelector('.' + mobileHeaderStyles.mobileHeader);
-      if (sidebar && !sidebar.contains(event.target) && mobileHeader && !mobileHeader.contains(event.target)) {
+      const target = event.target as Node;
+      if (sidebar && !sidebar.contains(target) && mobileHeader && !mobileHeader.contains(target)) {
         sidebar.classList.remove(styles.sidebarOpened);
       }
     };
