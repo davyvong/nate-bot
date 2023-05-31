@@ -12,7 +12,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.24.1",
+    "@floating-ui/react": "^0.24.2",
     "@planetscale/database": "^1.7.0",
     "@vercel/analytics": "^1.0.1",
     "@vercel/og": "^0.5.4",
