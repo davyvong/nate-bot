@@ -31,6 +31,7 @@
     transform: translateX(-100%);
     transition: transform 500ms ease-in-out;
     width: 22rem;
+    z-index: 10;
   }
 
   .sidebarOpened {

@@ -15,6 +15,7 @@
   flex-direction: row;
   min-width: 15rem;
   padding: 1rem;
+  z-index: 20;
 }
 
 .userInfo {
