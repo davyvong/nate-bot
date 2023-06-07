@@ -10,7 +10,7 @@ import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { cookies } from 'next/headers';
 import pkg from 'package.json';
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import DiscordAuthentication from 'server/discord/authentication';
 
 import styles from './layout.module.css';
@@ -28,8 +28,7 @@ interface RootLayoutProps {
   children: ReactNode;
 }
 
-/* @ts-expect-error Async Server Component */
-const RootLayout: FC<RootLayoutProps> = async ({ children }) => {
+const RootLayout = async ({ children }: RootLayoutProps): Promise<JSX.Element> => {
   const token = await DiscordAuthentication.verifyTokenOrRedirect(cookies());
 
   return (
