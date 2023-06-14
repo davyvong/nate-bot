@@ -42,7 +42,7 @@
     "eslint-config-next": "13.4.5",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "inngest-cli": "^0.13.6",
+    "inngest-cli": "^0.14.0",
     "node-loader": "^2.0.0",
     "prettier": "^2.8.8",
     "typescript": "5.1.3"
