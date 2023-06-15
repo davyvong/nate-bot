@@ -21,7 +21,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: pkg.name + '@' + ClientEnvironment.getCommitId(),
+  title: (pkg.name + '@' + ClientEnvironment.getCommitId()).toUpperCase(),
 };
 
 interface RootLayoutProps {

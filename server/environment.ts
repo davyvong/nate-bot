@@ -4,11 +4,13 @@ class ServerEnvironment {
   public static readonly isProduction = process.env.VERCEL_ENV === 'production';
 
   public static getBaseURL(): string {
-    const url = process.env.VERCEL_URL_OVERRIDE || process.env.VERCEL_URL;
-    if (ServerEnvironment.isDevelopment) {
-      return 'http://' + url;
+    if (process.env.VERCEL_URL_OVERRIDE) {
+      return process.env.VERCEL_URL_OVERRIDE;
     }
-    return 'https://' + url;
+    if (ServerEnvironment.isDevelopment) {
+      return 'http://' + process.env.VERCEL_URL;
+    }
+    return 'https://' + process.env.VERCEL_URL;
   }
 }
 
