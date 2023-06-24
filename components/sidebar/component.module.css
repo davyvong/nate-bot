@@ -33,11 +33,12 @@
   color: var(--menu-item-text);
   padding: 1rem;
   text-decoration: none;
+  transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
   width: 100%;
 }
 
 .menuItemActive {
-  background-color: var(--menu-item-active-background);
+  background-color: var(--menu-item-active-background) !important;
   color: var(--white);
 }
 
