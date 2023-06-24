@@ -22,6 +22,30 @@
   color: var(--gray);
 }
 
+.menuList {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+.menuItem {
+  border-radius: 0.5rem;
+  color: var(--menu-item-text);
+  padding: 1rem;
+  text-decoration: none;
+  width: 100%;
+}
+
+.menuItemActive {
+  background-color: var(--menu-item-active-background);
+  color: var(--white);
+}
+
+.menuItem:hover {
+  background-color: var(--menu-item-hover-background);
+  color: var(--white);
+}
+
 @media (max-width: 768px) {
   .sidebar {
     bottom: 0;

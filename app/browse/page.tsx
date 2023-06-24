@@ -1,5 +1,5 @@
+import SearchLocations from 'components/browse-locations';
 import PageHeading from 'components/page-heading';
-import SavedLocations from 'components/saved-locations';
 import UserMenuButton from 'components/user-menu-button';
 import { cookies } from 'next/headers';
 import { Fragment } from 'react';
@@ -12,10 +12,8 @@ const Page = async (): Promise<JSX.Element> => {
 
   return (
     <Fragment>
-      <PageHeading secondary={<UserMenuButton className={styles.userButton} token={token} />}>
-        Saved Locations
-      </PageHeading>
-      <SavedLocations />
+      <PageHeading secondary={<UserMenuButton className={styles.userButton} token={token} />}>Browse</PageHeading>
+      <SearchLocations />
     </Fragment>
   );
 };

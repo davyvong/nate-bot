@@ -1,12 +1,15 @@
 'use client';
 
+import DeleteIconSVG from 'assets/images/icons/delete.svg';
+import PinIconSVG from 'assets/images/icons/pin.svg';
+import classNames from 'classnames';
 import { FC, Fragment, useCallback, useMemo, useState } from 'react';
 import { MDBLocationData } from 'server/models/locations';
 import useSWR from 'swr';
 
 import styles from './component.module.css';
 
-const SearchLocations: FC = () => {
+const BrowseLocations: FC = () => {
   const [query, setQuery] = useState<string>('');
 
   const fetchLocations = useCallback(async () => {
@@ -56,78 +59,81 @@ const SearchLocations: FC = () => {
     return map;
   }, [createLocationKey, savedLocations]);
 
-  const saveLocation = useCallback(async (location: MDBLocationData): Promise<MDBLocationData[]> => {
-    try {
-      const response = await fetch('/api/locations', {
-        body: JSON.stringify(location),
-        cache: 'no-store',
-        method: 'POST',
-      });
-      return response.json();
-    } catch (error: unknown) {
-      return [];
-    }
-  }, []);
+  const saveLocation = useCallback(
+    async (location: MDBLocationData): Promise<void> => {
+      try {
+        const response = await fetch('/api/locations', {
+          body: JSON.stringify(location),
+          cache: 'no-store',
+          method: 'POST',
+        });
+        const responseJson = await response.json();
+        mutate(responseJson);
+      } catch (error: unknown) {
+        console.log(error);
+      }
+    },
+    [mutate],
+  );
 
-  const deleteLocation = useCallback(async (location: MDBLocationData): Promise<MDBLocationData[]> => {
-    try {
-      const response = await fetch('/api/locations?id=' + location.id, {
-        cache: 'no-store',
-        method: 'DELETE',
-      });
-      return response.json();
-    } catch (error: unknown) {
-      return [];
-    }
-  }, []);
+  const deleteLocation = useCallback(
+    async (location: MDBLocationData): Promise<void> => {
+      try {
+        const response = await fetch('/api/locations?id=' + location.id, {
+          cache: 'no-store',
+          method: 'DELETE',
+        });
+        const responseJson = await response.json();
+        mutate(responseJson);
+      } catch (error: unknown) {
+        console.log(error);
+      }
+    },
+    [mutate],
+  );
 
   const renderLocationCard = useCallback(
-    (result: MDBLocationData): JSX.Element => {
-      const key = createLocationKey(result);
+    (location: MDBLocationData): JSX.Element => {
+      const key = createLocationKey(location);
       const isSaved = savedLocationsMap.has(key);
-      const location = [result.city, result.state, result.country].filter(Boolean).join(', ');
+      const name = [location.city, location.state, location.country].filter(Boolean).join(', ');
       return (
-        <div className={styles.result} key={key}>
+        <div className={styles.location} key={key}>
           <div className={styles.info}>
-            <div className={styles.location}>{location}</div>
+            <div className={styles.name}>{name}</div>
             <div className={styles.coordinates}>
-              {result.latitude}, {result.longitude}
+              {location.latitude}, {location.longitude}
             </div>
           </div>
           {isSaved ? (
             <button
-              onClick={async () => {
-                const savedResult = savedLocationsMap.get(key) as MDBLocationData;
-                const updatedSavedLocations = await deleteLocation(savedResult);
-                mutate(updatedSavedLocations);
-              }}
+              className={classNames(styles.ctaButton, styles.ctaButtonDelete)}
+              onClick={() => deleteLocation(savedLocationsMap.get(key) as MDBLocationData)}
             >
-              Delete
+              <DeleteIconSVG />
             </button>
           ) : (
-            <button
-              onClick={async () => {
-                const updatedSavedLocations = await saveLocation(result);
-                mutate(updatedSavedLocations);
-              }}
-            >
-              Save
+            <button className={styles.ctaButton} onClick={() => saveLocation(location)}>
+              <PinIconSVG />
             </button>
           )}
         </div>
       );
     },
-    [createLocationKey, deleteLocation, mutate, saveLocation, savedLocationsMap],
+    [createLocationKey, deleteLocation, saveLocation, savedLocationsMap],
   );
 
   return (
     <Fragment>
-      {savedLocations.map(renderLocationCard)}
-      <div className={styles.header}>Search</div>
-      <input onChange={event => setQuery(event.target.value)} placeholder="Toronto, Ontario, Canada" value={query} />
+      <input
+        className={styles.searchInput}
+        onChange={event => setQuery(event.target.value)}
+        placeholder="Toronto, Ontario, Canada"
+        value={query}
+      />
       {searchResults.map(renderLocationCard)}
     </Fragment>
   );
 };
 
-export default SearchLocations;
+export default BrowseLocations;

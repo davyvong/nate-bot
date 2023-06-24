@@ -26,6 +26,6 @@
   .mobileHeader {
     align-items: center;
     display: flex;
-    padding: 0 2rem;
+    padding: 2rem;
   }
 }

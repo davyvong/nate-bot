@@ -13,7 +13,10 @@
   --navbar-background: #282a2f;
   --popover-background: #111214;
   --sidebar-background: #282a2f;
-  --input-background: #282a2f;
+  --input-background: #383a40;
+  --menu-item-text: #949ba4;
+  --menu-item-active-background: #404249;
+  --menu-item-hover-background: #36373d;
 }
 
 html {
@@ -31,32 +34,12 @@ body {
 }
 
 button {
-  align-items: center;
-  background-color: var(--blurple);
+  background-color: transparent;
   border: 0;
-  border-radius: 0.5rem;
-  color: var(--white);
-  display: flex;
-  font-size: 1rem;
-  height: 50px;
-  justify-content: center;
-  outline: none;
-  padding: 0 1.25rem;
-  transition: background-color 300ms ease-in-out;
+  border-radius: 0;
+  padding: 0;
 }
 
 button:hover {
   cursor: pointer;
-}
-
-input {
-  background-color: var(--input-background);
-  border: 0;
-  border-radius: 0.5rem;
-  color: var(--white);
-  font-size: 1rem;
-  height: 50px;
-  outline: none;
-  padding: 0 1.25rem;
-  width: 100%;
 }

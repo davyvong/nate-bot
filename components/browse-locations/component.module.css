@@ -1,0 +1,50 @@
+.searchInput {
+  background-color: var(--input-background);
+  border: 0;
+  border-radius: 0.5rem;
+  color: var(--white);
+  font-size: 1rem;
+  height: 50px;
+  outline: none;
+  padding: 0 1.25rem;
+  width: 100%;
+}
+
+.location {
+  background-color: var(--input-background);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  width: 100%;
+}
+
+.location:not(:first-child) {
+  margin-top: 1rem;
+}
+
+.info {
+  flex: 1;
+}
+
+.name {
+  color: #ffffff;
+}
+
+.coordinates {
+  color: #99aab5;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.ctaButton {
+  align-items: center;
+  color: var(--white);
+  display: flex;
+  justify-content: center;
+  margin-right: 0.5rem;
+}
+
+.ctaButtonDelete {
+  color: var(--red);
+}
