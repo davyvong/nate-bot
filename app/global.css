@@ -13,6 +13,7 @@
   --navbar-background: #282a2f;
   --popover-background: #111214;
   --sidebar-background: #282a2f;
+  --input-background: #282a2f;
 }
 
 html {
@@ -30,8 +31,32 @@ body {
 }
 
 button {
-  background-color: transparent;
+  align-items: center;
+  background-color: var(--blurple);
   border: 0;
-  border-radius: 0;
-  padding: 0;
+  border-radius: 0.5rem;
+  color: var(--white);
+  display: flex;
+  font-size: 1rem;
+  height: 50px;
+  justify-content: center;
+  outline: none;
+  padding: 0 1.25rem;
+  transition: background-color 300ms ease-in-out;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+input {
+  background-color: var(--input-background);
+  border: 0;
+  border-radius: 0.5rem;
+  color: var(--white);
+  font-size: 1rem;
+  height: 50px;
+  outline: none;
+  padding: 0 1.25rem;
+  width: 100%;
 }

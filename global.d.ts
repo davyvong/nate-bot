@@ -2,14 +2,16 @@
 
 namespace NodeJS {
   interface ProcessEnv {
-    DATABASE_URL: string;
     DISCORD_BOT_TOKEN: string;
+    DISCORD_CHANNEL_ID: string;
     DISCORD_CLIENT_ID: string;
     DISCORD_CLIENT_SECRET: string;
+    DISCORD_OWNER_ID: string;
     DISCORD_PUBLIC_KEY: string;
     INNGEST_EVENT_KEY: string;
     INNGEST_SIGNING_KEY: string;
     JWT_SECRET: string;
+    MONGODB_URI: string;
     NEXT_PUBLIC_VERCEL_ENV: string;
     NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA: string;
     OPENWEATHER_API_KEY: string;

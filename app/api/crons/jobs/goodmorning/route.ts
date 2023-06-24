@@ -32,5 +32,5 @@ export const GET = async (request: Request) => {
   };
   formData.set('payload_json', JSON.stringify(payload));
   formData.set('files[0]', await response.blob(), filename);
-  return DiscordAPI.createChannelMessage('921103284528377876', { body: formData });
+  return DiscordAPI.createChannelMessage(process.env.DISCORD_CHANNEL_ID, { body: formData });
 };
