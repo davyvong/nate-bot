@@ -33,7 +33,7 @@ class DiscordApplicationCommand {
   private static async executeGoodMorning(interaction: APIApplicationCommandInteraction): Promise<Response> {
     await InngestAPI.getInstance().send({
       data: { interaction },
-      name: InngestEvents.DiscordGoodMorning,
+      name: InngestEvents.DiscordGoodMorningInteraction,
     });
     return NextResponse.json({ type: InteractionResponseType.DeferredChannelMessageWithSource }, { status: 200 });
   }
@@ -69,7 +69,7 @@ class DiscordApplicationCommand {
       const url = new URL(ServerEnvironment.getBaseURL() + '/api/weather');
       url.searchParams.set('query', locationOption.value);
       url.searchParams.set('token', await Token.sign({ query: locationOption.value }));
-      response = await fetch(url);
+      response = await fetch(url, { cache: 'no-store' });
     } catch {
       return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, {
         body: JSON.stringify({ data: { content: DiscordResponses.LocationNotFound } }),

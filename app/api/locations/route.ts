@@ -51,7 +51,7 @@ export const POST = async (request: NextRequest) => {
     country: string().required(),
     latitude: number().required(),
     longitude: number().required(),
-    state: string().required(),
+    state: string(),
   });
   if (!bodySchema.isValidSync(body)) {
     return new Response(undefined, { status: 400 });

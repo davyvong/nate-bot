@@ -1,5 +1,4 @@
 import DiscordAPI from 'server/discord/api';
-import { DiscordResponses } from 'server/discord/enums';
 import ServerEnvironment from 'server/environment';
 import Token from 'server/token';
 import { object, string } from 'yup';
@@ -26,10 +25,7 @@ export const GET = async (request: Request) => {
   const response = await fetch(url);
   const formData = new FormData();
   const filename = new Date().getTime().toString() + '.png';
-  const payload = {
-    attachments: [{ filename, id: 0 }],
-    content: DiscordResponses.GoodMorning,
-  };
+  const payload = { attachments: [{ filename, id: 0 }] };
   formData.set('payload_json', JSON.stringify(payload));
   formData.set('files[0]', await response.blob(), filename);
   return DiscordAPI.createChannelMessage(process.env.DISCORD_CHANNEL_ID, { body: formData });

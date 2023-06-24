@@ -85,12 +85,11 @@ const SearchLocations: FC = () => {
     (result: MDBLocationData): JSX.Element => {
       const key = createLocationKey(result);
       const isSaved = savedLocationsMap.has(key);
+      const location = [result.city, result.state, result.country].filter(Boolean).join(', ');
       return (
         <div className={styles.result} key={key}>
           <div className={styles.info}>
-            <div className={styles.location}>
-              {result.city}, {result.state}, {result.country}
-            </div>
+            <div className={styles.location}>{location}</div>
             <div className={styles.coordinates}>
               {result.latitude}, {result.longitude}
             </div>

@@ -6,17 +6,15 @@ export interface MDBLocationData {
   id: string;
   latitude: number;
   longitude: number;
-  owner: string;
   state: string;
 }
 
 class MDBLocation {
   public city: string;
   public country: string;
-  id: string;
+  public id: string;
   public latitude: number;
   public longitude: number;
-  public owner: string;
   public state: string;
 
   constructor(data: MDBLocationData) {
@@ -25,7 +23,6 @@ class MDBLocation {
     this.id = data.id;
     this.latitude = data.latitude;
     this.longitude = data.longitude;
-    this.owner = data.owner;
     this.state = data.state;
   }
 
@@ -36,7 +33,6 @@ class MDBLocation {
       id: doc._id.toString(),
       latitude: doc.latitude,
       longitude: doc.longitude,
-      owner: doc.owner,
       state: doc.state,
     };
     return new MDBLocation(data);
@@ -49,7 +45,6 @@ class MDBLocation {
       id: this.id,
       latitude: this.latitude,
       longitude: this.longitude,
-      owner: this.owner,
       state: this.state,
     };
   }

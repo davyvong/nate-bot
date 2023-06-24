@@ -25,6 +25,7 @@ class DiscordAPI {
         redirect_uri: DiscordAPI.getRedirectURI(),
         scope: 'identify',
       }),
+      cache: 'no-store',
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -35,6 +36,7 @@ class DiscordAPI {
 
   public static async getCurrentUser(token: RESTPostOAuth2AccessTokenResult): Promise<RESTGetAPICurrentUserResult> {
     const response = await fetch('https://discord.com/api/users/@me', {
+      cache: 'no-store',
       headers: {
         Authorization: token.token_type + ' ' + token.access_token,
       },
@@ -56,6 +58,7 @@ class DiscordAPI {
   ): Promise<Response> {
     return fetch('https://discord.com/api/v10/webhooks/' + applicationId + '/' + token, {
       ...options,
+      cache: 'no-store',
       method: 'POST',
     });
   }
@@ -63,6 +66,7 @@ class DiscordAPI {
   public static async createChannelMessage(channelId: string, options: RequestInit = {}): Promise<Response> {
     return fetch('https://discord.com/api/v10/channels/' + channelId + '/messages', {
       ...options,
+      cache: 'no-store',
       headers: {
         Authorization: 'Bot ' + process.env.DISCORD_BOT_TOKEN,
       },
