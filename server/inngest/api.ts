@@ -47,15 +47,20 @@ class InngestAPI {
             formData.set('payload_json', JSON.stringify({ content: DiscordResponses.GoodMorning }));
             await DiscordAPI.createChannelMessage(process.env.DISCORD_CHANNEL_ID, { body: formData });
           }
+          const sleep = (duration: number) => new Promise(resolve => setTimeout(resolve, duration));
           const sentEventPromises: Promise<void>[] = [];
+          let i = 0;
           for (const location of locations) {
-            const query = [location.city, location.state, location.country].filter(Boolean).join(', ');
+            if (i % 3 === 0) {
+              await sleep(1500);
+            }
             sentEventPromises.push(
               InngestAPI.getInstance().send({
-                data: { query, token: await Token.sign({ query }) },
+                data: { location },
                 name: InngestEvents.DiscordGoodMorningCronEvent,
               }),
             );
+            i++;
           }
           await Promise.allSettled(sentEventPromises);
         },
@@ -68,9 +73,16 @@ class InngestAPI {
         { event: InngestEvents.DiscordGoodMorningCronEvent },
         async ({ event }) => {
           const url = new URL(ServerEnvironment.getBaseURL() + '/api/crons/goodmorning');
-          url.searchParams.set('query', event.data.query);
-          url.searchParams.set('token', await Token.sign({ query: event.data.query }));
-          await fetch(url, { cache: 'no-store' });
+          const token = await Token.sign({
+            latitude: event.data.location.latitude,
+            longitude: event.data.location.longitude,
+          });
+          url.searchParams.set('token', token);
+          await fetch(url, {
+            body: JSON.stringify(event.data.location),
+            cache: 'no-store',
+            method: 'POST',
+          });
         },
       ),
     ];

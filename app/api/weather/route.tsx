@@ -2,7 +2,7 @@ import { ImageResponse } from '@vercel/og';
 import OpenWeatherAPI from 'server/openweather/api';
 import { TemperatureUnits } from 'server/openweather/enums';
 import Token from 'server/token';
-import { object, string } from 'yup';
+import { number, object, string } from 'yup';
 
 import OpenWeatherImage from './image';
 
@@ -13,38 +13,42 @@ const fonts = [
   fetch(new URL('../../../assets/fonts/inter-regular.woff', import.meta.url)).then(response => response.arrayBuffer()),
 ];
 
-export const GET = async (request: Request) => {
+export const POST = async (request: Request) => {
+  const body: OpenWeatherLocation = await request.json();
+  const bodySchema = object({
+    city: string().required(),
+    country: string().required(),
+    latitude: number().required(),
+    longitude: number().required(),
+    state: string(),
+  });
+  if (!bodySchema.isValidSync(body)) {
+    return new Response(undefined, { status: 400 });
+  }
   const requestURL = new URL(request.url);
   const params = {
-    query: requestURL.searchParams.get('query'),
     token: requestURL.searchParams.get('token'),
   };
   const paramsSchema = object({
-    query: string().required().min(1).max(100),
     token: string().required().length(64),
   });
   if (!paramsSchema.isValidSync(params)) {
     return new Response(undefined, { status: 400 });
   }
-  if (!(await Token.verify(params.token, { query: params.query }))) {
+  if (!(await Token.verify(params.token, { latitude: body.latitude, longitude: body.longitude }))) {
     return new Response(undefined, { status: 401 });
   }
-  const location = await OpenWeatherAPI.getLocation(params.query);
-  if (!location) {
-    return new Response(undefined, { status: 404 });
-  }
   let units = TemperatureUnits.Celsius;
-  if (['LR', 'MM', 'US'].includes(location.country)) {
+  if (['LR', 'MM', 'US'].includes(body.country)) {
     units = TemperatureUnits.Fahrenheit;
   }
-
   const [currentWeather, forecast, interMedium, interRegular] = await Promise.all([
-    OpenWeatherAPI.getCurrentWeather(location.latitude, location.longitude, units),
-    OpenWeatherAPI.getForecast(location.latitude, location.longitude, units),
+    OpenWeatherAPI.getCurrentWeather(body.latitude, body.longitude, units),
+    OpenWeatherAPI.getForecast(body.latitude, body.longitude, units),
     ...fonts,
   ]);
 
-  return new ImageResponse(OpenWeatherImage.render(location, currentWeather, forecast), {
+  return new ImageResponse(OpenWeatherImage.render(body, currentWeather, forecast), {
     fonts: [
       {
         data: interRegular,

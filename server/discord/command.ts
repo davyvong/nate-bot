@@ -11,6 +11,7 @@ import Token from 'server/token';
 
 import DiscordAPI from 'server/discord/api';
 import { DiscordApplicationCommandNames, DiscordResponses } from './enums';
+import OpenWeatherAPI from 'server/openweather/api';
 
 declare global {
   interface RequestInit {
@@ -66,10 +67,20 @@ class DiscordApplicationCommand {
     }
     let response;
     try {
+      const location = await OpenWeatherAPI.getLocation(locationOption.value);
+      if (!location) {
+        return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, {
+          body: JSON.stringify({ data: { content: DiscordResponses.LocationNotFound } }),
+        });
+      }
       const url = new URL(ServerEnvironment.getBaseURL() + '/api/weather');
-      url.searchParams.set('query', locationOption.value);
-      url.searchParams.set('token', await Token.sign({ query: locationOption.value }));
-      response = await fetch(url, { cache: 'no-store' });
+      const token = await Token.sign({ latitude: location.latitude, longitude: location.longitude });
+      url.searchParams.set('token', token);
+      response = await fetch(url, {
+        body: JSON.stringify(location),
+        cache: 'no-store',
+        method: 'POST',
+      });
     } catch {
       return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, {
         body: JSON.stringify({ data: { content: DiscordResponses.LocationNotFound } }),
