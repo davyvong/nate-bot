@@ -7,12 +7,42 @@ import mobileHeaderStyles from 'components/mobile-header/component.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import pkg from 'package.json';
-import { FC, useEffect } from 'react';
+import { FC, useCallback, useEffect, useMemo } from 'react';
 
 import styles from './component.module.css';
 
+interface SidebarMenuItem {
+  href: string;
+  text: string;
+}
+
 const Sidebar: FC = () => {
   const pathname = usePathname();
+
+  const menuItems = useMemo<SidebarMenuItem[]>(
+    () => [
+      { href: '/browse', text: 'Browse' },
+      { href: '/', text: 'Saved Locations' },
+    ],
+    [],
+  );
+
+  const renderMenuItem = useCallback(
+    (menuItem: SidebarMenuItem): JSX.Element => (
+      <Link
+        className={classNames(styles.menuItem, pathname === menuItem.href && styles.menuItemActive)}
+        href={menuItem.href}
+        key={menuItem.href}
+        onClick={() => {
+          const sidebar = document.querySelector('.' + styles.sidebarOpened);
+          sidebar?.classList.remove(styles.sidebarOpened);
+        }}
+      >
+        {menuItem.text}
+      </Link>
+    ),
+    [pathname],
+  );
 
   useEffect(() => {
     const closeSidebar = (event: MouseEvent): void => {
@@ -36,14 +66,7 @@ const Sidebar: FC = () => {
         <span>{pkg.name}</span>
         <span className={styles.commit}>@{ClientEnvironment.getCommitId()}</span>
       </div>
-      <div className={styles.menuList}>
-        <Link className={classNames(styles.menuItem, pathname === '/browse' && styles.menuItemActive)} href="/browse">
-          Browse
-        </Link>
-        <Link className={classNames(styles.menuItem, pathname === '/' && styles.menuItemActive)} href="/">
-          Saved Locations
-        </Link>
-      </div>
+      <div className={styles.menuList}>{menuItems.map(renderMenuItem)}</div>
     </div>
   );
 };
