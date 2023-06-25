@@ -5,12 +5,17 @@ import PinIconSVG from 'assets/images/icons/pin.svg';
 import classNames from 'classnames';
 import Tooltip from 'components/tooltip';
 import { FC, Fragment, useCallback, useMemo, useState } from 'react';
-import { MDBLocationData } from 'server/models/locations';
+import { MDBLocationData } from 'server/models/location';
+import { MDBUserPermission } from 'server/models/user';
 import useSWR from 'swr';
 
 import styles from './component.module.css';
 
-const BrowseLocations: FC = () => {
+interface BrowseLocationsProps {
+  permissions: MDBUserPermission[];
+}
+
+const BrowseLocations: FC<BrowseLocationsProps> = ({ permissions }) => {
   const [query, setQuery] = useState<string>('');
 
   const fetchLocations = useCallback(async () => {
@@ -106,7 +111,7 @@ const BrowseLocations: FC = () => {
               {location.latitude}, {location.longitude}
             </div>
           </div>
-          {isSaved ? (
+          {permissions.includes(MDBUserPermission.WriteSavedLocation) && isSaved && (
             <Tooltip renderContent={() => 'Delete'}>
               <button
                 className={classNames(styles.ctaButton, styles.ctaButtonDelete)}
@@ -115,7 +120,8 @@ const BrowseLocations: FC = () => {
                 <DeleteIconSVG />
               </button>
             </Tooltip>
-          ) : (
+          )}
+          {permissions.includes(MDBUserPermission.WriteSavedLocation) && !isSaved && (
             <Tooltip renderContent={() => 'Save'}>
               <button className={styles.ctaButton} onClick={() => saveLocation(location)}>
                 <PinIconSVG />
@@ -125,7 +131,7 @@ const BrowseLocations: FC = () => {
         </div>
       );
     },
-    [createLocationKey, deleteLocation, saveLocation, savedLocationsMap],
+    [createLocationKey, deleteLocation, permissions, saveLocation, savedLocationsMap],
   );
 
   return (

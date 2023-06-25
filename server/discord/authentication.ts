@@ -3,6 +3,8 @@ import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adap
 import { redirect } from 'next/navigation';
 import DiscordAPI from 'server/discord/api';
 import JWT from 'server/jwt';
+import MDBUser, { MDBUserPermission } from 'server/models/user';
+import MongoDBClientFactory from 'server/mongodb';
 
 import { DiscordToken } from './types';
 
@@ -30,6 +32,20 @@ class DiscordAuthentication {
       return payload as DiscordToken;
     } catch {
       return redirect(DiscordAPI.getOAuth2AuthorizeURL().href);
+    }
+  }
+
+  public static async getPermissions(discordId: string): Promise<MDBUserPermission[]> {
+    try {
+      const db = await MongoDBClientFactory.getInstance();
+      const userDoc = await db.collection('users').findOne({ discordId });
+      if (!userDoc) {
+        return [];
+      }
+      const user = MDBUser.fromDocument(userDoc);
+      return user.permissions;
+    } catch (error: unknown) {
+      return [];
     }
   }
 }

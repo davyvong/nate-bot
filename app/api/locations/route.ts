@@ -1,7 +1,8 @@
 import { Document, ObjectId } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 import DiscordAuthentication from 'server/discord/authentication';
-import MDBLocation from 'server/models/locations';
+import MDBLocation from 'server/models/location';
+import { MDBUserPermission } from 'server/models/user';
 import MongoDBClientFactory from 'server/mongodb';
 import { number, object, string } from 'yup';
 
@@ -21,22 +22,19 @@ export const DELETE = async (request: NextRequest) => {
     return new Response(undefined, { status: 400 });
   }
   const db = await MongoDBClientFactory.getInstance();
-  const collection = db.collection('locations');
-  const owner = token.username + '#' + token.discriminator;
-  await collection.deleteOne({ _id: new ObjectId(params.id), owner });
-  const docs = await collection.find({ owner });
-  const locations = (await docs.toArray()).map((doc: Document) => MDBLocation.fromDocument(doc));
+  const permissions = await DiscordAuthentication.getPermissions(token.id);
+  if (!permissions.includes(MDBUserPermission.WriteSavedLocation)) {
+    return new Response(undefined, { status: 401 });
+  }
+  await db.collection('locations').deleteOne({ _id: new ObjectId(params.id) });
+  const locationDocs = await db.collection('locations').find();
+  const locations = (await locationDocs.toArray()).map((doc: Document) => MDBLocation.fromDocument(doc));
   return NextResponse.json(locations);
 };
 
-export const GET = async (request: NextRequest) => {
-  const token = await DiscordAuthentication.verifyToken(request.cookies);
-  if (!token) {
-    return new Response(undefined, { status: 401 });
-  }
+export const GET = async () => {
   const db = await MongoDBClientFactory.getInstance();
-  const owner = token.username + '#' + token.discriminator;
-  const docs = await db.collection('locations').find({ owner });
+  const docs = await db.collection('locations').find();
   const locations = (await docs.toArray()).map((doc: Document) => MDBLocation.fromDocument(doc));
   return NextResponse.json(locations);
 };
@@ -58,10 +56,12 @@ export const POST = async (request: NextRequest) => {
     return new Response(undefined, { status: 400 });
   }
   const db = await MongoDBClientFactory.getInstance();
-  const collection = db.collection('locations');
-  const owner = token.username + '#' + token.discriminator;
-  await collection.insertOne({ ...body, owner });
-  const docs = await collection.find({ owner });
+  const permissions = await DiscordAuthentication.getPermissions(token.id);
+  if (!permissions.includes(MDBUserPermission.WriteSavedLocation)) {
+    return new Response(undefined, { status: 401 });
+  }
+  await db.collection('locations').insertOne(body);
+  const docs = await db.collection('locations').find();
   const locations = (await docs.toArray()).map((doc: Document) => MDBLocation.fromDocument(doc));
   return NextResponse.json(locations);
 };

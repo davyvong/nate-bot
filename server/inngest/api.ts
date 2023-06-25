@@ -39,7 +39,7 @@ class InngestAPI {
           cron: 'TZ=America/Toronto 0 7 * * *',
         },
         async () => {
-          const url = new URL(ServerEnvironment.getBaseURL() + '/api/crons/locations');
+          const url = new URL(ServerEnvironment.getBaseURL() + '/api/locations');
           const response = await fetch(url, { cache: 'no-store' });
           const locations = await response.json();
           if (locations.length > 0) {
@@ -47,7 +47,7 @@ class InngestAPI {
             formData.set('payload_json', JSON.stringify({ content: DiscordResponses.GoodMorning }));
             await DiscordAPI.createChannelMessage(process.env.DISCORD_CHANNEL_ID, { body: formData });
           }
-          const sentEventPromises = [];
+          const sentEventPromises: Promise<void>[] = [];
           for (const location of locations) {
             const query = [location.city, location.state, location.country].filter(Boolean).join(', ');
             sentEventPromises.push(

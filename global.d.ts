@@ -6,7 +6,6 @@ namespace NodeJS {
     DISCORD_CHANNEL_ID: string;
     DISCORD_CLIENT_ID: string;
     DISCORD_CLIENT_SECRET: string;
-    DISCORD_OWNER_ID: string;
     DISCORD_PUBLIC_KEY: string;
     INNGEST_EVENT_KEY: string;
     INNGEST_SIGNING_KEY: string;

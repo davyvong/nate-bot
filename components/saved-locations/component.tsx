@@ -5,10 +5,15 @@ import classNames from 'classnames';
 import browseLocationsStyles from 'components/browse-locations/component.module.css';
 import Tooltip from 'components/tooltip';
 import { FC, Fragment, useCallback, useMemo } from 'react';
-import { MDBLocationData } from 'server/models/locations';
+import { MDBLocationData } from 'server/models/location';
+import { MDBUserPermission } from 'server/models/user';
 import useSWR from 'swr';
 
-const SavedLocations: FC = () => {
+interface SavedLocationsProps {
+  permissions: MDBUserPermission[];
+}
+
+const SavedLocations: FC<SavedLocationsProps> = ({ permissions }) => {
   const createLocationKey = useCallback((location: MDBLocationData): string => {
     return location.city + location.latitude.toString() + location.longitude.toString();
   }, []);
@@ -57,18 +62,20 @@ const SavedLocations: FC = () => {
               {location.latitude}, {location.longitude}
             </div>
           </div>
-          <Tooltip renderContent={() => 'Delete'}>
-            <button
-              className={classNames(browseLocationsStyles.ctaButton, browseLocationsStyles.ctaButtonDelete)}
-              onClick={() => deleteLocation(location)}
-            >
-              <DeleteIconSVG />
-            </button>
-          </Tooltip>
+          {permissions.includes(MDBUserPermission.WriteSavedLocation) && (
+            <Tooltip renderContent={() => 'Delete'}>
+              <button
+                className={classNames(browseLocationsStyles.ctaButton, browseLocationsStyles.ctaButtonDelete)}
+                onClick={() => deleteLocation(location)}
+              >
+                <DeleteIconSVG />
+              </button>
+            </Tooltip>
+          )}
         </div>
       );
     },
-    [createLocationKey, deleteLocation],
+    [createLocationKey, deleteLocation, permissions],
   );
 
   return <Fragment>{savedLocations.map(renderLocationCard)}</Fragment>;

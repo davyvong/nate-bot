@@ -10,10 +10,12 @@ import styles from './page.module.css';
 const Page = async (): Promise<JSX.Element> => {
   const token = await DiscordAuthentication.verifyTokenOrRedirect(cookies());
 
+  const permissions = await DiscordAuthentication.getPermissions(token.id);
+
   return (
     <Fragment>
       <PageHeading secondary={<UserMenuButton className={styles.userButton} token={token} />}>Browse</PageHeading>
-      <SearchLocations />
+      <SearchLocations permissions={permissions} />
     </Fragment>
   );
 };
