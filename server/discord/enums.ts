@@ -3,6 +3,7 @@ export enum DiscordApplicationCommandNames {
 }
 
 export enum DiscordResponses {
+  ForecastNotFound = 'The forecast could not be found.',
   GoodMorning = 'Good morning!',
   IDontKnow = "I don't know what to do.",
   LocationNotFound = 'The location could not be found.',

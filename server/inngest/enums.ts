@@ -1,5 +1,5 @@
 export enum InngestEvents {
-  DiscordGoodMorningCron = 'discord/goodmorning/cron',
-  DiscordGoodMorningCronEvent = 'discord/goodmorning/cron/event',
-  DiscordGoodMorningInteraction = 'discord/goodmorning/interaction',
+  DiscordCronGoodMorning = 'discord/cron/goodmorning',
+  DiscordMessageGoodMorning = 'discord/message/goodmorning',
+  DiscordInteractionGoodMorning = 'discord/interaction/goodmorning',
 }

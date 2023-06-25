@@ -22,17 +22,17 @@ class InngestAPI {
     return [
       InngestAPI.getInstance().createFunction(
         {
-          name: pkg.name + '/' + InngestEvents.DiscordGoodMorningInteraction,
+          name: InngestEvents.DiscordInteractionGoodMorning,
           retries: 1,
         },
-        { event: InngestEvents.DiscordGoodMorningInteraction },
+        { event: InngestEvents.DiscordInteractionGoodMorning },
         async ({ event }) => {
           await DiscordApplicationCommand.followup(event.data.interaction);
         },
       ),
       InngestAPI.getInstance().createFunction(
         {
-          name: pkg.name + '/' + InngestEvents.DiscordGoodMorningCron,
+          name: InngestEvents.DiscordCronGoodMorning,
           retries: 1,
         },
         {
@@ -57,7 +57,7 @@ class InngestAPI {
             sentEventPromises.push(
               InngestAPI.getInstance().send({
                 data: { location },
-                name: InngestEvents.DiscordGoodMorningCronEvent,
+                name: InngestEvents.DiscordMessageGoodMorning,
               }),
             );
             i++;
@@ -67,10 +67,10 @@ class InngestAPI {
       ),
       InngestAPI.getInstance().createFunction(
         {
-          name: pkg.name + '/' + InngestEvents.DiscordGoodMorningCronEvent,
+          name: InngestEvents.DiscordMessageGoodMorning,
           retries: 1,
         },
-        { event: InngestEvents.DiscordGoodMorningCronEvent },
+        { event: InngestEvents.DiscordMessageGoodMorning },
         async ({ event }) => {
           const url = new URL(ServerEnvironment.getBaseURL() + '/api/crons/goodmorning');
           const token = await Token.sign({

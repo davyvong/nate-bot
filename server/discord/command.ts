@@ -34,7 +34,7 @@ class DiscordApplicationCommand {
   private static async executeGoodMorning(interaction: APIApplicationCommandInteraction): Promise<Response> {
     await InngestAPI.getInstance().send({
       data: { interaction },
-      name: InngestEvents.DiscordGoodMorningInteraction,
+      name: InngestEvents.DiscordInteractionGoodMorning,
     });
     return NextResponse.json({ type: InteractionResponseType.DeferredChannelMessageWithSource }, { status: 200 });
   }
@@ -65,30 +65,23 @@ class DiscordApplicationCommand {
         body: JSON.stringify({ data: { content: DiscordResponses.LocationNotFound } }),
       });
     }
-    let response;
-    try {
-      const location = await OpenWeatherAPI.getLocation(locationOption.value);
-      if (!location) {
-        return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, {
-          body: JSON.stringify({ data: { content: DiscordResponses.LocationNotFound } }),
-        });
-      }
-      const url = new URL(ServerEnvironment.getBaseURL() + '/api/weather');
-      const token = await Token.sign({ latitude: location.latitude, longitude: location.longitude });
-      url.searchParams.set('token', token);
-      response = await fetch(url, {
-        body: JSON.stringify(location),
-        cache: 'no-store',
-        method: 'POST',
-      });
-    } catch {
+    const location = await OpenWeatherAPI.getLocation(locationOption.value);
+    if (!location) {
       return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, {
         body: JSON.stringify({ data: { content: DiscordResponses.LocationNotFound } }),
       });
     }
-    if (!response) {
+    const url = new URL(ServerEnvironment.getBaseURL() + '/api/weather');
+    const token = await Token.sign({ latitude: location.latitude, longitude: location.longitude });
+    url.searchParams.set('token', token);
+    const response = await fetch(url, {
+      body: JSON.stringify(location),
+      cache: 'no-store',
+      method: 'POST',
+    });
+    if (!response.ok) {
       return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, {
-        body: JSON.stringify({ data: { content: DiscordResponses.LocationNotFound } }),
+        body: JSON.stringify({ data: { content: DiscordResponses.ForecastNotFound } }),
       });
     }
     const formData = new FormData();

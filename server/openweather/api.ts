@@ -5,7 +5,7 @@ class OpenWeatherAPI {
   public static async getLocation(query: string): Promise<OpenWeatherLocation | undefined> {
     const url = new URL('https://api.openweathermap.org/geo/1.0/direct');
     url.searchParams.set('appid', process.env.OPENWEATHER_API_KEY);
-    url.searchParams.set('limit', '5');
+    url.searchParams.set('limit', '1');
     url.searchParams.set('q', query);
     const response = await fetch(url, { cache: 'no-cache' });
     const responseJSON: OpenWeatherDirectGeocodingResponse[] = await response.json();
