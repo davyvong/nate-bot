@@ -35,7 +35,8 @@ export const GET = async (request: NextRequest) => {
     return new Response(undefined, { status: 401 });
   }
   const db = await MongoDBClientFactory.getInstance();
-  const docs = await db.collection('locations').find({ owner: token.username + '#' + token.discriminator });
+  const owner = token.username + '#' + token.discriminator;
+  const docs = await db.collection('locations').find({ owner });
   const locations = (await docs.toArray()).map((doc: Document) => MDBLocation.fromDocument(doc));
   return NextResponse.json(locations);
 };
