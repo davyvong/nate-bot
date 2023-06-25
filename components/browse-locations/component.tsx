@@ -3,6 +3,7 @@
 import DeleteIconSVG from 'assets/images/icons/delete.svg';
 import PinIconSVG from 'assets/images/icons/pin.svg';
 import classNames from 'classnames';
+import Tooltip from 'components/tooltip';
 import { FC, Fragment, useCallback, useMemo, useState } from 'react';
 import { MDBLocationData } from 'server/models/locations';
 import useSWR from 'swr';
@@ -106,16 +107,20 @@ const BrowseLocations: FC = () => {
             </div>
           </div>
           {isSaved ? (
-            <button
-              className={classNames(styles.ctaButton, styles.ctaButtonDelete)}
-              onClick={() => deleteLocation(savedLocationsMap.get(key) as MDBLocationData)}
-            >
-              <DeleteIconSVG />
-            </button>
+            <Tooltip renderContent={() => 'Delete'}>
+              <button
+                className={classNames(styles.ctaButton, styles.ctaButtonDelete)}
+                onClick={() => deleteLocation(savedLocationsMap.get(key) as MDBLocationData)}
+              >
+                <DeleteIconSVG />
+              </button>
+            </Tooltip>
           ) : (
-            <button className={styles.ctaButton} onClick={() => saveLocation(location)}>
-              <PinIconSVG />
-            </button>
+            <Tooltip renderContent={() => 'Save'}>
+              <button className={styles.ctaButton} onClick={() => saveLocation(location)}>
+                <PinIconSVG />
+              </button>
+            </Tooltip>
           )}
         </div>
       );

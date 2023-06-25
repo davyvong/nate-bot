@@ -1,0 +1,6 @@
+.tooltip {
+  background-color: var(--popover-background);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  z-index: 20;
+}

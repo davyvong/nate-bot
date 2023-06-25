@@ -3,6 +3,7 @@
 import DeleteIconSVG from 'assets/images/icons/delete.svg';
 import classNames from 'classnames';
 import browseLocationsStyles from 'components/browse-locations/component.module.css';
+import Tooltip from 'components/tooltip';
 import { FC, Fragment, useCallback, useMemo } from 'react';
 import { MDBLocationData } from 'server/models/locations';
 import useSWR from 'swr';
@@ -56,12 +57,14 @@ const SavedLocations: FC = () => {
               {location.latitude}, {location.longitude}
             </div>
           </div>
-          <button
-            className={classNames(browseLocationsStyles.ctaButton, browseLocationsStyles.ctaButtonDelete)}
-            onClick={() => deleteLocation(location)}
-          >
-            <DeleteIconSVG />
-          </button>
+          <Tooltip renderContent={() => 'Delete'}>
+            <button
+              className={classNames(browseLocationsStyles.ctaButton, browseLocationsStyles.ctaButtonDelete)}
+              onClick={() => deleteLocation(location)}
+            >
+              <DeleteIconSVG />
+            </button>
+          </Tooltip>
         </div>
       );
     },
