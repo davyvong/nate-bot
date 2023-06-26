@@ -7,7 +7,7 @@ class OpenWeatherAPI {
     url.searchParams.set('appid', process.env.OPENWEATHER_API_KEY);
     url.searchParams.set('limit', '1');
     url.searchParams.set('q', query);
-    const response = await fetch(url, { cache: 'no-cache' });
+    const response = await fetch(url);
     const responseJSON: OpenWeatherDirectGeocodingResponse[] = await response.json();
     for (const location of responseJSON) {
       return {
@@ -25,7 +25,7 @@ class OpenWeatherAPI {
     url.searchParams.set('appid', process.env.OPENWEATHER_API_KEY);
     url.searchParams.set('limit', '5');
     url.searchParams.set('q', query);
-    const response = await fetch(url, { cache: 'no-cache' });
+    const response = await fetch(url);
     const responseJSON: OpenWeatherDirectGeocodingResponse[] = await response.json();
     return responseJSON.map((location: OpenWeatherDirectGeocodingResponse) => ({
       city: location.local_names?.en || location.name,
@@ -46,7 +46,7 @@ class OpenWeatherAPI {
     url.searchParams.set('lat', latitude.toString());
     url.searchParams.set('lon', longitude.toString());
     url.searchParams.set('units', units);
-    const response = await fetch(url, { cache: 'no-cache' });
+    const response = await fetch(url);
     const responseJSON: OpenWeatherForecastResponse = await response.json();
     return {
       city: responseJSON.city.name,
@@ -78,7 +78,7 @@ class OpenWeatherAPI {
     url.searchParams.set('lat', latitude.toString());
     url.searchParams.set('lon', longitude.toString());
     url.searchParams.set('units', units);
-    const response = await fetch(url, { cache: 'no-cache' });
+    const response = await fetch(url);
     const responseJSON: OpenWeatherCurrentWeatherResponse = await response.json();
     const date = new Date((responseJSON.dt + responseJSON.timezone) * 1000);
     return {

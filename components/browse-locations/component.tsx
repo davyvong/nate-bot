@@ -23,10 +23,7 @@ const BrowseLocations: FC<BrowseLocationsProps> = ({ permissions }) => {
       return [];
     }
     try {
-      const response = await fetch('/api/weather/search?query=' + query, {
-        cache: 'no-store',
-        method: 'GET',
-      });
+      const response = await fetch('/api/weather/search?query=' + query);
       return response.json();
     } catch (error: unknown) {
       return [];
