@@ -18,7 +18,7 @@
     "classnames": "^2.3.2",
     "cookie": "^0.5.0",
     "discord-api-types": "^0.37.43",
-    "inngest": "^1.9.0",
+    "inngest": "^2.1.0",
     "jose": "^4.14.4",
     "js-cookie": "^3.0.5",
     "minireset.css": "^0.0.7",
