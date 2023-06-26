@@ -10,6 +10,14 @@
   width: 100%;
 }
 
+.loading {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
 .location {
   background-color: var(--input-background);
   border-radius: 0.5rem;

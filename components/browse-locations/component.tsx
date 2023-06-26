@@ -3,6 +3,7 @@
 import DeleteIconSVG from 'assets/images/icons/delete.svg';
 import PinIconSVG from 'assets/images/icons/pin.svg';
 import classNames from 'classnames';
+import LoadingIndicator from 'components/loading-indicator';
 import Tooltip from 'components/tooltip';
 import { FC, Fragment, useCallback, useMemo, useState } from 'react';
 import { MDBLocationData } from 'server/models/location';
@@ -30,7 +31,10 @@ const BrowseLocations: FC<BrowseLocationsProps> = ({ permissions }) => {
     }
   }, [query]);
 
-  const { data: searchResultsData } = useSWR('/api/weather/search?query=' + query, fetchLocations);
+  const { data: searchResultsData, isLoading: searchResultsLoading } = useSWR(
+    '/api/weather/search?query=' + query,
+    fetchLocations,
+  );
 
   const searchResults = useMemo<MDBLocationData[]>(() => searchResultsData || [], [searchResultsData]);
 
@@ -139,7 +143,13 @@ const BrowseLocations: FC<BrowseLocationsProps> = ({ permissions }) => {
         placeholder="Toronto, Ontario, Canada"
         value={query}
       />
-      {searchResults.map(renderLocationCard)}
+      {searchResultsLoading ? (
+        <div className={styles.loading}>
+          <LoadingIndicator />
+        </div>
+      ) : (
+        searchResults.map(renderLocationCard)
+      )}
     </Fragment>
   );
 };

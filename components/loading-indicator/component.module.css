@@ -1,0 +1,36 @@
+.loadingIndicator {
+  contain: paint;
+  display: inline-block;
+  height: 52px;
+  position: relative;
+  width: 52px;
+}
+
+.loadingIndicatorCube {
+  animation: rotatingCube 1800ms ease-in-out infinite;
+  background-color: var(--blurple);
+  height: 10px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 10px;
+}
+
+.loadingIndicatorCube:last-child {
+  animation-delay: -900ms;
+}
+
+@keyframes rotatingCube {
+  25% {
+    transform: translateX(22px) rotate(-90deg) scale(0.5);
+  }
+  50% {
+    transform: translateX(22px) translateY(22px) rotate(-180deg);
+  }
+  75% {
+    transform: translateX(0) translateY(22px) rotate(-270deg) scale(0.5);
+  }
+  to {
+    transform: rotate(-1turn);
+  }
+}
