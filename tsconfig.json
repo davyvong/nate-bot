@@ -21,6 +21,6 @@
     "strict": true,
     "target": "es5"
   },
-  "exclude": ["node_modules"],
+  "exclude": ["docker", "node_modules"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"]
 }
