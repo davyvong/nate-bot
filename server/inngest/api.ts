@@ -44,7 +44,7 @@ class InngestAPI {
           const locations = await response.json();
           if (locations.length > 0) {
             const formData = new FormData();
-            formData.set('payload_json', JSON.stringify({ content: DiscordResponses.GoodMorning }));
+            formData.set('payload_json', JSON.stringify({ content: DiscordResponses.GoodMorningTeam }));
             await DiscordAPI.createChannelMessage(process.env.DISCORD_CHANNEL_ID, { body: formData });
           }
           const sleep = (duration: number) => new Promise(resolve => setTimeout(resolve, duration));
