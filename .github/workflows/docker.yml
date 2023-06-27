@@ -1,0 +1,22 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  docker:
+    name: Docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Checkout
+        uses: actions/checkout@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push to Docker Hub
+        run: make push
+        working-directory: docker
