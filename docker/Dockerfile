@@ -6,4 +6,4 @@ COPY . .
 
 RUN npm install
 
-CMD npx ts-node-esm websocket.ts
+CMD npx ts-node-esm app.ts
