@@ -18,7 +18,7 @@ client.on(GatewayDispatchEvents.MessageCreate, async ({ data }) => {
     if (data.mentions.some(mention => mention.id === process.env.DISCORD_BOT_ID)) {
       const channelId = data.channel_id;
       const messageId = data.id;
-      const emoji = '☀️';
+      const emoji = 'bulba:715627372191285328';
       console.log({ channelId, messageId, emoji });
       const response = await fetch(
         `https://discord.com/api/v10/channels/${channelId}/messages/${messageId}/reactions/${emoji}/@me`,
