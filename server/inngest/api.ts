@@ -27,7 +27,11 @@ class InngestAPI {
         },
         { event: InngestEvents.DiscordInteractionGoodMorning },
         async ({ event }) => {
-          await DiscordApplicationCommand.followup(event.data.interaction);
+          const response = await DiscordApplicationCommand.followup(event.data.interaction);
+          return {
+            status: response.status,
+            statusText: response.statusText,
+          };
         },
       ),
       InngestAPI.getInstance().createFunction(
@@ -78,11 +82,15 @@ class InngestAPI {
             longitude: event.data.location.longitude,
           });
           url.searchParams.set('token', token);
-          await fetch(url, {
+          const response = await fetch(url, {
             body: JSON.stringify(event.data.location),
             cache: 'no-store',
             method: 'POST',
           });
+          return {
+            status: response.status,
+            statusText: response.statusText,
+          };
         },
       ),
     ];

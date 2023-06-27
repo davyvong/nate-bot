@@ -73,6 +73,25 @@ class DiscordAPI {
       method: 'POST',
     });
   }
+
+  public static async getChannelMessage(channelId: string, messageId: string): Promise<Response> {
+    return fetch(`https://discord.com/api/v10/channels/${channelId}/messages/${messageId}`, {
+      cache: 'no-store',
+      headers: {
+        Authorization: 'Bot ' + process.env.DISCORD_BOT_TOKEN,
+      },
+    });
+  }
+
+  public static async createReaction(channelId: string, messageId: string, emoji: string): Promise<Response> {
+    return fetch(`https://discord.com/api/v10/channels/${channelId}/messages/${messageId}/reactions/${emoji}/@me`, {
+      cache: 'no-store',
+      method: 'PUT',
+      headers: {
+        Authorization: 'Bot ' + process.env.DISCORD_BOT_TOKEN,
+      },
+    });
+  }
 }
 
 export default DiscordAPI;
