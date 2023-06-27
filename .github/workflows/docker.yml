@@ -1,10 +1,9 @@
 name: Docker
-
 on:
+  pull_request:
   push:
     branches:
       - develop
-
 jobs:
   docker:
     name: Docker
