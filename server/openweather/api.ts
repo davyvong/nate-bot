@@ -1,4 +1,5 @@
 import { dayOfWeek, timeOfDay } from './constants';
+
 import { TemperatureUnits } from './enums';
 
 class OpenWeatherAPI {
@@ -46,7 +47,7 @@ class OpenWeatherAPI {
     url.searchParams.set('lat', latitude.toString());
     url.searchParams.set('lon', longitude.toString());
     url.searchParams.set('units', units);
-    const response = await fetch(url);
+    const response = await fetch(url, { cache: 'no-store' });
     const responseJSON: OpenWeatherForecastResponse = await response.json();
     return {
       city: responseJSON.city.name,
@@ -78,7 +79,7 @@ class OpenWeatherAPI {
     url.searchParams.set('lat', latitude.toString());
     url.searchParams.set('lon', longitude.toString());
     url.searchParams.set('units', units);
-    const response = await fetch(url);
+    const response = await fetch(url, { cache: 'no-store' });
     const responseJSON: OpenWeatherCurrentWeatherResponse = await response.json();
     const date = new Date((responseJSON.dt + responseJSON.timezone) * 1000);
     return {
