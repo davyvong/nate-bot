@@ -21,13 +21,13 @@ class InngestAPI {
   public static createFunctions() {
     return [
       InngestAPI.getInstance().createFunction(
-        {
-          name: InngestEvents.DiscordInteractionGoodMorning,
-          retries: 1,
-        },
+        { name: InngestEvents.DiscordInteractionGoodMorning },
         { event: InngestEvents.DiscordInteractionGoodMorning },
         async ({ event }) => {
           const response = await DiscordApplicationCommand.followup(event.data.interaction);
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
           return {
             status: response.status,
             statusText: response.statusText,
@@ -51,20 +51,14 @@ class InngestAPI {
             formData.set('payload_json', JSON.stringify({ content: DiscordResponses.GoodMorningTeam }));
             await DiscordAPI.createChannelMessage(process.env.DISCORD_CHANNEL_ID, { body: formData });
           }
-          const sleep = (duration: number) => new Promise(resolve => setTimeout(resolve, duration));
           const sentEventPromises: Promise<void>[] = [];
-          let i = 0;
           for (const location of locations) {
-            if (i % 3 === 0) {
-              await sleep(1500);
-            }
             sentEventPromises.push(
               InngestAPI.getInstance().send({
                 data: { location },
                 name: InngestEvents.DiscordMessageGoodMorning,
               }),
             );
-            i++;
           }
           await Promise.allSettled(sentEventPromises);
         },
@@ -72,7 +66,7 @@ class InngestAPI {
       InngestAPI.getInstance().createFunction(
         {
           name: InngestEvents.DiscordMessageGoodMorning,
-          retries: 1,
+          retries: 10,
         },
         { event: InngestEvents.DiscordMessageGoodMorning },
         async ({ event }) => {
@@ -87,6 +81,9 @@ class InngestAPI {
             cache: 'no-store',
             method: 'POST',
           });
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
           return {
             status: response.status,
             statusText: response.statusText,
