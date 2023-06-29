@@ -6,7 +6,9 @@ export interface MDBUserData {
 }
 
 export enum MDBUserPermission {
+  WriteEverything = 'WriteEverything',
   WriteSavedLocation = 'WriteSavedLocation',
+  WriteUserPermission = 'WriteUserPermission',
 }
 
 class MDBUser {
@@ -26,11 +28,15 @@ class MDBUser {
     return new MDBUser(data);
   }
 
-  toPlainObject(): MDBUserData {
+  public toPlainObject(): MDBUserData {
     return {
       discordId: this.discordId,
       permissions: this.permissions,
     };
+  }
+
+  public hasPermission(permission: MDBUserPermission): boolean {
+    return this.permissions.includes(permission);
   }
 }
 
