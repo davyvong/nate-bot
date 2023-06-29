@@ -21,11 +21,11 @@ export const DELETE = async (request: NextRequest) => {
   if (!paramsSchema.isValidSync(params)) {
     return new Response(undefined, { status: 400 });
   }
-  const db = await MongoDBClientFactory.getInstance();
   const permissions = await DiscordAuthentication.getPermissions(token.id);
-  if (!permissions.includes(MDBUserPermission.WriteSavedLocation)) {
+  if (!permissions.includes(MDBUserPermission.SavedLocationsDelete)) {
     return new Response(undefined, { status: 401 });
   }
+  const db = await MongoDBClientFactory.getInstance();
   await db.collection('locations').deleteOne({ _id: new ObjectId(params.id) });
   const locationDocs = await db.collection('locations').find();
   const locations = (await locationDocs.toArray()).map((doc: Document) => MDBLocation.fromDocument(doc));
@@ -55,11 +55,11 @@ export const POST = async (request: NextRequest) => {
   if (!bodySchema.isValidSync(body)) {
     return new Response(undefined, { status: 400 });
   }
-  const db = await MongoDBClientFactory.getInstance();
   const permissions = await DiscordAuthentication.getPermissions(token.id);
-  if (!permissions.includes(MDBUserPermission.WriteSavedLocation)) {
+  if (!permissions.includes(MDBUserPermission.SavedLocationsCreate)) {
     return new Response(undefined, { status: 401 });
   }
+  const db = await MongoDBClientFactory.getInstance();
   await db.collection('locations').insertOne(body);
   const docs = await db.collection('locations').find();
   const locations = (await docs.toArray()).map((doc: Document) => MDBLocation.fromDocument(doc));

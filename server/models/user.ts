@@ -6,9 +6,10 @@ export interface MDBUserData {
 }
 
 export enum MDBUserPermission {
-  WriteEverything = 'WriteEverything',
-  WriteSavedLocation = 'WriteSavedLocation',
-  WriteUserPermission = 'WriteUserPermission',
+  SavedLocationsCreate = 'SavedLocations:Create',
+  SavedLocationsDelete = 'SavedLocations:Delete',
+  UserPermissionsCreate = 'UserPermissions:Create',
+  UserPermissionsDelete = 'UserPermissions:Delete',
 }
 
 class MDBUser {

@@ -10,10 +10,6 @@ export const DELETE = async (request: NextRequest) => {
   if (!token) {
     return new Response(undefined, { status: 401 });
   }
-  const permissions = await DiscordAuthentication.getPermissions(token.id);
-  if (!permissions.includes(MDBUserPermission.WriteUserPermission)) {
-    return new Response(undefined, { status: 401 });
-  }
   const requestURL = new URL(request.url);
   const params = {
     permissions: (requestURL.searchParams.get('permissions') || '').split(','),
@@ -26,6 +22,16 @@ export const DELETE = async (request: NextRequest) => {
   });
   if (!paramsSchema.isValidSync(params)) {
     return new Response(undefined, { status: 400 });
+  }
+  if (
+    params.permissions.includes(MDBUserPermission.UserPermissionsCreate) ||
+    params.permissions.includes(MDBUserPermission.UserPermissionsDelete)
+  ) {
+    return new Response(undefined, { status: 401 });
+  }
+  const permissions = await DiscordAuthentication.getPermissions(token.id);
+  if (!permissions.includes(MDBUserPermission.UserPermissionsDelete)) {
+    return new Response(undefined, { status: 401 });
   }
   const db = await MongoDBClientFactory.getInstance();
   const userDoc = await db.collection('users').findOne({ discordId: token.id });
@@ -46,13 +52,6 @@ export const POST = async (request: NextRequest) => {
     if (!token) {
       return new Response(undefined, { status: 401 });
     }
-    const permissions = await DiscordAuthentication.getPermissions(token.id);
-    if (
-      !permissions.includes(MDBUserPermission.WriteEverything) &&
-      !permissions.includes(MDBUserPermission.WriteUserPermission)
-    ) {
-      return new Response(undefined, { status: 401 });
-    }
     const body = await request.json();
     const bodySchema = object({
       id: string().required().length(18),
@@ -64,10 +63,13 @@ export const POST = async (request: NextRequest) => {
       return new Response(undefined, { status: 400 });
     }
     if (
-      (body.permissions.includes(MDBUserPermission.WriteEverything) ||
-        body.permissions.includes(MDBUserPermission.WriteUserPermission)) &&
-      !permissions.includes(MDBUserPermission.WriteEverything)
+      body.permissions.includes(MDBUserPermission.UserPermissionsCreate) ||
+      body.permissions.includes(MDBUserPermission.UserPermissionsDelete)
     ) {
+      return new Response(undefined, { status: 401 });
+    }
+    const permissions = await DiscordAuthentication.getPermissions(token.id);
+    if (!permissions.includes(MDBUserPermission.UserPermissionsCreate)) {
       return new Response(undefined, { status: 401 });
     }
     const db = await MongoDBClientFactory.getInstance();
