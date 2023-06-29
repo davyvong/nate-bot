@@ -34,7 +34,7 @@ class DiscordInteraction {
   }
 
   private static createPingResponse(): Response {
-    return NextResponse.json({ type: InteractionResponseType.Pong }, { status: 200 });
+    return NextResponse.json({ type: InteractionResponseType.Pong });
   }
 
   private static async createApplicationCommandResponse(
@@ -44,7 +44,7 @@ class DiscordInteraction {
   }
 
   private static createUnknownResponse(): Response {
-    return NextResponse.json({ data: { content: DiscordResponses.IDontKnow } }, { status: 200 });
+    return NextResponse.json({ data: { content: DiscordResponses.IDontKnow } });
   }
 }
 

@@ -43,7 +43,18 @@ export const DELETE = async (request: NextRequest) => {
     .collection('users')
     .findOneAndUpdate({ discordId: token.id }, { $pull: pull }, { returnDocument: ReturnDocument.AFTER });
   const user = MDBUser.fromDocument(updatedUserDoc);
-  return NextResponse.json(user.permissions, { status: 200 });
+  return NextResponse.json(user.permissions);
+};
+
+export const GET = async (request: NextRequest) => {
+  const token = await DiscordAuthentication.verifyToken(request.cookies);
+  if (!token) {
+    return new Response(undefined, { status: 401 });
+  }
+  const db = await MongoDBClientFactory.getInstance();
+  const userDoc = await db.collection('users').find({ discordId: token.id });
+  const user = MDBUser.fromDocument(userDoc);
+  return NextResponse.json(user.permissions);
 };
 
 export const POST = async (request: NextRequest) => {
@@ -82,7 +93,7 @@ export const POST = async (request: NextRequest) => {
       .collection('users')
       .findOneAndUpdate({ discordId: token.id }, { $addToSet: addToSet }, { returnDocument: ReturnDocument.AFTER });
     const user = MDBUser.fromDocument(updatedUserDoc);
-    return NextResponse.json(user.permissions, { status: 200 });
+    return NextResponse.json(user.permissions);
   } catch (error: unknown) {
     console.log(error);
     return new Response(undefined, { status: 500 });
