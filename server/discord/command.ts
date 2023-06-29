@@ -26,7 +26,7 @@ class DiscordApplicationCommand {
         return DiscordApplicationCommand.executeGoodMorning(interaction);
       }
       default: {
-        return NextResponse.json({ data: { content: DiscordResponses.IDontKnow } }, { status: 200 });
+        return NextResponse.json({ data: { content: DiscordResponses.IDontKnow } });
       }
     }
   }
@@ -36,7 +36,7 @@ class DiscordApplicationCommand {
       data: { interaction },
       name: InngestEvents.DiscordInteractionGoodMorning,
     });
-    return NextResponse.json({ type: InteractionResponseType.DeferredChannelMessageWithSource }, { status: 200 });
+    return NextResponse.json({ type: InteractionResponseType.DeferredChannelMessageWithSource });
   }
 
   public static async followup(interaction: APIApplicationCommandInteraction): Promise<Response> {

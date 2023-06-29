@@ -112,7 +112,7 @@ const BrowseLocations: FC<BrowseLocationsProps> = ({ permissions }) => {
               {location.latitude}, {location.longitude}
             </div>
           </div>
-          {permissions.includes(MDBUserPermission.WriteSavedLocation) && isSaved && (
+          {permissions.includes(MDBUserPermission.SavedLocationsDelete) && isSaved && (
             <Tooltip renderContent={() => 'Delete'}>
               <button
                 className={classNames(styles.ctaButton, styles.ctaButtonDelete)}
@@ -122,7 +122,7 @@ const BrowseLocations: FC<BrowseLocationsProps> = ({ permissions }) => {
               </button>
             </Tooltip>
           )}
-          {permissions.includes(MDBUserPermission.WriteSavedLocation) && !isSaved && (
+          {permissions.includes(MDBUserPermission.SavedLocationsCreate) && !isSaved && (
             <Tooltip renderContent={() => 'Save'}>
               <button className={styles.ctaButton} onClick={() => saveLocation(location)}>
                 <PinIconSVG />

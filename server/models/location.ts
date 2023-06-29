@@ -38,7 +38,7 @@ class MDBLocation {
     return new MDBLocation(data);
   }
 
-  toPlainObject(): MDBLocationData {
+  public toPlainObject(): MDBLocationData {
     return {
       city: this.city,
       country: this.country,

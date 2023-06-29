@@ -62,7 +62,7 @@ const SavedLocations: FC<SavedLocationsProps> = ({ permissions }) => {
               {location.latitude}, {location.longitude}
             </div>
           </div>
-          {permissions.includes(MDBUserPermission.WriteSavedLocation) && (
+          {permissions.includes(MDBUserPermission.SavedLocationsDelete) && (
             <Tooltip renderContent={() => 'Delete'}>
               <button
                 className={classNames(browseLocationsStyles.ctaButton, browseLocationsStyles.ctaButtonDelete)}
