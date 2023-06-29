@@ -2,6 +2,8 @@
   animation-fill-mode: both;
   background-color: var(--sidebar-background);
   flex-basis: 22rem;
+  height: 100%;
+  overflow: auto;
   padding: 2rem;
 }
 
