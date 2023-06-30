@@ -25,7 +25,7 @@ class InngestAPI {
         { event: InngestEvents.DiscordInteractionGoodMorning },
         async ({ event }) => {
           const response = await DiscordApplicationCommand.followup(event.data.interaction);
-          if (!response.ok) {
+          if (response.status === 429) {
             throw new Error(response.statusText);
           }
           return {
@@ -81,7 +81,7 @@ class InngestAPI {
             cache: 'no-store',
             method: 'POST',
           });
-          if (!response.ok) {
+          if (response.status === 429) {
             throw new Error(response.statusText);
           }
           return {
