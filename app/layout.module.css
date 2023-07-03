@@ -6,6 +6,12 @@
   position: relative;
 }
 
+@media (max-width: 768px) {
+  .main {
+    height: calc(100% - 4.5rem);
+  }
+}
+
 .content {
   background-color: var(--main-background);
   color: var(--white);
