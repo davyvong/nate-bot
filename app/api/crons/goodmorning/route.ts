@@ -3,6 +3,8 @@ import ServerEnvironment from 'server/environment';
 import Token from 'server/token';
 import { number, object, string } from 'yup';
 
+export const runtime = 'edge';
+
 export const POST = async (request: Request) => {
   const body: OpenWeatherLocation = await request.json();
   const bodySchema = object({
