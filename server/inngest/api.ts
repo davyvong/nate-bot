@@ -1,4 +1,4 @@
-import { Inngest } from 'inngest';
+import { ClientOptions, Inngest } from 'inngest';
 import pkg from 'package.json';
 import DiscordAPI from 'server/discord/api';
 import DiscordApplicationCommand from 'server/discord/command';
@@ -9,12 +9,12 @@ import Token from 'server/token';
 import { InngestEvents } from './enums';
 
 class InngestAPI {
-  private static readonly instance = new Inngest({
+  private static readonly instance: Inngest<ClientOptions> = new Inngest({
     eventKey: process.env.INNGEST_EVENT_KEY,
     name: pkg.name,
-  });
+  } as ClientOptions);
 
-  public static getInstance(): Inngest {
+  public static getInstance(): Inngest<ClientOptions> {
     return InngestAPI.instance;
   }
 
