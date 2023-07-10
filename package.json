@@ -45,7 +45,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "inngest-cli": "^0.14.6",
     "node-loader": "^2.0.0",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.0",
     "typescript": "5.1.6"
   },
   "optionalDependencies": {
