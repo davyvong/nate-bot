@@ -42,10 +42,10 @@
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.8",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-prettier": "^5.0.0-alpha.2",
     "inngest-cli": "^0.14.6",
     "node-loader": "^2.0.0",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.0",
     "typescript": "5.1.6"
   },
   "optionalDependencies": {
