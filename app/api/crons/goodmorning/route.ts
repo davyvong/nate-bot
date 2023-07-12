@@ -37,10 +37,14 @@ export const POST = async (request: Request) => {
     cache: 'no-store',
     method: 'POST',
   });
+  const responseBlob = await response.blob();
+  if (responseBlob.size === 0) {
+    return new Response(undefined, { status: 424 });
+  }
   const formData = new FormData();
   const filename = new Date().getTime().toString() + '.png';
   const payload = { attachments: [{ filename, id: 0 }] };
   formData.set('payload_json', JSON.stringify(payload));
-  formData.set('files[0]', await response.blob(), filename);
+  formData.set('files[0]', responseBlob, filename);
   return DiscordAPI.createChannelMessage(process.env.DISCORD_CHANNEL_ID, { body: formData });
 };

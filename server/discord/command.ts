@@ -84,6 +84,10 @@ class DiscordApplicationCommand {
         body: JSON.stringify({ data: { content: DiscordResponses.ForecastNotFound } }),
       });
     }
+    const responseBlob = await response.blob();
+    if (responseBlob.size === 0) {
+      return new Response(undefined, { status: 424 });
+    }
     const formData = new FormData();
     const payload = {
       data: {
@@ -92,7 +96,7 @@ class DiscordApplicationCommand {
       },
     };
     formData.set('payload_json', JSON.stringify(payload));
-    formData.set('files[0]', await response.blob(), interaction.id + '.png');
+    formData.set('files[0]', responseBlob, interaction.id + '.png');
     return DiscordAPI.createFollowupMessage(interaction.application_id, interaction.token, { body: formData });
   }
 }
