@@ -1,6 +1,10 @@
 version: 2
 updates:
   - directory: /
+    groups:
+      dependencies:
+        patterns:
+          - "*"
     package-ecosystem: npm
     schedule:
       interval: weekly
