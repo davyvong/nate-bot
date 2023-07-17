@@ -40,7 +40,13 @@ const nextConfig = {
       rules.forEach(rule => {
         rule.use.forEach(moduleLoader => {
           if (moduleLoader.loader?.includes('css-loader') && !moduleLoader.loader?.includes('postcss-loader')) {
-            moduleLoader.options.modules.getLocalIdent = getLocalIdent;
+            moduleLoader.options = {
+              ...moduleLoader.options,
+              modules: {
+                ...moduleLoader.options.modules,
+                getLocalIdent,
+              },
+            };
           }
         });
       });
