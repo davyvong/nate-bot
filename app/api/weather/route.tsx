@@ -1,4 +1,4 @@
-import { ImageResponse } from '@vercel/og';
+import { ImageResponse } from 'next/server';
 import OpenWeatherAPI from 'server/openweather/api';
 import { TemperatureUnits } from 'server/openweather/enums';
 import Token from 'server/token';
