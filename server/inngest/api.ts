@@ -66,7 +66,7 @@ class InngestAPI {
       InngestAPI.getInstance().createFunction(
         {
           name: InngestEvents.DiscordMessageGoodMorning,
-          retries: 10,
+          retries: 5,
         },
         { event: InngestEvents.DiscordMessageGoodMorning },
         async ({ event }) => {
@@ -81,7 +81,7 @@ class InngestAPI {
             cache: 'no-store',
             method: 'POST',
           });
-          if (response.status === 429) {
+          if (!response.ok) {
             throw new Error(response.statusText);
           }
           return {
