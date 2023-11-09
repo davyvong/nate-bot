@@ -1,4 +1,4 @@
-import type { Document, WithId } from 'mongodb';
+import type { Document } from 'mongodb';
 
 export interface MDBUserData {
   discordId: string;
@@ -21,7 +21,7 @@ class MDBUser {
     this.permissions = data.permissions;
   }
 
-  public static fromDocument(doc: Document | WithId<Document>): MDBUser {
+  public static fromDocument(doc: Document): MDBUser {
     const data: MDBUserData = {
       discordId: doc.discordId,
       permissions: doc.permissions,
