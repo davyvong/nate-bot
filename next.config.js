@@ -21,6 +21,9 @@ const getLocalIdent = (context, localIdentName, localName) =>
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+  experimental: {
+    webpackBuildWorker: true,
+  },
   images: {
     remotePatterns: [
       {

@@ -34,15 +34,14 @@ export const DELETE = async (request: NextRequest) => {
     return new Response(undefined, { status: 401 });
   }
   const db = await MongoDBClientFactory.getInstance();
-  const userDoc = await db.collection('users').findOne({ discordId: token.id });
+  const pull: SetFields<Document> = { permissions: { $in: params.permissions } };
+  const userDoc = await db
+    .collection('users')
+    .findOneAndUpdate({ discordId: params.id }, { $pull: pull }, { returnDocument: ReturnDocument.AFTER });
   if (!userDoc) {
     return new Response(undefined, { status: 404 });
   }
-  const pull: SetFields<Document> = { permissions: { $in: params.permissions } };
-  const updatedUserDoc = await db
-    .collection('users')
-    .findOneAndUpdate({ discordId: token.id }, { $pull: pull }, { returnDocument: ReturnDocument.AFTER });
-  const user = MDBUser.fromDocument(updatedUserDoc);
+  const user = MDBUser.fromDocument(userDoc);
   return NextResponse.json(user.permissions);
 };
 
@@ -52,7 +51,10 @@ export const GET = async (request: NextRequest) => {
     return new Response(undefined, { status: 401 });
   }
   const db = await MongoDBClientFactory.getInstance();
-  const userDoc = await db.collection('users').find({ discordId: token.id });
+  const userDoc = await db.collection('users').findOne({ discordId: token.id });
+  if (!userDoc) {
+    return new Response(undefined, { status: 401 });
+  }
   const user = MDBUser.fromDocument(userDoc);
   return NextResponse.json(user.permissions);
 };
@@ -84,15 +86,14 @@ export const POST = async (request: NextRequest) => {
       return new Response(undefined, { status: 401 });
     }
     const db = await MongoDBClientFactory.getInstance();
-    const userDoc = await db.collection('users').findOne({ discordId: body.id });
+    const addToSet: SetFields<Document> = { permissions: { $each: body.permissions } };
+    const userDoc = await db
+      .collection('users')
+      .findOneAndUpdate({ discordId: body.id }, { $addToSet: addToSet }, { returnDocument: ReturnDocument.AFTER });
     if (!userDoc) {
       return new Response(undefined, { status: 404 });
     }
-    const addToSet: SetFields<Document> = { permissions: { $each: body.permissions } };
-    const updatedUserDoc = await db
-      .collection('users')
-      .findOneAndUpdate({ discordId: token.id }, { $addToSet: addToSet }, { returnDocument: ReturnDocument.AFTER });
-    const user = MDBUser.fromDocument(updatedUserDoc);
+    const user = MDBUser.fromDocument(userDoc);
     return NextResponse.json(user.permissions);
   } catch (error: unknown) {
     console.log(error);
