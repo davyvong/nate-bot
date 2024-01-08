@@ -4,6 +4,9 @@ node_modules/
 # Environment
 .env*
 
+# Github
+.github/**/*.yml
+
 # Logs
 *.log
 
