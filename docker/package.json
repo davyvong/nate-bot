@@ -1,6 +1,6 @@
 {
   "name": "nate-bot-docker",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@discordjs/core": "^0.6.0",
