@@ -9,6 +9,7 @@
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "next lint",
     "lint:prettier": "prettier --list-different .",
+    "prebuild": "npm run lint",
     "start": "next start"
   },
   "dependencies": {
@@ -45,7 +46,8 @@
     "inngest-cli": "^0.23.1",
     "node-loader": "^2.0.0",
     "prettier": "^3.2.2",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "vercel": "^33.1.0"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8",
