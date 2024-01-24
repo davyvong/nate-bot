@@ -8,7 +8,7 @@
     "inngest": "inngest-cli dev -u http://localhost:3000/api/inngest",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "next lint",
-    "lint:prettier": "prettier --list-different .",
+    "lint:prettier": "prettier --list-different --ignore-path .gitignore .",
     "prebuild": "npm run lint",
     "start": "next start"
   },
