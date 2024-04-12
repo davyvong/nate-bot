@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import OpenWeatherAPI from 'server/openweather/api';
+import OpenWeatherAPI from 'services/openweather/api';
 import { object, string } from 'yup';
 
 export const runtime = 'edge';

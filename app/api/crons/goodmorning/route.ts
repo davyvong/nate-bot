@@ -1,6 +1,6 @@
-import DiscordAPI from 'server/discord/api';
-import ServerEnvironment from 'server/environment';
-import Token from 'server/token';
+import DiscordAPI from 'services/discord/api';
+import { ServerEnvironment } from 'utils/environment';
+import Token from 'utils/token';
 import { number, object, string } from 'yup';
 
 export const runtime = 'edge';

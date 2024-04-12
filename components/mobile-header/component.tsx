@@ -4,7 +4,7 @@ import MenuSVG from 'assets/images/icons/menu.svg';
 import sidebarStyles from 'components/sidebar/component.module.css';
 import UserMenuButton from 'components/user-menu-button';
 import { FC, MouseEventHandler } from 'react';
-import { DiscordToken } from 'server/discord/types';
+import { DiscordToken } from 'services/discord/types';
 
 import styles from './component.module.css';
 

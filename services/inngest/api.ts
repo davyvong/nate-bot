@@ -1,10 +1,10 @@
 import { ClientOptions, Inngest } from 'inngest';
 import pkg from 'package.json';
-import DiscordAPI from 'server/discord/api';
-import DiscordApplicationCommand from 'server/discord/command';
-import { DiscordResponses } from 'server/discord/enums';
-import ServerEnvironment from 'server/environment';
-import Token from 'server/token';
+import DiscordAPI from 'services/discord/api';
+import DiscordApplicationCommand from 'services/discord/command';
+import { DiscordResponses } from 'services/discord/enums';
+import { ServerEnvironment } from 'utils/environment';
+import Token from 'utils/token';
 
 import { InngestEvents } from './enums';
 

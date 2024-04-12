@@ -4,9 +4,9 @@ import DeleteIconSVG from 'assets/images/icons/delete.svg';
 import classNames from 'classnames';
 import browseLocationsStyles from 'components/browse-locations/component.module.css';
 import Tooltip from 'components/tooltip';
+import { MDBLocationData } from 'models/location';
+import { MDBUserPermission } from 'models/user';
 import { FC, Fragment, useCallback, useMemo } from 'react';
-import { MDBLocationData } from 'server/models/location';
-import { MDBUserPermission } from 'server/models/user';
 import useSWR from 'swr';
 
 interface SavedLocationsProps {

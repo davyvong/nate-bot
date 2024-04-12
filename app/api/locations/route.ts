@@ -1,9 +1,9 @@
+import MDBLocation from 'models/location';
+import { MDBUserPermission } from 'models/user';
 import { Document, ObjectId } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
-import DiscordAuthentication from 'server/discord/authentication';
-import MDBLocation from 'server/models/location';
-import { MDBUserPermission } from 'server/models/user';
-import MongoDBClientFactory from 'server/mongodb';
+import DiscordAuthentication from 'services/discord/authentication';
+import MongoDBClientFactory from 'services/mongodb';
 import { number, object, string } from 'yup';
 
 export const DELETE = async (request: NextRequest) => {

@@ -4,14 +4,14 @@ import {
   InteractionResponseType,
 } from 'discord-api-types/v10';
 import { NextResponse } from 'next/server';
-import ServerEnvironment from 'server/environment';
-import InngestAPI from 'server/inngest/api';
-import { InngestEvents } from 'server/inngest/enums';
-import Token from 'server/token';
+import { ServerEnvironment } from 'utils/environment';
+import InngestAPI from 'services/inngest/api';
+import { InngestEvents } from 'services/inngest/enums';
+import Token from 'utils/token';
 
-import DiscordAPI from 'server/discord/api';
+import DiscordAPI from 'services/discord/api';
 import { DiscordApplicationCommandNames, DiscordResponses } from './enums';
-import OpenWeatherAPI from 'server/openweather/api';
+import OpenWeatherAPI from 'services/openweather/api';
 
 declare global {
   interface RequestInit {

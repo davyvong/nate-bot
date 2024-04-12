@@ -3,7 +3,6 @@ import 'minireset.css';
 import './global.css';
 
 import { Analytics } from '@vercel/analytics/react';
-import ClientEnvironment from 'client/environment';
 import MobileHeader from 'components/mobile-header';
 import Sidebar from 'components/sidebar';
 import { Metadata } from 'next';
@@ -11,7 +10,8 @@ import { Inter } from 'next/font/google';
 import { cookies } from 'next/headers';
 import pkg from 'package.json';
 import { ReactNode } from 'react';
-import DiscordAuthentication from 'server/discord/authentication';
+import DiscordAuthentication from 'services/discord/authentication';
+import { ClientEnvironment } from 'utils/environment';
 
 import styles from './layout.module.css';
 

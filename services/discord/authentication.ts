@@ -1,10 +1,10 @@
+import MDBUser, { MDBUserPermission } from 'models/user';
 import { RequestCookies } from 'next/dist/compiled/@edge-runtime/cookies';
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 import { redirect } from 'next/navigation';
-import DiscordAPI from 'server/discord/api';
-import JWT from 'server/jwt';
-import MDBUser, { MDBUserPermission } from 'server/models/user';
-import MongoDBClientFactory from 'server/mongodb';
+import DiscordAPI from 'services/discord/api';
+import MongoDBClientFactory from 'services/mongodb';
+import JWT from 'utils/jwt';
 
 import { DiscordToken } from './types';
 

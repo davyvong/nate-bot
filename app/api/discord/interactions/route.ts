@@ -1,4 +1,4 @@
-import DiscordInteraction from 'server/discord/interaction';
+import DiscordInteraction from 'services/discord/interaction';
 import { object, string } from 'yup';
 
 export const runtime = 'edge';

@@ -1,8 +1,8 @@
+import MDBUser, { MDBUserPermission } from 'models/user';
 import { ReturnDocument, SetFields } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
-import DiscordAuthentication from 'server/discord/authentication';
-import MDBUser, { MDBUserPermission } from 'server/models/user';
-import MongoDBClientFactory from 'server/mongodb';
+import DiscordAuthentication from 'services/discord/authentication';
+import MongoDBClientFactory from 'services/mongodb';
 import { array, mixed, object, string } from 'yup';
 
 export const DELETE = async (request: NextRequest) => {

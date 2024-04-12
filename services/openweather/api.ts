@@ -1,5 +1,4 @@
 import { dayOfWeek, timeOfDay } from './constants';
-
 import { TemperatureUnits } from './enums';
 
 class OpenWeatherAPI {

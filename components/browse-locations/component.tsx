@@ -5,9 +5,9 @@ import PinIconSVG from 'assets/images/icons/pin.svg';
 import classNames from 'classnames';
 import LoadingIndicator from 'components/loading-indicator';
 import Tooltip from 'components/tooltip';
+import { MDBLocationData } from 'models/location';
+import { MDBUserPermission } from 'models/user';
 import { FC, Fragment, useCallback, useMemo, useState } from 'react';
-import { MDBLocationData } from 'server/models/location';
-import { MDBUserPermission } from 'server/models/user';
 import useSWR from 'swr';
 
 import styles from './component.module.css';

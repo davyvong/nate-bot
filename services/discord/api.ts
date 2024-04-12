@@ -1,5 +1,5 @@
 import { RESTGetAPICurrentUserResult, RESTPostOAuth2AccessTokenResult } from 'discord-api-types/v10';
-import ServerEnvironment from 'server/environment';
+import { ServerEnvironment } from 'utils/environment';
 
 class DiscordAPI {
   private static getRedirectURI(): string {

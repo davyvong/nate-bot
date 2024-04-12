@@ -1,8 +1,8 @@
 import { serialize } from 'cookie';
 import { NextResponse } from 'next/server';
-import DiscordAPI from 'server/discord/api';
-import ServerEnvironment from 'server/environment';
-import JWT from 'server/jwt';
+import DiscordAPI from 'services/discord/api';
+import { ServerEnvironment } from 'utils/environment';
+import JWT from 'utils/jwt';
 import { object, string } from 'yup';
 
 export const runtime = 'edge';

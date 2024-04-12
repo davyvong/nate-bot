@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
-import OpenWeatherAPI from 'server/openweather/api';
-import { TemperatureUnits } from 'server/openweather/enums';
-import Token from 'server/token';
+import OpenWeatherAPI from 'services/openweather/api';
+import { TemperatureUnits } from 'services/openweather/enums';
+import Token from 'utils/token';
 import { number, object, string } from 'yup';
 
 import OpenWeatherImage from './image';

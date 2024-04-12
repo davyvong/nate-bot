@@ -1,6 +1,6 @@
 import { APIMessage } from 'discord-api-types/v10';
 import { NextRequest } from 'next/server';
-import DiscordAPI from 'server/discord/api';
+import DiscordAPI from 'services/discord/api';
 import { object, string } from 'yup';
 
 export const POST = async (request: NextRequest) => {

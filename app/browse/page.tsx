@@ -3,7 +3,7 @@ import PageHeading from 'components/page-heading';
 import UserMenuButton from 'components/user-menu-button';
 import { cookies } from 'next/headers';
 import { Fragment } from 'react';
-import DiscordAuthentication from 'server/discord/authentication';
+import DiscordAuthentication from 'services/discord/authentication';
 
 import styles from './page.module.css';
 

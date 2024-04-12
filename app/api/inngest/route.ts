@@ -1,5 +1,5 @@
 import { serve } from 'inngest/next';
-import InngestAPI from 'server/inngest/api';
+import InngestAPI from 'services/inngest/api';
 
 export const runtime = 'edge';
 

@@ -2,12 +2,12 @@
 
 import DiscordLogoSVG from 'assets/images/discord-logo.svg';
 import classNames from 'classnames';
-import ClientEnvironment from 'client/environment';
 import mobileHeaderStyles from 'components/mobile-header/component.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import pkg from 'package.json';
 import { FC, useCallback, useEffect, useMemo } from 'react';
+import { ClientEnvironment } from 'utils/environment';
 
 import styles from './component.module.css';
 

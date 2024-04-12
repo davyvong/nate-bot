@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { TemperatureUnits } from 'server/openweather/enums';
+import { TemperatureUnits } from 'services/openweather/enums';
 
 class OpenWeatherImage {
   public static getUnits(units = TemperatureUnits.Celsius): string {

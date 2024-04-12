@@ -13,8 +13,8 @@ import classNames from 'classnames';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { FC, Fragment, useState } from 'react';
-import DiscordAPI from 'server/discord/api';
-import { DiscordToken } from 'server/discord/types';
+import DiscordAPI from 'services/discord/api';
+import { DiscordToken } from 'services/discord/types';
 
 import styles from './component.module.css';
 
