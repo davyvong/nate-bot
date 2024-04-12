@@ -1,9 +1,6 @@
 # Dependencies
 node_modules/
 
-# Docker
-docker-compose.local.yml
-
 # Environment
 .env*.local
 
