@@ -1,4 +1,15 @@
 {
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "amatiasq.sort-imports",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        "VisualStudioExptTeam.vscodeintellicode"
+      ]
+    }
+  },
   "image": "mcr.microsoft.com/devcontainers/typescript-node:1-18-bullseye",
   "postCreateCommand": "npm install"
 }

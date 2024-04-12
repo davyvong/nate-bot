@@ -1,4 +1,7 @@
 {
+  "editor.tabSize": 2,
+  "sort-imports.default-sort-style": "module",
+  "sort-imports.on-save": true,
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.tsdk": "node_modules/typescript/lib"
 }
