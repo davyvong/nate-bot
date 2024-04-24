@@ -6,14 +6,15 @@ namespace NodeJS {
     DISCORD_CHANNEL_ID: string;
     DISCORD_CLIENT_ID: string;
     DISCORD_CLIENT_SECRET: string;
+    DISCORD_CRON_TOKEN: string;
     DISCORD_PUBLIC_KEY: string;
-    INNGEST_EVENT_KEY: string;
-    INNGEST_SIGNING_KEY: string;
     JWT_SECRET: string;
     MONGODB_URI: string;
     NEXT_PUBLIC_VERCEL_ENV: string;
     NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA: string;
     OPENWEATHER_API_KEY: string;
+    QSTASH_TOKEN: string;
+    QSTASH_URL: string;
     TOKEN_SIGNING_KEY: string;
     VERCEL_ENV: string;
     VERCEL_URL: string;
