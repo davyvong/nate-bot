@@ -34,6 +34,8 @@ export const POST = async (request: Request): Promise<Response> => {
   const publishPromises: Promise<PublishToUrlResponse>[] = [];
   for (const location of locations) {
     const url = new URL(ServerEnvironment.getBaseURL() + '/api/discord/messages/goodmorning');
+    const token = await Token.sign({ latitude: location.latitude, longitude: location.longitude });
+    url.searchParams.set('token', token);
     publishPromises.push(
       QStashClientFactory.getInstance().publishJSON({
         body: location,
