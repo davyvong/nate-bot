@@ -3,7 +3,7 @@ import { ServerEnvironment } from 'utils/environment';
 
 class DiscordAPI {
   private static getRedirectURI(): string {
-    return ServerEnvironment.getBaseURL() + '/api/discord/oauth2/callback';
+    return ServerEnvironment.getBaseURL() + '/api/discord/oauth';
   }
 
   public static getOAuth2AuthorizeURL(): URL {
