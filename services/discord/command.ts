@@ -5,13 +5,12 @@ import {
 } from 'discord-api-types/v10';
 import { NextResponse } from 'next/server';
 import { ServerEnvironment } from 'utils/environment';
-import InngestAPI from 'services/inngest/api';
-import { InngestEvents } from 'services/inngest/enums';
 import Token from 'utils/token';
 
 import DiscordAPI from 'services/discord/api';
 import { DiscordApplicationCommandNames, DiscordResponses } from './enums';
 import OpenWeatherAPI from 'services/openweather/api';
+import QStashClientFactory from 'services/qstash';
 
 declare global {
   interface RequestInit {
@@ -32,9 +31,12 @@ class DiscordApplicationCommand {
   }
 
   private static async executeGoodMorning(interaction: APIApplicationCommandInteraction): Promise<Response> {
-    await InngestAPI.getInstance().send({
-      data: { interaction },
-      name: InngestEvents.DiscordInteractionGoodMorning,
+    const url = new URL(ServerEnvironment.getBaseURL() + '/api/discord/interactions/goodmorning');
+    const token = await Token.sign({ interactionId: interaction.id });
+    url.searchParams.set('token', token);
+    await QStashClientFactory.getInstance().publishJSON({
+      body: interaction,
+      url: url.href,
     });
     return NextResponse.json({ type: InteractionResponseType.DeferredChannelMessageWithSource });
   }
