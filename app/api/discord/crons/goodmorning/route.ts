@@ -39,6 +39,7 @@ export const POST = async (request: Request): Promise<Response> => {
     publishPromises.push(
       QStashClientFactory.getInstance().publishJSON({
         body: location,
+        retries: 2,
         url: url.href,
       }),
     );
