@@ -14,7 +14,6 @@ namespace NodeJS {
     NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA: string;
     OPENWEATHER_API_KEY: string;
     QSTASH_TOKEN: string;
-    QSTASH_URL: string;
     TOKEN_SIGNING_KEY: string;
     VERCEL_ENV: string;
     VERCEL_URL: string;
