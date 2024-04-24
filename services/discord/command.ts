@@ -36,6 +36,7 @@ class DiscordApplicationCommand {
     url.searchParams.set('token', token);
     await QStashClientFactory.getInstance().publishJSON({
       body: interaction,
+      retries: 2,
       url: url.href,
     });
     return NextResponse.json({ type: InteractionResponseType.DeferredChannelMessageWithSource });
