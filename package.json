@@ -12,16 +12,16 @@
     "start": "next start"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.26.13",
+    "@floating-ui/react": "^0.26.14",
     "@upstash/qstash": "^2.5.0",
     "@vercel/analytics": "^1.2.2",
     "classnames": "^2.5.1",
     "cookie": "^0.6.0",
     "discord-api-types": "^0.37.83",
-    "jose": "^5.2.4",
+    "jose": "^5.3.0",
     "js-cookie": "^3.0.5",
     "minireset.css": "^0.0.7",
-    "mongodb": "^6.6.0",
+    "mongodb": "^6.6.1",
     "next": "14.2.3",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -33,8 +33,8 @@
     "@svgr/webpack": "^8.1.0",
     "@types/cookie": "^0.6.0",
     "@types/js-cookie": "^3.0.6",
-    "@types/node": "20.12.8",
-    "@types/react": "18.3.1",
+    "@types/node": "20.12.11",
+    "@types/react": "18.3.2",
     "@types/react-dom": "18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
@@ -45,13 +45,13 @@
     "node-loader": "^2.0.0",
     "prettier": "^3.2.5",
     "typescript": "5.4.5",
-    "vercel": "^34.1.8"
+    "vercel": "^34.1.11"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8",
     "encoding": "^0.1.13",
     "erlpack": "^0.1.4",
-    "utf-8-validate": "^6.0.3",
+    "utf-8-validate": "^6.0.4",
     "zlib-sync": "^0.1.9"
   }
 }
