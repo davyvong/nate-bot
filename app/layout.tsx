@@ -2,7 +2,6 @@ import 'minireset.css';
 
 import './global.css';
 
-import { Analytics } from '@vercel/analytics/react';
 import MobileHeader from 'components/mobile-header';
 import Sidebar from 'components/sidebar';
 import { Metadata } from 'next';
@@ -42,7 +41,6 @@ const RootLayout = async ({ children }: RootLayoutProps): Promise<JSX.Element> =
           <Sidebar />
           <div className={styles.content}>{children}</div>
         </div>
-        <Analytics />
       </body>
     </html>
   );
