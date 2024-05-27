@@ -13,10 +13,10 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.16",
-    "@upstash/qstash": "^2.5.2",
+    "@upstash/qstash": "^2.5.4",
     "classnames": "^2.5.1",
     "cookie": "^0.6.0",
-    "discord-api-types": "^0.37.84",
+    "discord-api-types": "^0.37.86",
     "jose": "^5.3.0",
     "js-cookie": "^3.0.5",
     "minireset.css": "^0.0.7",
@@ -33,10 +33,10 @@
     "@types/cookie": "^0.6.0",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "20.12.12",
-    "@types/react": "18.3.2",
+    "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
-    "@typescript-eslint/eslint-plugin": "^7.9.0",
-    "@typescript-eslint/parser": "^7.9.0",
+    "@typescript-eslint/eslint-plugin": "^7.10.0",
+    "@typescript-eslint/parser": "^7.10.0",
     "eslint": "8.57.0",
     "eslint-config-next": "14.2.3",
     "eslint-config-prettier": "^9.1.0",
@@ -44,7 +44,7 @@
     "node-loader": "^2.0.0",
     "prettier": "^3.2.5",
     "typescript": "5.4.5",
-    "vercel": "^34.2.0"
+    "vercel": "^34.2.3"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8",
