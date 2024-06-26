@@ -44,7 +44,7 @@
     "node-loader": "^2.0.0",
     "prettier": "^3.3.2",
     "typescript": "5.5.2",
-    "vercel": "^34.2.7"
+    "vercel": "^34.2.8"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8",
